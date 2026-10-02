@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ôn tập Hành vi tiêu dùng by hoang minh nghia</title>
+<title>Ôn tập Hành vi tiêu dùng by hoang minh</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -56,6 +56,15 @@
   .toolbar button:hover { background: #1d4ed8; }
   .toolbar button.ghost { background: #e5e7eb; color: #374151; }
   .toolbar button.ghost:hover { background: #d1d5db; }
+  .toolbar select {
+    max-width: 100%;
+    padding: 8px 34px 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    color: #1f2937;
+    font-size: 14px;
+  }
 
   .lesson-title {
     max-width: 960px;
@@ -260,6 +269,10 @@
   <span style="color:#9ca3af">|</span>
   <span>Đúng: <b id="cntOk" style="color:#16a34a">0</b></span>
   <span>Sai: <b id="cntBad" style="color:#dc2626">0</b></span>
+  <label for="lessonPicker">Bài:</label>
+  <select id="lessonPicker" onchange="filterLessons(this.value)" aria-label="Chọn bài ôn tập">
+    <option value="all">Tất cả bài</option>
+  </select>
   <button class="ghost" onclick="resetAll()">🔄 Làm lại tất cả</button>
   <button class="ghost" onclick="scrollToTop()">⬆ Lên đầu</button>
 </div>
@@ -2201,16 +2214,34 @@ function uid() { return "u" + (++uidCounter); }
 /* -------- Render -------- */
 function renderAll() {
   const app = document.getElementById("app");
+  const picker = document.getElementById("lessonPicker");
   app.innerHTML = "";
+  picker.innerHTML = '<option value="all">Tất cả bài</option>';
   DATA.forEach((lesson, li) => {
+    const option = document.createElement("option");
+    option.value = String(li);
+    option.textContent = `Bài ${li + 1}`;
+    picker.appendChild(option);
+
+    const section = document.createElement("section");
+    section.className = "lesson-section";
+    section.dataset.lessonIndex = String(li);
     const title = document.createElement("div");
     title.className = "lesson-title";
     title.textContent = lesson.lesson;
-    app.appendChild(title);
+    section.appendChild(title);
 
     lesson.items.forEach((item, qi) => {
-      app.appendChild(renderQuestion(item, `${li}-${qi}`));
+      section.appendChild(renderQuestion(item, `${li}-${qi}`));
     });
+    app.appendChild(section);
+  });
+  updateStats();
+}
+
+function filterLessons(value) {
+  document.querySelectorAll(".lesson-section").forEach(section => {
+    section.hidden = value !== "all" && section.dataset.lessonIndex !== value;
   });
   updateStats();
 }
@@ -2671,7 +2702,10 @@ function showAnswer(card, item) {
 
 /* -------- Stats -------- */
 function updateStats() {
-  document.getElementById("score").textContent = `${stats.ok} / ${totalQuestions}`;
+  const visibleCards = [...document.querySelectorAll(".lesson-section:not([hidden]) .q-card")];
+  stats.ok = visibleCards.filter(card => card.classList.contains("correct")).length;
+  stats.bad = visibleCards.filter(card => card.classList.contains("wrong")).length;
+  document.getElementById("score").textContent = `${stats.ok} / ${visibleCards.length}`;
   document.getElementById("cntOk").textContent = stats.ok;
   document.getElementById("cntBad").textContent = stats.bad;
 }
