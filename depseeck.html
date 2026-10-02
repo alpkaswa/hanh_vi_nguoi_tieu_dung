@@ -1,0 +1,2704 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ôn tập Hành vi tiêu dùng by hoang minh nghia</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #eef2f7;
+    margin: 0;
+    padding: 20px;
+    color: #1f2937;
+    line-height: 1.6;
+  }
+  header {
+    max-width: 960px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: #fff;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(37,99,235,.25);
+  }
+  header h1 { margin: 0 0 6px; font-size: 24px; }
+  header p { margin: 0; opacity: .9; font-size: 14px; }
+
+  .toolbar {
+    max-width: 960px;
+    margin: 0 auto 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    background: #fff;
+    padding: 14px 18px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    position: sticky;
+    top: 10px;
+    z-index: 50;
+  }
+  .toolbar .score { font-weight: 700; color: #2563eb; }
+  .toolbar button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    background: #2563eb;
+    color: #fff;
+    transition: .2s;
+  }
+  .toolbar button:hover { background: #1d4ed8; }
+  .toolbar button.ghost { background: #e5e7eb; color: #374151; }
+  .toolbar button.ghost:hover { background: #d1d5db; }
+
+  .lesson-title {
+    max-width: 960px;
+    margin: 28px auto 12px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #111827;
+    border-left: 6px solid #7c3aed;
+    padding-left: 12px;
+  }
+
+  .q-card {
+    max-width: 960px;
+    margin: 0 auto 16px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    border: 2px solid transparent;
+    transition: .2s;
+  }
+  .q-card.correct { border-color: #22c55e; background: #f0fdf4; }
+  .q-card.wrong { border-color: #ef4444; background: #fef2f2; }
+
+  .q-head { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+  .q-num {
+    flex: 0 0 auto;
+    background: #7c3aed;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .q-text { font-weight: 600; font-size: 15.5px; }
+  .q-note { font-size: 13px; color: #6b7280; font-style: italic; margin-top: 4px; }
+
+  .options { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+  .opt {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .15s;
+    font-size: 14.5px;
+  }
+  .opt:hover { background: #f9fafb; border-color: #c4b5fd; }
+  .opt input { margin-top: 3px; flex: 0 0 auto; }
+  .opt.sel { background: #ede9fe; border-color: #7c3aed; }
+  .opt.ok { background: #dcfce7; border-color: #22c55e; }
+  .opt.bad { background: #fee2e2; border-color: #ef4444; }
+  .opt .mark { margin-left: auto; font-weight: 700; }
+  .opt.ok .mark { color: #16a34a; }
+  .opt.bad .mark { color: #dc2626; }
+
+  .tf-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: #f9fafb;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .tf-text { flex: 1 1 380px; font-size: 14.5px; }
+  .tf-btns { display: flex; gap: 6px; }
+  .tf-btns button {
+    padding: 5px 14px;
+    border: 1.5px solid #d1d5db;
+    background: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 600;
+    transition: .15s;
+  }
+  .tf-btns button:hover { border-color: #7c3aed; }
+  .tf-btns button.active { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+  .tf-row.ok { background: #dcfce7; }
+  .tf-row.bad { background: #fee2e2; }
+  .tf-mark { font-weight: 700; margin-left: 6px; }
+
+  .fill-wrap { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+  .fill-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .fill-line label { font-size: 14px; font-weight: 600; color: #4b5563; }
+  .fill-line input {
+    flex: 1 1 220px;
+    padding: 9px 12px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14.5px;
+    outline: none;
+  }
+  .fill-line input:focus { border-color: #7c3aed; }
+
+  .match-wrap { margin: 10px 0; }
+  .match-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .match-left {
+    flex: 1 1 260px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14.5px;
+    font-weight: 500;
+  }
+  .dropzone {
+    flex: 1 1 260px;
+    min-height: 44px;
+    border: 2px dashed #c4b5fd;
+    border-radius: 8px;
+    padding: 6px;
+    background: #faf5ff;
+    display: flex;
+    align-items: center;
+    transition: .15s;
+  }
+  .dropzone.over { background: #ede9fe; border-color: #7c3aed; }
+  .dropzone .chip { width: 100%; }
+  .dropzone .placeholder { color: #a78bfa; font-size: 13px; font-style: italic; padding-left: 6px; }
+  .pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    min-height: 52px;
+    margin-top: 8px;
+  }
+  .chip {
+    background: #7c3aed;
+    color: #fff;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    cursor: grab;
+    user-select: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,.15);
+  }
+  .chip:active { cursor: grabbing; }
+  .chip.ok { background: #16a34a; }
+  .chip.bad { background: #dc2626; }
+  .match-row.ok .match-left { background: #dcfce7; }
+  .match-row.bad .match-left { background: #fee2e2; }
+
+  .q-actions { display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+  .btn-check {
+    padding: 8px 20px; border: none; border-radius: 8px;
+    background: #7c3aed; color: #fff; font-weight: 700; cursor: pointer; font-size: 14px;
+  }
+  .btn-check:hover { background: #6d28d9; }
+  .btn-retry {
+    padding: 8px 20px; border: none; border-radius: 8px;
+    background: #f59e0b; color: #fff; font-weight: 700; cursor: pointer; font-size: 14px;
+  }
+  .btn-retry:hover { background: #d97706; }
+  .btn-show {
+    padding: 8px 16px; border: 1.5px solid #d1d5db; border-radius: 8px;
+    background: #fff; color: #374151; font-weight: 600; cursor: pointer; font-size: 13.5px;
+  }
+  .btn-show:hover { background: #f3f4f6; }
+  .result-msg { font-weight: 700; font-size: 14px; }
+  .result-msg.ok { color: #16a34a; }
+  .result-msg.bad { color: #dc2626; }
+
+  .footer-bar {
+    max-width: 960px;
+    margin: 30px auto;
+    text-align: center;
+    color: #6b7280;
+    font-size: 13px;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 10px; }
+    .toolbar { position: static; }
+    .q-card { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Ôn tập: Hành vi người tiêu dùng</h1>
+  <p>Tổng hợp đầy đủ câu hỏi từ Bài 1 → Bài 8 · Tự động chấm điểm · Làm lại câu sai</p>
+</header>
+
+<div class="toolbar">
+  <span>Điểm: <span class="score" id="score">0 / 0</span></span>
+  <span style="color:#9ca3af">|</span>
+  <span>Đúng: <b id="cntOk" style="color:#16a34a">0</b></span>
+  <span>Sai: <b id="cntBad" style="color:#dc2626">0</b></span>
+  <button class="ghost" onclick="resetAll()">🔄 Làm lại tất cả</button>
+  <button class="ghost" onclick="scrollToTop()">⬆ Lên đầu</button>
+</div>
+
+<div id="app"></div>
+
+<div class="footer-bar">Chúc bạn ôn tập tốt! 💪</div>
+
+<script>
+/* ================== DỮ LIỆU CÂU HỎI ================== */
+const DATA = [
+/* ==================== BÀI 1 ==================== */
+{
+  lesson: "BÀI 1: TỔNG QUAN VỀ HÀNH VI NGƯỜI TIÊU DÙNG",
+  items: [
+    { type:"multiple", n:2,
+      q:"Trong nghiên cứu hành vi người tiêu dùng thì \"Người tiêu dùng\" bao gồm những đối tượng nào? (Chọn 2)",
+      options:[
+        "Những cá nhân có liên quan đến quá trình ra quyết định mua hàng.",
+        "Chỉ những cá nhân trực tiếp sử dụng sản phẩm.",
+        "Chỉ các tổ chức đại diện cho tập thể mua sắm.",
+        "Cá nhân hoặc nhóm người có nhu cầu và tham gia vào quá trình lựa chọn, mua sắm."
+      ], correct:[0,3] },
+
+    { type:"multiple", n:2,
+      q:"Hành vi người tiêu dùng (Consumer Behavior) nghiên cứu các hoạt động nào của cá nhân, nhóm hoặc tổ chức? (Chọn 2 đáp án)",
+      options:[
+        "Việc đánh giá và loại bỏ sản phẩm, dịch vụ nhằm thỏa mãn nhu cầu.",
+        "Việc thiết lập giá thành sản phẩm trên thị trường.",
+        "Quá trình sản xuất và phân phối hàng hóa của doanh nghiệp.",
+        "Cách thức lựa chọn, mua sắm và sử dụng sản phẩm."
+      ], correct:[0,3] },
+
+    { type:"tf",
+      q:"Xác định nhận định về khái niệm các vai trò trong tiêu dùng là đúng/sai:",
+      statements:[
+        { text:"Người sử dụng và người mua luôn luôn là cùng một đối tượng.", correct:false },
+        { text:"Một người có thể đảm nhận nhiều vai trò cùng lúc.", correct:true },
+        { text:"Bác sĩ khuyên dùng sữa cho trẻ em là ví dụ về người mua.", correct:false },
+        { text:"Người ra quyết định là người có ảnh hưởng lớn nhất đến việc chọn thương hiệu.", correct:true }
+      ]},
+
+    { type:"tf",
+      q:"Xác định nhận định sau về giai đoạn \"Trước mua\" là đúng/sai:",
+      statements:[
+        { text:"Việc xem review trên YouTube thuộc giai đoạn \"Trong mua\".", correct:false },
+        { text:"Đây là giai đoạn người tiêu dùng nhận thức được nhu cầu hoặc vấn đề.", correct:true },
+        { text:"Người tiêu dùng sử dụng thông tin để so sánh các phương án dựa trên giá cả, chất lượng.", correct:true },
+        { text:"Tìm kiếm thông tin chỉ được thực hiện từ nguồn quảng cáo của doanh nghiệp.", correct:false }
+      ]},
+
+    { type:"tf",
+      q:"Xác định nhận định sau về giai đoạn \"Sau mua\" là đúng/sai:",
+      statements:[
+        { text:"Khách hàng không bao giờ chia sẻ đánh giá nếu họ cảm thấy không hài lòng.", correct:false },
+        { text:"Trải nghiệm sử dụng sẽ quyết định mức độ hài lòng của khách hàng.", correct:true },
+        { text:"Doanh nghiệp không cần quan tâm đến khách hàng sau khi đã thu được tiền.", correct:false },
+        { text:"Sự hài lòng sau mua dẫn đến ý định mua lại và lòng trung thành.", correct:true }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một sinh viên sử dụng máy tính để học tập, phụ huynh thanh toán tiền mua và cả hai cùng thảo luận lựa chọn sản phẩm. Những nhận định nào sau đây là đúng?",
+      options:[
+        "Không có người ra quyết định mua.",
+        "Sinh viên đồng thời là người mua sản phẩm.",
+        "Sinh viên là người sử dụng sản phẩm.",
+        "Phụ huynh là người mua sản phẩm."
+      ], correct:[2,3] },
+
+    { type:"fill",
+      q:"Điền từ thích hợp vào chỗ trống: Trong ví dụ một gia đình mua tivi, con cái muốn xem phim là ...",
+      blanks:[["người đề xuất","nguoi de xuat"]] },
+
+    { type:"multiple", n:2,
+      q:"Nghiên cứu hành vi người tiêu dùng giúp doanh nghiệp thực hiện các hoạt động nào trong chiến lược Marketing?",
+      options:[
+        "Quản lý nguồn vốn vay dài hạn.",
+        "Định vị thương hiệu.",
+        "Tăng lương cho nhân viên sản xuất.",
+        "Phân đoạn thị trường."
+      ], correct:[1,3] },
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về vai trò của phân tích hành vi khách hàng trong chăm sóc khách hàng là đúng/sai:",
+      statements:[
+        { text:"Hiểu hành vi sau mua giúp cá nhân hóa các chương trình chăm sóc.", correct:true },
+        { text:"Thu hút khách hàng mới quan trọng hơn việc duy trì khách hàng hiện tại.", correct:false },
+        { text:"Starbucks sử dụng dữ liệu thói quen để gửi ưu đãi riêng cho từng khách.", correct:true },
+        { text:"Việc xử lý khiếu nại kịp thời không ảnh hưởng đến hình ảnh thương hiệu.", correct:false }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Việc nghiên cứu hành vi người tiêu dùng hỗ trợ doanh nghiệp phân đoạn thị trường vì:",
+      options:[
+        "Giúp doanh nghiệp bán cùng một sản phẩm cho tất cả khách hàng.",
+        "Giúp doanh nghiệp tập trung nguồn lực vào những nhóm khách hàng tiềm năng.",
+        "Giúp nhận diện các nhóm khách hàng có nhu cầu và hành vi tương đồng.",
+        "Giúp doanh nghiệp loại bỏ hoàn toàn đối thủ cạnh tranh."
+      ], correct:[1,2] },
+
+    { type:"multiple", n:2,
+      q:"Nghiên cứu hành vi người tiêu dùng có vai trò quan trọng trong chăm sóc khách hàng vì:",
+      options:[
+        "Giúp doanh nghiệp hiểu mức độ hài lòng và trải nghiệm sau mua của khách hàng.",
+        "Giúp xây dựng các chương trình chăm sóc và khách hàng thân thiết phù hợp.",
+        "Giúp khách hàng luôn trung thành mà không cần nâng cao chất lượng dịch vụ.",
+        "Giúp doanh nghiệp không cần tiếp nhận phản hồi của khách hàng trực tiếp."
+      ], correct:[0,1] },
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về sự cần thiết của việc nghiên cứu hành vi là đúng/sai:",
+      statements:[
+        { text:"Không cần thiết nếu sản phẩm của doanh nghiệp đã có chất lượng tốt nhất.", correct:false },
+        { text:"Chỉ có các doanh nghiệp lớn mới cần nghiên cứu hành vi.", correct:false },
+        { text:"Giúp doanh nghiệp tồn tại trong môi trường cạnh tranh khốc liệt.", correct:true },
+        { text:"Giúp dự đoán các xu hướng tiêu dùng mới như \"tiêu dùng xanh\".", correct:true }
+      ]},
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về yếu tố văn hóa địa phương trong nghiên cứu là đúng/sai:",
+      statements:[
+        { text:"Sử dụng hình ảnh thiếu tôn trọng truyền thống có thể dẫn đến bị tẩy chay.", correct:true },
+        { text:"Thương hiệu quốc tế có thể thất bại nếu không nghiên cứu kỹ văn hóa địa phương.", correct:true },
+        { text:"Ở Việt Nam, lễ Tết là dịp mua sắm quà biểu quan trọng do truyền thống gia đình.", correct:true },
+        { text:"Văn hóa không ảnh hưởng đến thói quen tiêu dùng.", correct:false }
+      ]},
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về lợi ích của nghiên cứu hành vi là đúng/sai:",
+      statements:[
+        { text:"Giúp xây dựng lợi thế cạnh tranh bền vững.", correct:true },
+        { text:"Giúp tăng tỷ lệ chuyển đổi từ khách hàng tiềm năng thành thực tế.", correct:true },
+        { text:"Là cơ sở để đối mới và phát triển các sản phẩm phù hợp xu hướng.", correct:true },
+        { text:"Chỉ giúp ích cho việc bán hàng ngắn hạn.", correct:false }
+      ]},
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Nghiên cứu hành vi giúp doanh nghiệp đánh giá nhu cầu thị trường trước khi ra mắt để giảm thiểu ___ đầu tư.",
+      blanks:[["rủi ro","rui ro","rủi ro."]] },
+
+    { type:"tf",
+      q:"Xác định nhận định sau về các hoạt động trong quá trình mua sắm là đúng/sai:",
+      statements:[
+        { text:"Quyết định mua hàng không bị tác động bởi các yếu tố tình huống tại điểm bán.", correct:false },
+        { text:"Động cơ tiêu dùng là một phần của hành vi suy nghĩ bên trong.", correct:true },
+        { text:"Hành vi người tiêu dùng chỉ chịu ảnh hưởng duy nhất bởi nhu cầu cá nhân.", correct:false },
+        { text:"Việc lựa chọn phương thức thanh toán là một hoạt động trong giai đoạn \"Trong mua\".", correct:true }
+      ]},
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về vai trò của phân tích hành vi khách hàng đối với chiến lược Marketing là đúng/sai:",
+      statements:[
+        { text:"Phân đoạn thị trường giúp doanh nghiệp tập trung nguồn lực vào nhóm khách hàng tiềm năng.", correct:true },
+        { text:"Một thương hiệu chỉ có thể định vị theo một cách duy nhất cho mọi khách hàng.", correct:false },
+        { text:"Hiểu hành vi giúp doanh nghiệp tối ưu hóa chi phí kinh doanh.", correct:true },
+        { text:"Định vị thương hiệu không cần dựa trên mong đợi của khách hàng.", correct:false }
+      ]},
+
+    { type:"single",
+      q:"Doanh nghiệp có thể tối ưu hóa chi phí marketing khi nghiên cứu hành vi người tiêu dùng vì:",
+      options:[
+        "Có thể xác định đúng khách hàng mục tiêu và kênh truyền thông phù hợp.",
+        "Có thể tiếp cận mọi khách hàng với cùng một thông điệp.",
+        "Không cần phân tích hiệu quả chiến dịch marketing.",
+        "Không cần thực hiện bất kỳ hoạt động quảng cáo nào."
+      ], correct:[0] },
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về lợi thế cạnh tranh là đúng/sai:",
+      statements:[
+        { text:"Khả năng dự đoán xu hướng giúp nắm bắt cơ hội trước đối thủ.", correct:true },
+        { text:"Cạnh tranh trong kinh doanh hiện đại chỉ là cạnh tranh về giá.", correct:false },
+        { text:"Sự khác biệt hóa sản phẩm thường xuất phát từ việc thấu hiểu nhu cầu mới.", correct:true },
+        { text:"Doanh nghiệp hiểu khách hàng tốt hơn đối thủ sẽ có khả năng thắng cao hơn.", correct:true }
+      ]},
+
+    { type:"tf",
+      q:"Xác định nhận định sau về bản chất của hành vi người tiêu dùng là đúng/sai:",
+      statements:[
+        { text:"Hành vi người tiêu dùng là một quá trình liên tục, không kết thúc sau khi mua hàng.", correct:true },
+        { text:"Hành vi chỉ bao gồm các hành động quan sát được như tìm kiếm thông tin.", correct:false },
+        { text:"Các yếu tố tâm lý như động cơ và niềm tin cũng thuộc phạm vi nghiên cứu hành vi.", correct:true },
+        { text:"Mục tiêu cuối cùng là mang lại lợi nhuận cao nhất cho người bán.", correct:false }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Theo khái niệm hành vi người tiêu dùng, những hoạt động nào sau đây thuộc phạm vi nghiên cứu của hành vi người tiêu dùng?",
+      options:[
+        "Quản lý nhân sự của doanh nghiệp.",
+        "Tìm kiếm thông tin về sản phẩm trước khi mua.",
+        "Sản xuất sản phẩm trong doanh nghiệp.",
+        "Đánh giá mức độ hài lòng sau khi sử dụng sản phẩm."
+      ], correct:[1,3] },
+
+    { type:"multiple", n:2,
+      q:"Nghiên cứu hành vi người tiêu dùng hỗ trợ doanh nghiệp trong những hoạt động nào sau đây?",
+      options:[
+        "Lựa chọn kênh phân phối.",
+        "Phân đoạn thị trường.",
+        "Chăm sóc khách hàng.",
+        "Định giá sản phẩm."
+      ], correct:[1,2] },
+
+    { type:"single",
+      q:"Trong quy trình nghiên cứu hành vi người tiêu dùng, bước đầu tiên là:",
+      options:[
+        "Xây dựng kế hoạch marketing.",
+        "Xây dựng chương trình khách hàng thân thiết.",
+        "Phân tích thị trường và khách hàng.",
+        "Triển khai chiến dịch quảng cáo."
+      ], correct:[2] },
+
+    { type:"single",
+      q:"Doanh nghiệp nghiên cứu các yếu tố văn hóa, xã hội, cá nhân và tâm lý của khách hàng để:",
+      options:[
+        "Hiểu những yếu tố ảnh hưởng đến quyết định mua hàng.",
+        "Xây dựng cơ cấu tổ chức doanh nghiệp.",
+        "Xác định quy trình sản xuất sản phẩm.",
+        "Lựa chọn nhà cung cấp nguyên liệu."
+      ], correct:[0] },
+
+    { type:"single",
+      q:"Một trong những lợi ích của việc nghiên cứu hành vi người tiêu dùng là:",
+      options:[
+        "Nâng cao hiệu quả hoạt động marketing.",
+        "Loại bỏ hoàn toàn đối thủ cạnh tranh.",
+        "Giảm giá tất cả sản phẩm trên thị trường.",
+        "Tăng quy mô doanh nghiệp ngay lập tức."
+      ], correct:[0] },
+
+    { type:"multiple", n:2,
+      q:"Trong phát triển sản phẩm, việc nghiên cứu hành vi người tiêu dùng mang lại lợi ích nào sau đây? (Chọn 2 đáp án đúng)",
+      options:[
+        "Giúp doanh nghiệp hiểu nhu cầu và mong muốn thực tế của khách hàng.",
+        "Giúp đảm bảo sản phẩm chắc chắn thành công trên thị trường.",
+        "Giúp cải tiến sản phẩm dựa trên phản hồi và trải nghiệm của khách hàng.",
+        "Giúp doanh nghiệp không cần thử nghiệm sản phẩm mới."
+      ], correct:[0,2] },
+
+    { type:"single",
+      q:"Nhiều sản phẩm thất bại trên thị trường dù chất lượng tốt vì:",
+      options:[
+        "Khách hàng không quan tâm đến sản phẩm mới.",
+        "Thị trường không tồn tại nhu cầu.",
+        "Doanh nghiệp chưa hiểu đúng nhu cầu thực tế của khách hàng.",
+        "Giá bán luôn thấp hơn đối thủ."
+      ], correct:[2] },
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về vai trò của phân tích hành vi khách hàng trong phát triển sản phẩm là đúng/sai:",
+      statements:[
+        { text:"Doanh nghiệp cải tiến sản phẩm dựa trên phản hồi của khách hàng sau khi sử dụng.", correct:true },
+        { text:"Nhu cầu của khách hàng là cố định và không bao giờ thay đổi.", correct:false },
+        { text:"Nghiên cứu hành vi giúp giảm thiểu rủi ro khi đưa sản phẩm mới ra thị trường.", correct:true },
+        { text:"Phát triển sản phẩm chỉ cần quan tâm đến tính năng kỹ thuật.", correct:false }
+      ]},
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về vai trò của phân tích hành vi khách hàng trong quảng cáo và truyền thông là đúng/sai:",
+      statements:[
+        { text:"Chiến dịch \"Đi để trở về\" của Biti's thành công nhờ thấu hiểu tâm lý giới trẻ.", correct:true },
+        { text:"Quảng cáo chỉ hiệu quả khi cung cấp đầy đủ thông tin lý trí về giá.", correct:false },
+        { text:"Nghiên cứu hành vi không giúp đánh giá hiệu quả của quảng cáo.", correct:false },
+        { text:"Doanh nghiệp cần lựa chọn kênh truyền thông mà khách hàng mục tiêu thường sử dụng.", correct:true }
+      ]}
+  ]
+},
+
+/* ==================== BÀI 2 ==================== */
+{
+  lesson: "BÀI 2: PHÂN LOẠI KHÁCH HÀNG & PHÂN TÍCH KHÁCH HÀNG MỤC TIÊU",
+  items: [
+    { type:"multiple", n:2,
+      q:"Phân loại khách hàng theo nhân khẩu học (Demographics) dựa trên những đặc điểm nào sau đây? (Chọn 2 đáp án)",
+      options:[
+        "Vị trí địa lý và điều kiện khí hậu.",
+        "Thu nhập và nghề nghiệp.",
+        "Độ tuổi và giới tính.",
+        "Lối sống và giá trị cá nhân."
+      ], correct:[1,2] },
+
+    { type:"single",
+      q:"Vì sao phân loại khách hàng theo nhân khẩu học được sử dụng phổ biến trong marketing?",
+      options:[
+        "Vì dữ liệu dễ thu thập và liên quan trực tiếp đến nhu cầu tiêu dùng.",
+        "Vì không cần thu thập thông tin khách hàng.",
+        "Vì giúp dự đoán mọi hành vi mua hàng.",
+        "Vì phản ánh chính xác cảm xúc của khách hàng."
+      ], correct:[0] },
+
+    { type:"multiple", n:2,
+      q:"Hai khách hàng có cùng độ tuổi và thu nhập nhưng lựa chọn sản phẩm khác nhau có thể do: (Chọn 2 đáp án)",
+      options:[
+        "Lối sống khác nhau.",
+        "Cùng sống trong một thành phố.",
+        "Giá trị cá nhân khác nhau.",
+        "Cùng giới tính."
+      ], correct:[0,2] },
+
+    { type:"multiple", n:2,
+      q:"Phân loại khách hàng theo tâm lý thường mang lại giá trị cao hơn phân loại theo nhân khẩu học vì: (Chọn 2 đáp án)",
+      options:[
+        "Hỗ trợ xây dựng thông điệp marketing phù hợp với giá trị và lối sống của khách hàng.",
+        "Giúp doanh nghiệp hiểu động cơ sâu xa đằng sau quyết định mua hàng.",
+        "Dữ liệu luôn dễ thu thập hơn nhân khẩu học.",
+        "Không cần kết hợp với các tiêu chí phân loại khác."
+      ], correct:[0,1] },
+
+    { type:"match",
+      q:"Kéo thả ví dụ về phân loại nhân khẩu học của Vinamilk vào nhóm tương ứng:",
+      pairs:[
+        ["Sữa hạt cho người trẻ", "Theo lối sống/nhu cầu vóc dáng"],
+        ["Sữa bổ sung canxi", "Theo độ tuổi (Người già)"],
+        ["Sữa bột cho trẻ em", "Theo độ tuổi (Trẻ em)"]
+      ]},
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về Customer Insight là đúng/sai:",
+      statements:[
+        { text:"Doanh nghiệp có thể tìm Insight qua phản hồi trực tiếp hoặc AI.", correct:true },
+        { text:"Insight chỉ tập trung vào những nhu cầu khách hàng đã được đáp ứng.", correct:false },
+        { text:"Insight giúp giải thích tại sao khách hàng hành động như vậy.", correct:true },
+        { text:"Insight là những dữ liệu mô tả đơn thuần về nhân khẩu học.", correct:false }
+      ]},
+
+    { type:"match",
+      q:"Kéo thả hoạt động vào đúng bước của quy trình phân tích khách hàng mục tiêu:",
+      pairs:[
+        ["Mô tả chi tiết độ tuổi, sở thích, lối sống khách hàng lý tưởng", "Xây dựng chân dung khách hàng"],
+        ["Vẽ sơ đồ các điểm chạm từ lúc biết đến lúc mua", "Xây dựng hành trình khách hàng"],
+        ["Phân tích SWOT, chọn nhóm tiềm năng nhất", "Xác định thị trường ưu tiên"]
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp phát hiện khách hàng mua hàng chủ yếu qua TikTok và livestream. Để tối ưu hiệu quả bán hàng, doanh nghiệp nên: (Chọn 2 đáp án)",
+      options:[
+        "Tập trung đầu tư nội dung video ngắn và livestream bán hàng.",
+        "Chỉ quảng cáo trên báo in.",
+        "Giảm ngân sách cho các kênh truyền thông ít hiệu quả.",
+        "Không cần phân tích hành vi mua hàng."
+      ], correct:[0,2] },
+
+    { type:"multiple", n:2,
+      q:"Một thương hiệu điện thoại muốn xây dựng Customer Avatar. Thông tin nào sau đây là phù hợp? (Chọn 2 đáp án)",
+      options:[
+        "Sở thích, lối sống và thái độ với công nghệ.",
+        "Số lượng nhân viên trong công ty.",
+        "Doanh thu của đối thủ cạnh tranh.",
+        "Độ tuổi, thu nhập, nghề nghiệp của khách hàng."
+      ], correct:[0,3] },
+
+    { type:"match",
+      q:"Ghép khái niệm với mô tả phù hợp:",
+      pairs:[
+        ["Customer Avatar", "Chân dung khách hàng lý tưởng"],
+        ["Khách hàng mục tiêu", "Nhóm người tiêu dùng mà doanh nghiệp hướng đến"],
+        ["Customer Insight", "Hiểu sâu lý do vì sao khách hàng hành động"],
+        ["Customer Journey", "Toàn bộ quá trình khách hàng tương tác với doanh nghiệp"]
+      ]},
+
+    { type:"match",
+      q:"Ghép hoạt động với lợi ích:",
+      pairs:[
+        ["Phân tích hành vi khách hàng", "Dự đoán cách khách hàng ra quyết định"],
+        ["Khám phá Customer Insight", "Xác định thị trường ưu tiên"],
+        ["Xây dựng chân dung khách hàng", "Cá nhân hóa marketing"],
+        ["Xác định thị trường ưu tiên", "Tập trung nguồn lực hiệu quả"]
+      ]},
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về chiến lược Sản phẩm là đúng/sai:",
+      statements:[
+        { text:"Sản phẩm cho khách hàng doanh nghiệp cần chú trọng tính cá nhân hóa cao hơn hiệu quả.", correct:false },
+        { text:"Doanh nghiệp cần điều chỉnh tính năng sản phẩm dựa trên nhu cầu của từng phân khúc.", correct:true },
+        { text:"Bao bì sản phẩm không cần thay đổi theo phân khúc khách hàng.", correct:false },
+        { text:"Coca-Cola Zero Sugar ra đời để phục vụ nhóm khách hàng muốn kiểm soát calo.", correct:true }
+      ]},
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Chiến lược ___ giúp nhắc nhở khách hàng về đôi giày họ đã bỏ vào giỏ hàng nhưng chưa thanh toán.",
+      blanks:[["Remarketing","remarketing"]] },
+
+    { type:"multiple", n:2,
+      q:"Trong livestream bán hàng, doanh nghiệp có thể: (Chọn 2 đáp án)",
+      options:[
+        "Không cần chốt đơn.",
+        "Không cần giới thiệu sản phẩm.",
+        "Tạo ưu đãi giới hạn thời gian.",
+        "Tương tác trực tiếp với khách hàng."
+      ], correct:[2,3] },
+
+    { type:"multiple", n:2,
+      q:"Khi áp dụng Marketing Mix theo phân khúc, doanh nghiệp cần: (Chọn 2 đáp án)",
+      options:[
+        "Áp dụng một chiến lược duy nhất cho tất cả.",
+        "Không cần nghiên cứu khách hàng.",
+        "Lựa chọn kênh phân phối phù hợp từng nhóm.",
+        "Điều chỉnh sản phẩm theo nhu cầu khách hàng."
+      ], correct:[2,3] },
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về phân loại khách hàng theo hành vi là đúng/sai:",
+      statements:[
+        { text:"Tần suất mua hàng giúp xác định khách hàng mới và khách hàng thường xuyên.", correct:true },
+        { text:"Phân loại theo hành vi không phản ánh cách khách hàng tương tác với doanh nghiệp.", correct:false },
+        { text:"Khách hàng trung thành tương đối là những người chỉ dùng duy nhất một thương hiệu.", correct:false },
+        { text:"Dịp lễ Tết là một tiêu chí để phân loại khách hàng theo dịp mua hàng.", correct:true }
+      ]},
+
+    { type:"single",
+      q:"Một doanh nghiệp xác định khách hàng mục tiêu là người thu nhập cao yêu thích công nghệ. Chiến lược phù hợp là:",
+      options:[
+        "Chỉ bán sản phẩm tại chợ truyền thống.",
+        "Không cần xây dựng thương hiệu.",
+        "Giảm chất lượng để giảm giá thành thấp nhất.",
+        "Định vị sản phẩm cao cấp, tập trung công nghệ tiên tiến."
+      ], correct:[3] },
+
+    { type:"single",
+      q:"Trong quá trình phân tích Customer Insight, doanh nghiệp nên tập trung vào:",
+      options:[
+        "Lý do sâu xa khiến khách hàng mua sản phẩm.",
+        "Những nhu cầu chưa được đáp ứng của khách hàng.",
+        "Số lượng nhân viên marketing của doanh nghiệp.",
+        "Giá cổ phiếu của đối thủ."
+      ], correct:[0] },
+
+    { type:"match",
+      q:"Kéo thả đúng loại hình influence vào định nghĩa:",
+      pairs:[
+        ["Người tiêu dùng có ảnh hưởng nhờ chia sẻ trải nghiệm thật", "KOC"],
+        ["Chuyên gia có uy tín lớn trong một lĩnh vực cụ thể", "KOL"]
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một cửa hàng thời trang trực tuyến nhận thấy nhiều khách hàng chỉ mua một lần rồi không quay lại. Để tăng tỷ lệ giữ chân khách hàng (CRR), cửa hàng nên thực hiện những giải pháp nào? (Chọn 2 đáp án)",
+      options:[
+        "Tăng giá sản phẩm để nâng cao hình ảnh thương hiệu.",
+        "Giảm số lượng kênh hỗ trợ khách hàng để tiết kiệm chi phí.",
+        "Gửi email cá nhân hóa dựa trên lịch sử mua hàng.",
+        "Xây dựng chương trình tích điểm cho khách hàng thân thiết."
+      ], correct:[2,3] },
+
+    { type:"single",
+      q:"Tiêu chí nào sau đây thuộc phân loại khách hàng theo địa lý?",
+      options:[
+        "Khu vực đô thị và nông thôn.",
+        "Lòng trung thành thương hiệu.",
+        "Tần suất mua hàng.",
+        "Trình độ học vấn."
+      ], correct:[0] },
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về nghiên cứu khách hàng mục tiêu là đúng/sai:",
+      statements:[
+        { text:"Nghiên cứu thực tế dựa trên khảo sát, phỏng vấn và quan sát trực tiếp.", correct:true },
+        { text:"Nghiên cứu lý thuyết giúp xây dựng chân dung khách hàng có tính khoa học.", correct:true },
+        { text:"Nghiên cứu dựa trên lý thuyết sử dụng các mô hình như Maslow.", correct:true },
+        { text:"Dữ liệu từ mạng xã hội (TikTok, Zalo) không có giá trị trong nghiên cứu thực tế.", correct:false }
+      ]},
+
+    { type:"match",
+      q:"Ghép loại dữ liệu với ví dụ tương ứng:",
+      pairs:[
+        ["Dữ liệu định lượng", "Số lượng đơn hàng, tỷ lệ chuyển đổi"],
+        ["Dữ liệu hành vi", "Lịch sử mua hàng, tần suất mua"],
+        ["Dữ liệu nhân khẩu học", "Tuổi, giới tính, thu nhập"],
+        ["Dữ liệu định tính", "Suy nghĩ, cảm nhận, động cơ"]
+      ]},
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về chiến lược phân phối là đúng/sai:",
+      statements:[
+        { text:"Khách hàng nội trợ thường ưu tiên mua sắm trực tuyến hơn là siêu thị.", correct:false },
+        { text:"Kênh phân phối trực tuyến đặc biệt hiệu quả với nhóm khách hàng trẻ tuổi.", correct:true },
+        { text:"Doanh nghiệp cần xuất hiện tại các điểm tiếp xúc khách hàng thường xuyên sử dụng.", correct:true },
+        { text:"Việc kết hợp kênh online và offline giúp nâng cao trải nghiệm khách hàng.", correct:true }
+      ]},
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Dịch vụ ___ như bảo hành, giải quyết khiếu nại nhanh chóng là yếu tố then chốt để khách quay lại.",
+      blanks:[["sau bán","sau ban","hậu mãi"]] },
+
+    { type:"single",
+      q:"Một khách hàng tin vào review thực tế hơn quảng cáo. Doanh nghiệp nên:",
+      options:[
+        "Giảm sản phẩm.",
+        "Tăng quảng cáo truyền hình.",
+        "Không truyền thông.",
+        "Hợp tác KOC chia sẻ trải nghiệm."
+      ], correct:[3] }
+  ]
+},
+
+/* ==================== BÀI 3 ==================== */
+{
+  lesson: "BÀI 3: PHÂN LOẠI KHÁCH HÀNG THEO NHÂN KHẨU HỌC, ĐỊA LÝ, THẾ HỆ, THU NHẬP, LỐI SỐNG",
+  items: [
+    { type:"multiple", n:2,
+      q:"Những tiêu chí nào sau đây thuộc nhóm phân loại theo nhân khẩu học? (Chọn 2 đáp án)",
+      options:[
+        "Lối sống và sở thích.",
+        "Thu nhập và nghề nghiệp.",
+        "Vùng miền và khí hậu.",
+        "Độ tuổi và giới tính."
+      ], correct:[1,3] },
+
+    { type:"tf",
+      q:"Về phân loại khách hàng theo nhân khẩu học, xác định nhận định sau:",
+      statements:[
+        { text:"Dữ liệu nhân khẩu học thường rất khó thu thập so với các tiêu chí khác.", correct:false },
+        { text:"Nam giới và nữ giới luôn có cùng ưu tiên khi mua sắm các sản phẩm chăm sóc da.", correct:false },
+        { text:"Người thu nhập cao thường sẵn sàng chi trả cho sự độc quyền của sản phẩm.", correct:true },
+        { text:"Thị hiếu tiêu dùng thay đổi theo chu kỳ sống của con người.", correct:true }
+      ]},
+
+    { type:"tf",
+      q:"Xác định nhận định sau về tác động của yếu tố địa lý là đúng/sai:",
+      statements:[
+        { text:"Người tiêu dùng miền Trung có xu hướng ưu tiên tính bền vững của sản phẩm.", correct:true },
+        { text:"Khí hậu mùa đông lạnh ở miền Bắc làm tăng nhu cầu về máy sưởi và áo ấm.", correct:true },
+        { text:"Doanh nghiệp không cần điều chỉnh sản phẩm khi mở rộng ra thị trường quốc tế.", correct:false },
+        { text:"Các sàn thương mại điện tử thường tập trung vào nông thôn trước vì dân số đông.", correct:false }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Sự khác biệt giữa khách hàng trẻ và khách hàng lớn tuổi trong hành vi mua sắm thể hiện ở những điểm nào? (Chọn 2 đáp án)",
+      options:[
+        "Khách hàng trẻ luôn trung thành với một thương hiệu duy nhất.",
+        "Khách hàng trẻ dễ bị ảnh hưởng bởi KOL/KOC và mạng xã hội.",
+        "Khách hàng lớn tuổi ưu tiên thương hiệu uy tín và sự an toàn.",
+        "Khách hàng lớn tuổi thường mua sắm hoàn toàn trên TikTok."
+      ], correct:[1,2] },
+
+    { type:"multiple", n:2,
+      q:"Vì sao việc phân nhóm khách hàng theo thế hệ có ý nghĩa đối với hoạt động marketing? (Chọn 2 đáp án)",
+      options:[
+        "Hỗ trợ xây dựng chiến lược marketing phù hợp với từng thế hệ.",
+        "Thay thế hoàn toàn việc nghiên cứu hành vi khách hàng.",
+        "Giúp doanh nghiệp hiểu nguyên nhân dẫn đến hành vi tiêu dùng của từng nhóm khách hàng.",
+        "Không cần kết hợp với các tiêu chí phân loại khác."
+      ], correct:[0,2] },
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp bất động sản muốn tiếp cận nhóm khách hàng đang ở giai đoạn lập gia đình. Hai nội dung nào nên được nhấn mạnh trong thông điệp marketing? (Chọn 2 đáp án)",
+      options:[
+        "Các xu hướng thời trang mới nhất.",
+        "Các trò chơi giải trí dành cho thanh thiếu niên.",
+        "Không gian sống phù hợp cho gia đình và con cái.",
+        "Chính sách tài chính và hỗ trợ vay mua nhà."
+      ], correct:[2,3] },
+
+    { type:"multiple", n:2,
+      q:"Nghề nghiệp ảnh hưởng đến hành vi tiêu dùng thông qua: (Chọn 2 đáp án)",
+      options:[
+        "Hình thành thói quen tiêu dùng.",
+        "Quyết định tốc độ tăng trưởng kinh tế.",
+        "Xác định môi trường làm việc.",
+        "Quy định chính sách thuế."
+      ], correct:[0,2] },
+
+    { type:"single",
+      q:"Một công ty bán laptop muốn nhắm đến nhóm khách hàng là lập trình viên, kỹ sư IT. Chiến lược phù hợp nhất là:",
+      options:[
+        "Giảm giá thành sản phẩm.",
+        "Nhấn mạnh hiệu năng và cấu hình mạnh.",
+        "Quảng cáo đến mọi đối tượng khách hàng.",
+        "Chỉ quảng cáo trên truyền hình."
+      ], correct:[1] },
+
+    { type:"multiple", n:2,
+      q:"Một thương hiệu thời trang muốn tiếp cận nhóm thu nhập thấp. Nên: (Chọn 2 đáp án)",
+      options:[
+        "Tập trung showroom cao cấp.",
+        "Tăng giá sản phẩm.",
+        "Triển khai flash sale.",
+        "Nhấn mạnh \"giá rẻ - tiết kiệm\"."
+      ], correct:[2,3] },
+
+    { type:"match",
+      q:"Ghép nhóm thu nhập với chiến lược marketing phù hợp:",
+      pairs:[
+        ["Thu nhập cao", "Premium marketing, cá nhân hóa, trải nghiệm"],
+        ["Thu nhập thấp", "Low-cost strategy, khuyến mãi mạnh"],
+        ["Thu nhập trung bình", "Value-based marketing, nhấn mạnh chất lượng - giá"]
+      ]},
+
+    { type:"single",
+      q:"Một thương hiệu điện thoại muốn nhắm đến sinh viên và người mới đi làm. Chiến lược phù hợp nhất là:",
+      options:[
+        "Chỉ bán dòng cao cấp.",
+        "Không cần phân khúc khách hàng.",
+        "Tập trung sản phẩm giá rẻ nhưng đủ tính năng.",
+        "Tăng giá để tạo thương hiệu."
+      ], correct:[2] },
+
+    { type:"single",
+      q:"Phong cách sống (Lifestyle) phản ánh điều gì của khách hàng?",
+      options:[
+        "Cách khách hàng sống, làm việc và tiêu dùng.",
+        "Thu nhập của khách hàng.",
+        "Độ tuổi của khách hàng.",
+        "Nghề nghiệp của khách hàng."
+      ], correct:[0] },
+
+    { type:"single",
+      q:"Một khách hàng thường xuyên xem video về \"sống xanh\", mua sản phẩm organic và hạn chế nhựa dùng một lần. Đây là biểu hiện của:",
+      options:[
+        "Thu nhập cao.",
+        "Nghề nghiệp đặc biệt.",
+        "Phong cách sống xanh (green lifestyle).",
+        "Cá tính hướng ngoại."
+      ], correct:[2] },
+
+    { type:"single",
+      q:"Nike sử dụng chiến lược \"Just Do It\" nhằm tác động chủ yếu đến:",
+      options:[
+        "Hệ thống phân phối.",
+        "Cá tính và động lực người tiêu dùng.",
+        "Quy trình sản xuất.",
+        "Giá sản phẩm."
+      ], correct:[1] },
+
+    { type:"multiple", n:3,
+      q:"Trong marketing số, doanh nghiệp có thể làm gì dựa trên dữ liệu hành vi khách hàng? (Chọn 3 đáp án đúng)",
+      options:[
+        "Quảng cáo nhằm mục tiêu.",
+        "Tăng giá đồng loạt.",
+        "Remarketing.",
+        "Cá nhân hóa nội dung."
+      ], correct:[0,2,3] },
+
+    { type:"multiple", n:2,
+      q:"Khách hàng ở giai đoạn lập gia đình thường có nhu cầu tiêu dùng tập trung vào những lĩnh vực nào? (Chọn 2 đáp án)",
+      options:[
+        "Chăm sóc gia đình.",
+        "Thiết bị học tập dành cho trẻ em là không cần thiết.",
+        "Nhà ở và giáo dục con cái.",
+        "Trò chơi điện tử và giải trí cá nhân là chủ yếu."
+      ], correct:[0,2] },
+
+    { type:"single",
+      q:"Một người làm ngành xây dựng thường mua thiết bị bảo hộ, công cụ đo đạc. Điều này thể hiện tác động của yếu tố nào?",
+      options:[
+        "Tâm lý cá nhân.",
+        "Nghề nghiệp.",
+        "Động cơ cảm xúc.",
+        "Văn hóa xã hội."
+      ], correct:[1] },
+
+    { type:"tf",
+      q:"Xác định nhận định sau về hành vi tiêu dùng là đúng/sai:",
+      statements:[
+        { text:"Thu nhập cao thường ít nhạy cảm với giá.", correct:true },
+        { text:"Nghề nghiệp không ảnh hưởng đến tiêu dùng.", correct:false },
+        { text:"Thu nhập ảnh hưởng đến khả năng chi trả.", correct:true }
+      ]},
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Phong cách sống của khách hàng được phân tích thông qua mô hình (1)___, bao gồm Activities, Interests và (2)___.",
+      blanks:[["AIO","aio"],["Opinions","opinions","Ý kiến"]] },
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về vai trò của phân loại địa lý trong Marketing là đúng/sai:",
+      statements:[
+        { text:"Hỗ trợ xây dựng thông điệp quảng cáo phù hợp với văn hóa địa phương.", correct:true },
+        { text:"Giúp doanh nghiệp xác định khu vực thị trường tiềm năng.", correct:true },
+        { text:"Giúp tối ưu hóa chi phí vận chuyển và phân phối.", correct:true },
+        { text:"Chỉ áp dụng được cho các thương hiệu thời trang quốc tế.", correct:false }
+      ]},
+
+    { type:"tf",
+      q:"Doanh nghiệp sử dụng dữ liệu hành vi số để nhận diện khách hàng. Đánh giá các phát biểu sau:",
+      statements:[
+        { text:"Chỉ cần thông tin tuổi và nghề nghiệp là đủ để phân tích khách hàng số.", correct:false },
+        { text:"Dữ liệu hành vi số giúp hiểu sở thích khách hàng chính xác hơn.", correct:true },
+        { text:"Hành vi như like, share, tìm kiếm đều là dữ liệu quan trọng.", correct:true }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Yếu tố nào thuộc mô hình AIO trong phân tích phong cách sống? (Chọn 2 đáp án)",
+      options:[
+        "Opinions.",
+        "Activities.",
+        "Interests.",
+        "Income."
+      ], correct:[1,2] },
+
+    { type:"multiple", n:2,
+      q:"Dấu hiệu nào giúp nhận diện phong cách sống của khách hàng trên nền tảng số? (Chọn 2 đáp án)",
+      options:[
+        "Số lần đăng nhập.",
+        "Hành vi tìm kiếm.",
+        "Mức thu nhập.",
+        "Lượt xem video."
+      ], correct:[1,3] },
+
+    { type:"single",
+      q:"Mô hình AIO trong phân tích phong cách sống bao gồm những yếu tố nào?",
+      options:[
+        "Action - Insight - Objective.",
+        "Age - Income - Occupation.",
+        "Activities - Interests - Opinions.",
+        "Attitude - Identity - Outcome."
+      ], correct:[2] },
+
+    { type:"multiple", n:3,
+      q:"Nhóm khách hàng thu nhập cao thường: (Chọn 3 đáp án)",
+      options:[
+        "Chỉ mua hàng giảm giá.",
+        "Quan tâm cá nhân hóa sản phẩm.",
+        "Ưu tiên trải nghiệm dịch vụ.",
+        "Ít quan tâm giá."
+      ], correct:[1,2,3] },
+
+    { type:"single",
+      q:"Nhóm thu nhập trung bình thường có đặc điểm:",
+      options:[
+        "Không quan tâm thương hiệu.",
+        "Chỉ mua hàng xa xỉ.",
+        "Chỉ quan tâm giá rẻ.",
+        "Cân bằng giữa giá cả và chất lượng."
+      ], correct:[3] },
+
+    { type:"single",
+      q:"Một khách hàng là nhân viên văn phòng thu nhập trung bình sẽ có xu hướng:",
+      options:[
+        "Cân bằng giữa giá cả và chất lượng.",
+        "Chọn sản phẩm rẻ nhất.",
+        "Không quan tâm thương hiệu.",
+        "Chỉ mua sản phẩm cao cấp."
+      ], correct:[0] }
+  ]
+},
+
+/* ==================== BÀI 4 ==================== */
+{
+  lesson: "BÀI 4: NHU CẦU, ĐỘNG CƠ, NHẬN THỨC, THÁI ĐỘ",
+  items: [
+    { type:"multiple", n:2,
+      q:"Theo anh chị đặc điểm nào sau đây mô tả đúng về nhu cầu tiêu dùng? (Chọn 2 đáp án đúng)",
+      options:[
+        "Nhu cầu mang tính đa dạng, phụ thuộc vào đặc điểm cá nhân của mỗi người.",
+        "Nhu cầu mang tính ổn định và không bao giờ thay đổi.",
+        "Mọi người tiêu dùng đều có thứ tự ưu tiên nhu cầu giống hệt nhau.",
+        "Nhu cầu có tính vô hạn trong khi nguồn lực lại có hạn."
+      ], correct:[0,3] },
+
+    { type:"multiple", n:2,
+      q:"Nhóm nhu cầu nào sau đây thuộc về \"Nhu cầu nâng cao chất lượng cuộc sống\"? (Chọn 2 đáp án đúng)",
+      options:[
+        "Du lịch và giải trí.",
+        "Chăm sóc sức khỏe cơ bản.",
+        "Ăn uống và nhà ở.",
+        "Phát triển bản thân và khẳng định địa vị xã hội."
+      ], correct:[0,3] },
+
+    { type:"single",
+      q:"Theo lý thuyết của Maslow, nhu cầu nào là cấp độ cao nhất?",
+      options:[
+        "Nhu cầu xã hội.",
+        "Nhu cầu tự khẳng định.",
+        "Nhu cầu an toàn.",
+        "Nhu cầu được tôn trọng."
+      ], correct:[1] },
+
+    { type:"multiple", n:2,
+      q:"Đâu là ví dụ về yếu tố tạo động lực (Motivator Factors) theo lý thuyết Herzberg trong mua sắm trực tuyến? (Chọn 2 đáp án đúng)",
+      options:[
+        "Dịch vụ chăm sóc khách hàng vượt mong đợi.",
+        "Giao hàng đúng thời gian cam kết.",
+        "Giá cả sản phẩm hợp lý.",
+        "Quà tặng và ưu đãi cá nhân hóa."
+      ], correct:[0,3] },
+
+    { type:"single",
+      q:"Quá trình hình thành hành vi từ nhu cầu diễn ra theo trình tự nào?",
+      options:[
+        "Nhu cầu → Hình thành động cơ → Tìm kiếm giải pháp → Quyết định mua → Thỏa mãn nhu cầu.",
+        "Tìm kiếm giải pháp → Nhu cầu → Động cơ → Quyết định mua.",
+        "Động cơ → Nhu cầu → Quyết định mua → Tìm kiếm giải pháp.",
+        "Nhu cầu → Quyết định mua → Động cơ → Thỏa mãn."
+      ], correct:[0] },
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Quá trình mà cá nhân lựa chọn, tổ chức và diễn giải các thông tin nhận được nhằm hình thành sự hiểu biết có ý nghĩa về thế giới xung quanh được gọi là ...",
+      blanks:[["nhận thức","nhan thuc"]] },
+
+    { type:"multiple", n:2,
+      q:"Trong quá trình chú ý chọn lọc, người tiêu dùng thường tập trung vào thông tin nào? (Chọn 2 đáp án)",
+      options:[
+        "Thông tin liên quan trực tiếp đến nhu cầu hiện tại.",
+        "Tất cả thông tin xuất hiện trên mạng xã hội.",
+        "Thông tin có yếu tố gây thu hút mạnh (giảm giá, khẩn cấp).",
+        "Thông tin do doanh nghiệp tự tạo ra."
+      ], correct:[0,2] },
+
+    { type:"single",
+      q:"Hiện tượng khách hàng chỉ ghi nhớ các quảng cáo có ấn tượng mạnh hoặc liên quan đến nhu cầu được gọi là:",
+      options:[
+        "Tính chọn lọc quảng cáo.",
+        "Hiệu ứng tâm lý đám đông.",
+        "Tính ghi nhớ trong nhận thức.",
+        "Hành vi phản xạ có điều kiện."
+      ], correct:[2] },
+
+    { type:"multiple", n:2,
+      q:"Trong thương mại điện tử, yếu tố nào giúp tăng niềm tin thông qua nhận thức của khách hàng? (Chọn 2 đáp án)",
+      options:[
+        "Thông tin mô tả doanh nghiệp.",
+        "Đánh giá sao và bình luận của khách hàng.",
+        "Số lượng đơn hàng đã bán.",
+        "Diện tích kho hàng."
+      ], correct:[1,2] },
+
+    { type:"match",
+      q:"Ghép khái niệm với định nghĩa đúng:",
+      pairs:[
+        ["Những thay đổi trong hành vi của cá nhân phát sinh từ kinh nghiệm", "Học hỏi (Learning)"],
+        ["Khả năng lưu giữ, bảo quản và truy xuất thông tin đã tiếp nhận", "Trí nhớ (Memory)"]
+      ]},
+
+    { type:"tf",
+      q:"Doanh nghiệp TMĐT có thể tăng cường sự ghi nhớ thương hiệu bằng cách:",
+      statements:[
+        { text:"Quảng cáo lặp đi lặp lại nhiều lần.", correct:true },
+        { text:"Xây dựng các chương trình khách hàng thân thiết để củng cố thói quen.", correct:true },
+        { text:"Tạo ra các trải nghiệm gây cảm xúc mạnh (tích cực hoặc tiêu cực).", correct:true },
+        { text:"Thay đổi logo và màu sắc nhận diện liên tục hàng tháng.", correct:false }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một khách hàng thường xuyên quay lại mua hàng trên Shopee vì lần đầu tiên có trải nghiệm giao hàng nhanh và sản phẩm đúng mô tả. Hiện tượng này thể hiện: (Chọn 2 đáp án đúng)",
+      options:[
+        "Trí nhớ lưu giữ kinh nghiệm tích cực.",
+        "Nhận thức chọn lọc thông tin quảng cáo.",
+        "Học hỏi dựa trên trải nghiệm thực tế.",
+        "Ảnh hưởng của giá bán thấp."
+      ], correct:[0,2] },
+
+    { type:"multiple", n:2,
+      q:"Một khách hàng thường xuyên mua lại sản phẩm từ một gian hàng Shopee vì cảm thấy tin tưởng vào chất lượng và dịch vụ. Hiện tượng này thể hiện: (Chọn 2 đáp án đúng)",
+      options:[
+        "Nhận thức chọn lọc thông tin quảng cáo.",
+        "Thái độ tích cực dẫn đến hành vi mua lặp lại.",
+        "Ảnh hưởng ngắn hạn của khuyến mãi giá.",
+        "Niềm tin được hình thành từ trải nghiệm mua sắm trước đó."
+      ], correct:[1,3] },
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Khi một hành vi mua sắm được lặp lại nhiều lần và mang lại kết quả tích cực, người tiêu dùng sẽ hình thành ...",
+      blanks:[["thói quen tiêu dùng","thoi quen tieu dung"]] },
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Mối quan hệ giữa thái độ và niềm tin thường diễn theo trình tự: Thông tin/trải nghiệm → Hình thành ___ → Hình thành Thái độ → Quyết định mua hàng.",
+      blanks:[["niềm tin","niem tin"]] },
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về các đặc điểm của nhận thức người tiêu dùng là đúng/sai:",
+      statements:[
+        { text:"Tính diễn giải của nhận thức phụ thuộc vào kinh nghiệm và kiến thức của bản thân người tiêu dùng.", correct:true },
+        { text:"Thông tin gây ấn tượng mạnh hoặc liên quan đến nhu cầu thường được lưu giữ lâu hơn.", correct:true },
+        { text:"Nhận thức mang tính chọn lọc, khách hàng sẽ chú ý đến tất cả các quảng cáo họ gặp mỗi ngày.", correct:false },
+        { text:"Nhận thức mang tính chủ quan, cùng một mức giá nhưng mỗi người có thể cảm nhận khác nhau.", correct:true }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Yếu tố nào ảnh hưởng mạnh đến giai đoạn diễn giải thông tin của người tiêu dùng? (Chọn 2 đáp án)",
+      options:[
+        "Niềm tin và thái độ cá nhân.",
+        "Kinh nghiệm tiêu dùng trước đây.",
+        "Màu sắc giao diện website.",
+        "Thời gian đăng quảng cáo."
+      ], correct:[0,1] },
+
+    { type:"tf",
+      q:"Đặc điểm của thái độ người tiêu dùng là:",
+      statements:[
+        { text:"Một người có thể có thái độ trung lập đối với một thương hiệu mới.", correct:true },
+        { text:"Thái độ chỉ bao gồm cảm xúc yêu thích, không bao gồm ý định hành động.", correct:false },
+        { text:"Thái độ được hình thành từ niềm tin của cá nhân về đối tượng.", correct:true },
+        { text:"Thái độ thường có tính ổn định tương đối và khó thay đổi một sớm một chiều.", correct:true }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một khách hàng tin rằng \"sản phẩm có nhiều đánh giá tốt thì luôn chất lượng cao\". Niềm tin này ảnh hưởng đến: (Chọn 2 đáp án đúng)",
+      options:[
+        "Cấu trúc logistics của doanh nghiệp.",
+        "Chi phí sản xuất sản phẩm.",
+        "Xu hướng hành vi mua hàng.",
+        "Thái độ tích cực đối với sản phẩm."
+      ], correct:[2,3] },
+
+    { type:"match",
+      q:"Ghép đặc điểm thông tin với khả năng ghi nhớ:",
+      pairs:[
+        ["Thông tin gây ấn tượng mạnh", "Được lưu giữ lâu hơn vì mang lại giá trị cảm xúc hoặc lợi ích"],
+        ["Thông tin lặp lại nhiều lần", "Giúp thương hiệu dần in sâu vào tâm trí qua thời gian"],
+        ["Thông tin liên quan nhu cầu", "Dễ dàng được truy xuất khi có nhu cầu phát sinh đột ngột"]
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Doanh nghiệp TMĐT muốn tăng khả năng khách hàng ghi nhớ thương hiệu lâu dài. Hai yếu tố hiệu quả nhất là:",
+      options:[
+        "Lặp lại quảng cáo và nhận diện thương hiệu nhất quán.",
+        "Tạo trải nghiệm mua sắm tích cực.",
+        "Tăng số lượng sản phẩm bán ra trong ngắn hạn.",
+        "Giảm giá liên tục để thu hút mua hàng."
+      ], correct:[0,1] },
+
+    { type:"multiple", n:2,
+      q:"Học hỏi trong hành vi tiêu dùng có thể diễn ra qua: (Chọn 2 đáp án)",
+      options:[
+        "Màu sắc quảng cáo.",
+        "Quan sát người khác sử dụng sản phẩm.",
+        "Trải nghiệm sử dụng sản phẩm.",
+        "Vị trí đặt banner quảng cáo."
+      ], correct:[1,2] },
+
+    { type:"multiple", n:2,
+      q:"Trong TMĐT, nhu cầu an toàn được thể hiện qua việc khách hàng quan tâm đến yếu tố nào? (Chọn 2 đáp án đúng)",
+      options:[
+        "Uy tín của sàn thương mại điện tử và chính sách đổi trả.",
+        "Việc thể hiện phong cách cá nhân qua món hàng.",
+        "Bảo mật thông tin thanh toán và đánh giá từ khách hàng trước đó.",
+        "Việc kết nối với các hội nhóm trên mạng xã hội."
+      ], correct:[0,2] },
+
+    { type:"single",
+      q:"Một người tiêu dùng xem cùng một quảng cáo nhưng cho rằng sản phẩm \"rẻ nhưng kém chất lượng\", trong khi người khác lại cho rằng \"giá tốt, đáng mua\". Hiện tượng này phản ánh:",
+      options:[
+        "Tính chọn lọc thông tin.",
+        "Hiệu ứng lan truyền xã hội.",
+        "Tính diễn giải trong nhận thức.",
+        "Hành vi mua theo cảm xúc."
+      ], correct:[2] },
+
+    { type:"single",
+      q:"Vì sao hai người có thể đánh giá khác nhau về cùng một sản phẩm?",
+      options:[
+        "Do sản phẩm thay đổi chất lượng theo người xem.",
+        "Do khác biệt trong kinh nghiệm, nhu cầu và niềm tin cá nhân.",
+        "Do thuật toán không hiển thị giống nhau.",
+        "Do giá sản phẩm thay đổi liên tục theo người dùng."
+      ], correct:[1] },
+
+    { type:"single",
+      q:"Động cơ tiêu dùng được hiểu là gì?",
+      options:[
+        "Là kết quả cuối cùng sau khi đã sử dụng sản phẩm.",
+        "Là lực lượng thúc đẩy bên trong khiến cá nhân hành động nhằm thỏa mãn nhu cầu chưa được đáp ứng.",
+        "Là điểm khởi đầu của mọi hành vi tiêu dùng.",
+        "Là trạng thái thiếu hụt vật chất mà con người cảm thấy."
+      ], correct:[1] }
+  ]
+},
+
+/* ==================== BÀI 5 ==================== */
+{
+  lesson: "BÀI 5: YẾU TỐ XÃ HỘI & VĂN HÓA ẢNH HƯỞNG ĐẾN HÀNH VI",
+  items: [
+    { type:"single",
+      q:"Nhóm tham khảo (Reference Group) được định nghĩa như thế nào theo Kotler và Keller?",
+      options:[
+        "Là nhóm người có cùng mức thu nhập và địa vị trong xã hội.",
+        "Là tập hợp các cá nhân có cùng sở thích mua sắm trực tuyến.",
+        "Chỉ bao gồm những người thân thiết nhất như gia đình và bạn bè.",
+        "Là nhóm có ảnh hưởng trực tiếp hoặc gián tiếp đến thái độ và hành vi của một cá nhân."
+      ], correct:[3] },
+
+    { type:"multiple", n:2,
+      q:"Những yếu tố nào được coi là \"Bằng chứng xã hội\" (Social Proof) trong TMĐT? (Chọn 2 đáp án đúng)",
+      options:[
+        "Giá niêm yết của sản phẩm.",
+        "Số lượng sản phẩm đã bán.",
+        "Tên gọi của thương hiệu.",
+        "Điểm đánh giá (ratings) và lượt bình luận của người mua trước."
+      ], correct:[1,3] },
+
+    { type:"single",
+      q:"Đối với loại sản phẩm nào thì vai trò của gia đình và nhóm tham khảo trở nên quan trọng hơn?",
+      options:[
+        "Các sản phẩm đã quá quen thuộc với người tiêu dùng.",
+        "Các sản phẩm có giá trị cao hoặc người mua ít kinh nghiệm sử dụng.",
+        "Các sản phẩm không có thương hiệu.",
+        "Các sản phẩm tiêu dùng nhanh hàng ngày."
+      ], correct:[1] },
+
+    { type:"single",
+      q:"Việc tham khảo ý kiến từ những người đáng tin cậy giúp người tiêu dùng điều gì?",
+      options:[
+        "Tăng chi phí tìm kiếm thông tin.",
+        "Cảm thấy an tâm hơn và giảm rủi ro trong quyết định mua hàng.",
+        "Tăng thời gian ra quyết định mua sắm.",
+        "Bỏ qua hoàn toàn bước đánh giá sản phẩm."
+      ], correct:[1] },
+
+    { type:"tf",
+      q:"Một sinh viên dự định mua laptop để học tập. Trước khi quyết định, sinh viên này tham khảo ý kiến của anh trai đã có kinh nghiệm sử dụng nhiều dòng máy và đọc thêm các đánh giá trong một nhóm công nghệ trên Facebook. Đánh giá các phát biểu sau:",
+      statements:[
+        { text:"Quyết định mua hàng trong tình huống này chỉ chịu ảnh hưởng bởi nhu cầu cá nhân của sinh viên.", correct:false },
+        { text:"Việc tham gia nhóm công nghệ trên Facebook là một hình thức tham khảo ý kiến từ nhóm tham khảo trực tuyến.", correct:true },
+        { text:"Anh trai của sinh viên đóng vai trò là nhóm tham khảo ảnh hưởng đến quyết định mua hàng.", correct:true }
+      ]},
+
+    { type:"tf",
+      q:"Xác định những nhận định sau về các đặc điểm của văn hóa là đúng/sai:",
+      statements:[
+        { text:"Văn hóa là yếu tố cố định, không bao giờ thay đổi theo thời gian.", correct:false },
+        { text:"Thói quen tiết kiệm thường được cha mẹ truyền lại cho con cái qua các thế hệ.", correct:true },
+        { text:"Văn hóa là yếu tố bẩm sinh, con người sinh ra đã có sẵn các giá trị văn hóa.", correct:false },
+        { text:"Xu hướng săn khuyến mãi trong các dịp 11/11 hay Black Friday đã trở thành một nét văn hóa tiêu dùng.", correct:true }
+      ]},
+
+    { type:"tf",
+      q:"Xác định nhận định sau về ảnh hưởng của tầng lớp xã hội trong TMĐT là đúng/sai:",
+      statements:[
+        { text:"Nhóm thu nhập cao coi trải nghiệm mua sắm quan trọng hơn giá cả.", correct:true },
+        { text:"Khách hàng thu nhập thấp thường quan tâm nhiều đến chi phí vận chuyển.", correct:true },
+        { text:"Người có học vấn cao và thu nhập tốt thường dễ tiếp cận thanh toán điện tử hơn.", correct:true },
+        { text:"Tất cả các tầng lớp xã hội đều có hành vi tìm kiếm thông tin giống hệt nhau trên mạng.", correct:false }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một hãng thương mại điện tử sử dụng dữ liệu lịch sử mua hàng để đề xuất mỹ phẩm cao cấp cho khách hàng có thu nhập cao và gợi ý các sản phẩm giảm giá cho nhóm khách hàng nhạy cảm về giá. Những yếu tố nào được doanh nghiệp khai thác trong trường hợp trên? (Chọn 2 đáp án)",
+      options:[
+        "Đặc điểm tầng lớp xã hội của khách hàng.",
+        "Cá nhân hóa trải nghiệm dựa trên dữ liệu.",
+        "Mọi khách hàng đều có nhu cầu giống nhau.",
+        "Văn hóa không còn ảnh hưởng đến hành vi tiêu dùng."
+      ], correct:[0,1] },
+
+    { type:"single",
+      q:"Một sàn thương mại điện tử nhận thấy khách hàng ở Việt Nam vẫn ưu tiên thanh toán khi nhận hàng (COD) mặc dù đã có nhiều phương thức thanh toán điện tử hiện đại. Nguyên nhân nào giải thích hợp lý nhất hiện tượng này?",
+      options:[
+        "Giá sản phẩm quá cao.",
+        "Tầng lớp xã hội quyết định hoàn toàn phương thức thanh toán.",
+        "Người tiêu dùng Việt Nam không sử dụng Internet.",
+        "Ảnh hưởng của thói quen và niềm tin hình thành từ văn hóa tiêu dùng."
+      ], correct:[3] },
+
+    { type:"multiple", n:2,
+      q:"Một thương hiệu mỹ phẩm quốc tế triển khai hai chiến dịch quảng cáo khác nhau: Một chiến dịch nhấn mạnh sự sang trọng dành cho khách hàng cao cấp và một chiến dịch tập trung vào giá cả hợp lý dành cho khách hàng thu nhập trung bình. Chiến lược này phản ánh: (Chọn 2 đáp án)",
+      options:[
+        "Ảnh hưởng của tầng lớp xã hội đến hành vi tiêu dùng.",
+        "Văn hóa không ảnh hưởng đến tiêu dùng.",
+        "Hoạt động phân khúc thị trường theo đặc điểm khách hàng.",
+        "Mọi khách hàng có cùng động cơ mua hàng."
+      ], correct:[0,2] },
+
+    { type:"tf",
+      q:"Xác định nhận định sau về chuẩn mực và giá trị xã hội là đúng/sai:",
+      statements:[
+        { text:"Giá trị xã hội là những quy tắc cụ thể buộc mọi người phải tuân thủ.", correct:false },
+        { text:"Chuẩn mực xã hội có thể thay đổi theo sự phát triển của công nghệ.", correct:true },
+        { text:"Việc đọc đánh giá trước khi mua hàng trực tuyến hiện nay đã trở thành một chuẩn mực phổ biến.", correct:true },
+        { text:"Xu hướng tiêu dùng xanh phản ánh giá trị xã hội về bảo vệ môi trường.", correct:true }
+      ]},
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Trong môi trường TMĐT, các yếu tố xã hội giúp khách hàng giảm cảm nhận ___ khi không thể trực tiếp kiểm tra hàng hóa.",
+      blanks:[["rủi ro","rui ro"]] },
+
+    { type:"single",
+      q:"Một sinh viên luôn đọc đánh giá và xem ảnh thực tế của người mua trước khi đặt hàng trên Shopee. Hành vi này đã trở thành thói quen phổ biến trong cộng đồng mua sắm trực tuyến. Điều này thể hiện rõ nhất:",
+      options:[
+        "Mọi quyết định mua hàng đều mang tính cá nhân.",
+        "Chuẩn mực xã hội định hướng hành vi tiêu dùng.",
+        "Tầng lớp xã hội quyết định hoàn toàn hành vi mua hàng.",
+        "Giá trị xã hội không ảnh hưởng đến tiêu dùng."
+      ], correct:[1] },
+
+    { type:"multiple", n:2,
+      q:"Một thương hiệu mỹ phẩm xây dựng cộng đồng trên Facebook để khách hàng chia sẻ kinh nghiệm chăm sóc da, đánh giá sản phẩm và hỗ trợ nhau lựa chọn sản phẩm phù hợp. Hoạt động này giúp doanh nghiệp: (Chọn 2 đáp án)",
+      options:[
+        "Tạo truyền miệng điện tử (e-WOM) tích cực.",
+        "Khiến giá cả không còn quan trọng.",
+        "Gia tăng sự gắn kết và lòng trung thành của khách hàng.",
+        "Loại bỏ hoàn toàn cạnh tranh trên thị trường."
+      ], correct:[0,2] },
+
+    { type:"multiple", n:2,
+      q:"Một khách hàng mua chiếc điện thoại giống với nhóm bạn của mình để dễ hòa nhập và tránh bị xem là \"lạc hậu\". Hiện tượng này phản ánh: (Chọn 2 đáp án)",
+      options:[
+        "Hành vi mua hàng không chịu tác động từ cộng đồng.",
+        "Người tiêu dùng luôn đưa ra quyết định hoàn toàn độc lập.",
+        "Áp lực từ nhóm tham khảo có thể ảnh hưởng đến quyết định mua hàng.",
+        "Sự tuân thủ xã hội (Social Compliance)."
+      ], correct:[2,3] },
+
+    { type:"single",
+      q:"Khái niệm \"Truyền miệng điện tử\" bao gồm các hình thức nào?",
+      options:[
+        "Chỉ bao gồm việc gọi điện thoại tư vấn sản phẩm.",
+        "Các đánh giá sao, bình luận sản phẩm, video review và bài đăng trên mạng xã hội.",
+        "Việc gửi email quảng cáo hàng loạt cho khách hàng.",
+        "Các bảng quảng cáo ngoài trời của các sàn thương mại điện tử."
+      ], correct:[1] },
+
+    { type:"match",
+      q:"Ghép tầng lớp xã hội với đặc điểm tiêu dùng tương ứng:",
+      pairs:[
+        ["Nhóm thu nhập cao", "Ưu tiên chất lượng, uy tín thương hiệu và tính cá nhân hóa"],
+        ["Nhóm thu nhập trung bình", "Cân nhắc giữa chất lượng và giá cả, dành thời gian tìm kiếm thông tin"],
+        ["Nhóm thu nhập thấp", "Quan tâm nhiều đến giá thấp, chương trình giảm giá và sản phẩm thiết yếu"]
+      ]},
+
+    { type:"tf",
+      q:"Doanh nghiệp có thể tạo dựng Social Proof bằng cách:",
+      statements:[
+        { text:"Ẩn toàn bộ các bình luận tiêu cực của khách hàng.", correct:false },
+        { text:"Sử dụng chứng nhận từ các chuyên gia hoặc tổ chức uy tín.", correct:true },
+        { text:"Hiển thị số lượng sản phẩm đã bán thành công.", correct:true },
+        { text:"Khuyến khích người mua đăng ảnh và video trải nghiệm thực tế.", correct:true }
+      ]},
+
+    { type:"match",
+      q:"Ghép các hiệu ứng tâm lý với biểu hiện thực tế:",
+      pairs:[
+        ["Hiệu ứng FOMO", "Lo lắng bỏ lỡ đợt Flash Sale giới hạn thời gian"],
+        ["Bằng chứng xã hội (Social Proof)", "Xu hướng làm theo hành động của người khác khi thiếu thông tin"],
+        ["Hiệu ứng đám đông", "Tin tưởng sản phẩm có dòng chữ \"Đã bán 50.000\""]
+      ]},
+
+    { type:"single",
+      q:"Tại sao bạn bè lại có ảnh hưởng đáng kể đến hành vi tiêu dùng?",
+      options:[
+        "Vì bạn bè là nguồn thông tin duy nhất đáng tin cậy.",
+        "Do có sự tương đồng về độ tuổi, sở thích hoặc phong cách sống.",
+        "Vì họ có quyền lực ép buộc cá nhân mua hàng.",
+        "Do bạn bè thường kiểm soát tài chính của nhau."
+      ], correct:[1] },
+
+    { type:"single",
+      q:"Con người có xu hướng điều chỉnh hành vi tiêu dùng để làm gì?",
+      options:[
+        "Để phù hợp với những người xung quanh hoặc nhóm họ muốn gia nhập.",
+        "Để tiết kiệm tối đa mọi chi phí sinh hoạt.",
+        "Để tuân theo các chỉ dẫn kỹ thuật của nhà sản xuất.",
+        "Để trở nên khác biệt hoàn toàn với xã hội."
+      ], correct:[0] },
+
+    { type:"multiple", n:2,
+      q:"Một công ty muốn mở rộng hoạt động kinh doanh sang nhiều quốc gia khác nhau thông qua thương mại điện tử. Để xây dựng chiến lược marketing hiệu quả, doanh nghiệp cần chú ý những vấn đề nào? (Chọn 2 đáp án)",
+      options:[
+        "Áp dụng một chiến lược quảng cáo giống nhau cho mọi quốc gia.",
+        "Phân khúc khách hàng theo thu nhập và lối sống.",
+        "Nghiên cứu đặc điểm văn hóa của từng thị trường.",
+        "Bỏ qua sự khác biệt về tầng lớp xã hội."
+      ], correct:[1,2] },
+
+    { type:"tf",
+      q:"Xác định nhận định sau là đúng/sai: Cộng đồng trực tuyến (như nhóm Facebook, diễn đàn) không có khả năng hình thành chuẩn mực tiêu dùng mới cho các thành viên.",
+      statements:[
+        { text:"Cộng đồng trực tuyến không có khả năng hình thành chuẩn mực tiêu dùng mới cho các thành viên.", correct:false }
+      ]},
+
+    { type:"tf",
+      q:"Xác định nhận định sau là đúng/sai: Tầng lớp xã hội chỉ được xác định dựa trên duy nhất một yếu tố là thu nhập của cá nhân.",
+      statements:[
+        { text:"Tầng lớp xã hội chỉ được xác định dựa trên duy nhất một yếu tố là thu nhập của cá nhân.", correct:false }
+      ]},
+
+    { type:"match",
+      q:"Kéo thả đáp án đúng vào từng nhóm biện pháp:",
+      pairs:[
+        ["Biện pháp giảm thiểu rủi ro nhà cung cấp", "Đa dạng hóa nguồn cung"],
+        ["Biện pháp quản lý kho hiệu quả", "Ứng dụng AI và WMS dự báo nhu cầu"]
+      ]},
+
+    { type:"single",
+      q:"Một khách hàng thường xuyên chờ các đợt 11.11, Black Friday để mua hàng và dành nhiều thời gian săn mã giảm giá trên sàn thương mại điện tử. Hiện tượng này phản ánh rõ nhất đặc điểm nào của văn hóa?",
+      options:[
+        "Văn hóa được truyền từ thế hệ này sang thế hệ khác.",
+        "Văn hóa được chia sẻ trong cộng đồng và có thể thay đổi theo thời gian.",
+        "Văn hóa chỉ ảnh hưởng đến tiêu dùng truyền thống.",
+        "Văn hóa hoàn toàn không liên quan đến công nghệ."
+      ], correct:[1] },
+
+    { type:"multiple", n:2,
+      q:"Gia đình đóng vai trò gì trong hoạt động tiêu dùng của cá nhân? (Chọn 2 đáp án đúng)",
+      options:[
+        "Chỉ ảnh hưởng đến các sản phẩm có giá trị thấp.",
+        "Định hướng nhu cầu và sở thích tiêu dùng.",
+        "Hình thành thói quen mua sắm.",
+        "Thay thế hoàn toàn các quyết định của cá nhân."
+      ], correct:[1,2] },
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp sử dụng bao bì tái chế và truyền thông mạnh về việc giảm rác thải nhựa. Nhiều khách hàng lựa chọn sản phẩm của doanh nghiệp này vì mong muốn góp phần bảo vệ môi trường. Hiện tượng trên phản ánh: (Chọn 2 đáp án)",
+      options:[
+        "Giá cả luôn là yếu tố quyết định duy nhất.",
+        "Người tiêu dùng không quan tâm đến trách nhiệm xã hội của doanh nghiệp.",
+        "Marketing dựa trên giá trị xã hội giúp tăng sự đồng cảm với thương hiệu.",
+        "Giá trị xã hội có thể ảnh hưởng đến thái độ và quyết định mua hàng."
+      ], correct:[2,3] },
+
+    { type:"multiple", n:2,
+      q:"Một sản phẩm chăm sóc da trở nên nổi tiếng trên TikTok sau khi được nhiều người dùng chia sẻ trải nghiệm tích cực. Số lượng đơn hàng tăng mạnh chỉ trong vài ngày. Hiện tượng này chịu tác động bởi: (Chọn 2 đáp án)",
+      options:[
+        "Quy luật cung cầu không còn tồn tại.",
+        "Hiệu ứng đám đông (Bandwagon Effect).",
+        "Người tiêu dùng không bị ảnh hưởng bởi cộng đồng.",
+        "Ảnh hưởng của mạng xã hội đối với hành vi tiêu dùng."
+      ], correct:[1,3] }
+  ]
+},
+
+/* ==================== BÀI 6 ==================== */
+{
+  lesson: "BÀI 6: QUÁ TRÌNH QUYẾT ĐỊNH MUA HÀNG",
+  items: [
+    { type:"single",
+      q:"Nhận thức nhu cầu xảy ra khi nào?",
+      options:[
+        "Khi có sự khác biệt giữa trạng thái hiện tại và trạng thái mong muốn.",
+        "Khi khách hàng đã có đủ tiền để mua sản phẩm.",
+        "Khi người tiêu dùng nhìn thấy một quảng cáo trên tivi.",
+        "Sau khi khách hàng đã so sánh xong các phương án."
+      ], correct:[0] },
+
+    { type:"multiple", n:2,
+      q:"Mức độ tìm kiếm thông tin của người tiêu dùng phụ thuộc vào yếu tố nào? (Chọn 2 đáp án)",
+      options:[
+        "Kiến thức và kinh nghiệm mua hàng trước đó.",
+        "Giá trị và mức độ rủi ro của sản phẩm.",
+        "Chỉ phụ thuộc vào sở thích cá nhân.",
+        "Chỉ phụ thuộc vào số lượng quảng cáo trên tivi."
+      ], correct:[0,1] },
+
+    { type:"multiple", n:2,
+      q:"Nguồn thông tin nào thường được người tiêu dùng đánh giá là khách quan và tin cậy cao? (Chọn 2 đáp án)",
+      options:[
+        "Nguồn từ nhân viên bán hàng tại quầy.",
+        "Nguồn công cộng (báo chí, chuyên gia đánh giá).",
+        "Nguồn thương mại (quảng cáo của hãng).",
+        "Nguồn cá nhân (gia đình, bạn bè)."
+      ], correct:[1,3] },
+
+    { type:"single",
+      q:"Trong môi trường số, các giai đoạn của hành trình mua hàng có đặc điểm gì?",
+      options:[
+        "Giai đoạn nhận thức nhu cầu không còn quan trọng.",
+        "Luôn diễn ra theo đúng thứ tự tuyến tính từ bước 1 đến bước 5.",
+        "Có thể diễn ra đồng thời hoặc lặp lại nhiều lần do dễ tiếp cận thông tin.",
+        "Người tiêu dùng không cần tìm kiếm thông tin bên ngoài."
+      ], correct:[2] },
+
+    { type:"single",
+      q:"Một sinh viên cần mua laptop để học lập trình trong 4 năm đại học. Khi so sánh các mẫu máy, sinh viên ưu tiên cấu hình CPU, RAM, dung lượng SSD và khả năng hoạt động ổn định, trong khi ít quan tâm đến màu sắc hay xu hướng sử dụng của bạn bè. Tiêu chí mà sinh viên đang ưu tiên thuộc nhóm nào?",
+      options:[
+        "Thuộc tính tâm lý.",
+        "Thuộc tính chức năng.",
+        "Thuộc tính xã hội.",
+        "Thuộc tính kinh tế."
+      ], correct:[1] },
+
+    { type:"multiple", n:2,
+      q:"Hai mẫu điện thoại có giá và cấu hình gần như giống nhau. Một mẫu có 10.000 lượt mua, đánh giá 4,9 sao và rất nhiều bình luận tích cực; mẫu còn lại chỉ có vài chục lượt đánh giá. Theo nội dung bài học, những thông tin nào nhiều khả năng khiến người tiêu dùng nghiêng về mẫu thứ nhất? (Chọn 2 đáp án)",
+      options:[
+        "Vị trí đặt sản phẩm trong cửa hàng.",
+        "Số lượng đánh giá và lượt mua.",
+        "Điểm đánh giá (rating).",
+        "Màu sắc của logo thương hiệu."
+      ], correct:[1,2] },
+
+    { type:"single",
+      q:"Một sinh viên đã từng mua sản phẩm của thương hiệu X và hài lòng với chất lượng. Khi cần mua sản phẩm tương tự, sinh viên tiếp tục đánh giá cao thương hiệu X ngay cả khi chưa tìm hiểu nhiều về các thương hiệu khác. Yếu tố nào ảnh hưởng trực tiếp đến quá trình đánh giá của sinh viên?",
+      options:[
+        "Thuộc tính kinh tế.",
+        "Nhóm tham khảo.",
+        "Kinh nghiệm và kiến thức.",
+        "Thông tin Marketing."
+      ], correct:[2] },
+
+    { type:"tf",
+      q:"Xác định đúng/sai về các thuộc tính đánh giá sản phẩm:",
+      statements:[
+        { text:"Thuộc tính tâm lý liên quan đến cảm xúc và lợi ích tinh thần mà sản phẩm mang lại.", correct:true },
+        { text:"Thuộc tính xã hội giúp người tiêu dùng thể hiện bản thân và địa vị xã hội.", correct:true },
+        { text:"Thuộc tính chức năng phản ánh khả năng thực hiện công dụng của sản phẩm.", correct:true },
+        { text:"Thuộc tính kinh tế chỉ bao gồm giá mua ban đầu của sản phẩm.", correct:false }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Lan dự định mua điện thoại Samsung sau khi đánh giá nhiều phương án. Tuy nhiên, ngay trước khi mua, bạn thân của Lan khuyên nên chọn iPhone vì hệ sinh thái ổn định và Lan quyết định thay đổi lựa chọn. Những yếu tố nào theo bài học đã ảnh hưởng đến quyết định mua của Lan? (Chọn 2 đáp án)",
+      options:[
+        "Mức độ tin tưởng đối với người góp ý.",
+        "Thiết kế bao bì sản phẩm.",
+        "Chính sách bảo hành của cửa hàng.",
+        "Thái độ, lời khuyên của người khác."
+      ], correct:[0,3] },
+
+    { type:"single",
+      q:"Một khách hàng đã quyết định mua điều hòa tại cửa hàng A. Trước khi thanh toán, cửa hàng thông báo hết hàng và chưa xác định được thời gian nhập lại. Khách hàng chuyển sang mua thương hiệu khác tại cửa hàng B. Nguyên nhân trực tiếp dẫn đến sự thay đổi này là:",
+      options:[
+        "Yếu tố bất ngờ phát sinh trong quá trình mua.",
+        "Ý định mua chưa được hình thành.",
+        "Thái độ của người khác.",
+        "Đánh giá lại các phương án."
+      ], correct:[0] },
+
+    { type:"tf",
+      q:"Xác định Đúng/Sai về ý định mua và quyết định mua:",
+      statements:[
+        { text:"Các yếu tố bất ngờ có thể làm trì hoãn quyết định mua hàng.", correct:true },
+        { text:"Ý định mua là mức độ sẵn sàng lựa chọn một sản phẩm cụ thể.", correct:true },
+        { text:"Ý định mua hàng luôn luôn dẫn đến hành động mua thực tế.", correct:false },
+        { text:"Thái độ của người khác có thể làm thay đổi ý định mua ban đầu.", correct:true }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp nhận thấy nhiều khách hàng sau khi mua sản phẩm thường băn khoăn liệu mình đã lựa chọn đúng hay chưa. Theo bài học, doanh nghiệp nên ưu tiên những giải pháp nào để giảm tâm lý này? (Chọn 2 đáp án)",
+      options:[
+        "Giảm giá toàn bộ sản phẩm.",
+        "Thực hiện tốt chính sách bảo hành và hướng dẫn sử dụng.",
+        "Tăng cường chăm sóc khách hàng sau bán.",
+        "Mở rộng thêm nhiều dòng sản phẩm mới."
+      ], correct:[1,2] },
+
+    { type:"multiple", n:2,
+      q:"Một khách hàng không hài lòng với dịch vụ của một nhà hàng. Sau đó, khách hàng chia sẻ trải nghiệm của mình trên Facebook và trong nhóm cộng đồng địa phương. Theo bài học, tình huống này thể hiện những đặc điểm nào? (Chọn 2 đáp án)",
+      options:[
+        "Truyền miệng có thể lan truyền nhanh trên môi trường số.",
+        "Hình thành lòng trung thành với thương hiệu.",
+        "Khách hàng đã quay lại giai đoạn tìm kiếm thông tin.",
+        "Truyền miệng tiêu cực."
+      ], correct:[0,3] },
+
+    { type:"multiple", n:2,
+      q:"Một cửa hàng trực tuyến muốn tăng tỷ lệ khách hàng quay lại mua hàng. Theo nội dung bài học, doanh nghiệp nên ưu tiên thực hiện những biện pháp nào? (Chọn 2 đáp án)",
+      options:[
+        "Thu thập phản hồi của khách hàng.",
+        "Thay đổi màu sắc nhận diện thương hiệu.",
+        "Tăng số lượng quảng cáo trên mạng xã hội.",
+        "Xử lý khiếu nại kịp thời."
+      ], correct:[0,3] },
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Trong môi trường số, truyền miệng tiêu cực có thể lan truyền rất nhanh qua các nền tảng như ___, TikTok hoặc hội nhóm cộng đồng.",
+      blanks:[["mạng xã hội","mang xa hoi"]] },
+
+    { type:"single",
+      q:"Nguồn thông tin nào sau đây thuộc nhóm \"Nguồn thương mại\"?",
+      options:[
+        "Kinh nghiệm dùng thử sản phẩm.",
+        "Báo chí và các diễn đàn trực tuyến.",
+        "Gia đình và bạn bè.",
+        "Quảng cáo, website doanh nghiệp và nhân viên bán hàng."
+      ], correct:[3] },
+
+    { type:"multiple", n:2,
+      q:"Một khách hàng lựa chọn máy in cho văn phòng nhỏ. Ngoài giá mua ban đầu, khách hàng còn tính đến giá mực in, chi phí bảo dưỡng và mức tiêu thụ điện để giảm tổng chi phí sử dụng trong nhiều năm. Những yếu tố nào dưới đây phản ánh đúng nhóm tiêu chí mà khách hàng đang sử dụng? (Chọn 2 đáp án)",
+      options:[
+        "Giá mực in và chi phí bảo dưỡng.",
+        "Thương hiệu được nhiều người nổi tiếng sử dụng.",
+        "Mức tiêu thụ điện năng.",
+        "Thiết kế hiện đại của máy."
+      ], correct:[0,2] },
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Người tiêu dùng có thể thay đổi quyết định mua vào phút chót nếu xuất hiện một ___ từ đối thủ cạnh tranh.",
+      blanks:[["chương trình khuyến mại","chuong trinh khuyen mai","chương trình khuyến mãi","khuyến mại","khuyen mai"]] },
+
+    { type:"multiple", n:2,
+      q:"Một khách hàng mua hàng trên sàn thương mại điện tử nhưng sản phẩm nhận được không đúng mô tả. Sau đó, khách hàng yêu cầu đổi trả và đăng đánh giá 1 sao về nhà bán hàng. Theo nội dung bài học, những hành vi nào phản ánh sự không hài lòng sau mua? (Chọn 2 đáp án)",
+      options:[
+        "Tiếp tục sử dụng sản phẩm.",
+        "Khiếu nại hoặc yêu cầu đổi trả.",
+        "Đăng tải đánh giá không tích cực.",
+        "Hình thành lòng trung thành với thương hiệu."
+      ], correct:[1,2] },
+
+    { type:"match",
+      q:"Ghép thuộc tính với ví dụ thực tế tương ứng:",
+      pairs:[
+        ["Thuộc tính chức năng", "Dung lượng pin và tốc độ xử lý của điện thoại"],
+        ["Thuộc tính tâm lý", "Cảm giác tự tin và sang trọng khi dùng đồ hiệu"],
+        ["Thuộc tính xã hội", "Thương hiệu đang là xu hướng trên mạng xã hội"],
+        ["Thuộc tính kinh tế", "Chi phí nhiên liệu và bảo dưỡng định kỳ của xe ô tô"]
+      ]},
+
+    { type:"single",
+      q:"Quá trình quyết định mua của người tiêu dùng thông thường bao gồm bao nhiêu giai đoạn?",
+      options:["4 giai đoạn.","5 giai đoạn.","6 giai đoạn.","3 giai đoạn."], correct:[1] },
+
+    { type:"single",
+      q:"Tìm kiếm nội bộ là gì?",
+      options:[
+        "Là việc tìm kiếm thông tin trên trang web chính thức của công ty.",
+        "Là việc đi đến cửa hàng để dùng thử sản phẩm.",
+        "Là quá trình sử dụng kiến thức và kinh nghiệm có sẵn trong trí nhớ.",
+        "Là việc hỏi ý kiến người thân trong gia đình."
+      ], correct:[2] },
+
+    { type:"multiple", n:2,
+      q:"Chị Hoa dự định mua điện thoại X. Khi truy cập sàn TMĐT, chị thấy: Điện thoại X giảm giá 5%; Điện thoại Y giảm giá 20% trong Flash Sale còn 30 phút; Livestream của cửa hàng đang giới thiệu điện thoại Y với nhiều ưu đãi. Chị chuyển sang mua điện thoại Y. Hai yếu tố nào trực tiếp tác động đến quyết định cuối cùng? (Chọn 2 đáp án)",
+      options:[
+        "Livestream bán hàng.",
+        "Ý định mua điện thoại.",
+        "Flash Sale.",
+        "Quá trình tìm kiếm thông tin mua hàng trước đó."
+      ], correct:[0,2] },
+
+    { type:"tf",
+      q:"Trong TMĐT, quyết định mua dễ bị tác động bởi:",
+      statements:[
+        { text:"Các gợi ý sản phẩm từ hệ thống AI của sàn.", correct:true },
+        { text:"Các mã giảm giá có giới hạn thời gian.", correct:true },
+        { text:"Livestream bán hàng mang tính tương tác cao.", correct:true },
+        { text:"Việc khách hàng không thể hỏi ý kiến bất kỳ ai.", correct:false }
+      ]},
+
+    { type:"tf",
+      q:"Khi không hài lòng, khách hàng có thể hành động:",
+      statements:[
+        { text:"Yêu cầu đổi trả hoặc khiếu nại.", correct:true },
+        { text:"Ngừng sử dụng sản phẩm.", correct:true },
+        { text:"Âm thầm tiếp tục mua thêm sản phẩm khác của hãng.", correct:false },
+        { text:"Đăng tải đánh giá không tích cực trên sàn TMĐT.", correct:true }
+      ]},
+
+    { type:"single",
+      q:"Sau khi so sánh nhiều mẫu laptop, Minh dự định mua mẫu X vì phù hợp với nhu cầu học tập và ngân sách. Tuy nhiên, trước khi đặt hàng, Minh vẫn tiếp tục theo dõi các chương trình khuyến mại và chưa thanh toán. Tình huống trên thể hiện điều gì?",
+      options:[
+        "Minh đã hoàn tất quyết định mua vì đã chọn được sản phẩm.",
+        "Minh đã chuyển sang giai đoạn hành vi sau mua.",
+        "Minh đang quay lại giai đoạn nhận biết nhu cầu.",
+        "Minh mới hình thành ý định mua, chưa đưa ra quyết định mua cuối cùng."
+      ], correct:[3] },
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Việc khuyến khích khách hàng để lại ___ và chia sẻ trải nghiệm tích cực là một chiến lược quan trọng để thu hút khách hàng mới.",
+      blanks:[["đánh giá","danh gia"]] },
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp muốn hạn chế tác động tiêu cực của các đánh giá xấu sau bán đối với doanh thu và hình ảnh thương hiệu. Theo nội dung bài học, hai giải pháp nào nên được ưu tiên trước? (Chọn 2 đáp án)",
+      options:[
+        "Giảm giá tất cả sản phẩm.",
+        "Tăng ngân sách quảng cáo.",
+        "Đảm bảo chất lượng sản phẩm và dịch vụ.",
+        "Khuyến khích khách hàng hài lòng để lại đánh giá và chia sẻ trải nghiệm tích cực."
+      ], correct:[2,3] }
+  ]
+},
+
+/* ==================== BÀI 7 ==================== */
+{
+  lesson: "BÀI 7: NGHIÊN CỨU HÀNH VI NGƯỜI TIÊU DÙNG",
+  items: [
+    { type:"single",
+      q:"Nghiên cứu hành vi người tiêu dùng là quá trình nào sau đây?",
+      options:[
+        "Chỉ đơn thuần là việc bán hàng cho khách hàng hiện tại.",
+        "Quá trình thu thập, xử lý và phân tích thông tin về nhu cầu, động cơ, thái độ và hành vi mua sắm để hỗ trợ quyết định marketing.",
+        "Quá trình sản xuất hàng hóa dựa trên các nguồn lực có sẵn của doanh nghiệp.",
+        "Quá trình quảng cáo sản phẩm trên các nền tảng mạng xã hội."
+      ], correct:[1] },
+
+    { type:"single",
+      q:"Đặc điểm nổi bật của nghiên cứu định tính là gì?",
+      options:[
+        "Kết quả luôn mang tính khách quan tuyệt đối và không phụ thuộc vào kỹ năng người nghiên cứu.",
+        "Sử dụng mẫu nghiên cứu rất lớn để khái quát hóa cho tổng thể.",
+        "Tập trung tìm hiểu sâu về suy nghĩ, cảm xúc, động cơ và thái độ thông qua dữ liệu dạng văn bản, hình ảnh hoặc quan sát.",
+        "Chỉ tập trung vào việc tính toán các con số thống kê."
+      ], correct:[2] },
+
+    { type:"multiple", n:2,
+      q:"Bảng câu hỏi khảo sát đóng vai trò gì trong nghiên cứu định lượng? (Chọn 2 đáp án)",
+      options:[
+        "Là công cụ thu thập dữ liệu sơ cấp một cách có hệ thống và giúp chuẩn hóa thông tin.",
+        "Là cầu nối giúp chuyển đổi thông tin thực tế thành dữ liệu có thể phân tích bằng thống kê.",
+        "Chỉ dùng để ghi chép lại các cuộc trò chuyện ngẫu hứng.",
+        "Giúp thay đổi thái độ của khách hàng ngay lập tức khi họ đang trả lời."
+      ], correct:[0,1] },
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp vừa hoàn thành khảo sát khách hàng qua Google Forms. Trước khi tiến hành phân tích dữ liệu, nhóm nghiên cứu cần kiểm tra các phiếu khảo sát. Việc kiểm tra dữ liệu nhằm mục đích nào dưới đây? (Chọn 2 đáp án)",
+      options:[
+        "Tăng số lượng phiếu khảo sát để kết quả chính xác hơn.",
+        "Loại bỏ các câu trả lời không hợp lệ.",
+        "Đảm bảo dữ liệu sử dụng để phân tích có độ tin cậy cao hơn.",
+        "Thay đổi nội dung các câu trả lời của người tham gia khảo sát."
+      ], correct:[1,2] },
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp khảo sát khách hàng và phát hiện 75% khách hàng dưới 25 tuổi thường mua hàng qua TikTok Shop. Để ứng dụng kết quả nghiên cứu hiệu quả nhất, doanh nghiệp nên lựa chọn giải pháp nào? (Chọn 2 đáp án)",
+      options:[
+        "Điều chỉnh chiến lược truyền thông hướng tới nền tảng TikTok.",
+        "Thiết kế nội dung truyền thông phù hợp với nhóm khách hàng trẻ.",
+        "Chỉ tập trung bán hàng trên TikTok Shop vì đây là nền tảng có tỷ lệ cao nhất.",
+        "Giữ nguyên kế hoạch truyền thông vì kết quả khảo sát chỉ mang tính tham khảo."
+      ], correct:[0,1] },
+
+    { type:"fill",
+      q:"Điền từ thích hợp vào chỗ trống: Phương pháp ___ giúp thu thập dữ liệu về những gì khách hàng thực sự làm, thay vì những gì họ nói hoặc nhớ lại, giúp phát hiện những hành vi mà họ có thể không nhận thức được.",
+      blanks:[["quan sát hành vi","quan sat hanh vi"]] },
+
+    { type:"tf",
+      q:"Xác định đúng/sai cho các phương pháp phỏng vấn sâu:",
+      statements:[
+        { text:"Phỏng vấn mang tính trò chuyện thân mật không có câu hỏi định trước, hoàn toàn ngẫu hứng.", correct:true },
+        { text:"Phương pháp tiếp cận bán cấu trúc giúp đảm bảo thu thập được các thông tin chung giống nhau từ các đáp viên.", correct:true },
+        { text:"Phỏng vấn tiêu chuẩn hóa, kết thúc mở thường tốn nhiều thời gian hơn so với trò chuyện thân mật.", correct:false },
+        { text:"Phỏng vấn cấu trúc cố định hạn chế việc đào sâu và khám phá yếu tố mới từ đáp viên.", correct:true }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp muốn khảo sát hành vi mua sắm trực tuyến của sinh viên nhưng bảng hỏi gồm hơn 80 câu, trong đó nhiều câu hỏi không liên quan đến mục tiêu nghiên cứu. Để nâng cao chất lượng bảng khảo sát, nhóm nghiên cứu nên làm gì? (Chọn 2 đáp án)",
+      options:[
+        "Chỉ giữ lại các câu hỏi cần thiết để giảm thời gian trả lời.",
+        "Loại bỏ các câu hỏi không phục vụ mục tiêu nghiên cứu.",
+        "Bổ sung thêm nhiều câu hỏi về sở thích cá nhân để có thêm dữ liệu.",
+        "Giữ nguyên vì càng nhiều câu hỏi thì dữ liệu càng chính xác."
+      ], correct:[0,1] },
+
+    { type:"multiple", n:2,
+      q:"Một nhà nghiên cứu muốn tìm hiểu lý do khách hàng lựa chọn mua hàng trên sàn thương mại điện tử và mong muốn thu thập được nhiều ý kiến khác nhau. Để đạt mục tiêu này, nên áp dụng giải pháp nào? (Chọn 2 đáp án)",
+      options:[
+        "Yêu cầu người trả lời chọn mức độ đồng ý theo thang Likert.",
+        "Sử dụng câu hỏi mở để người trả lời trình bày quan điểm.",
+        "Chỉ đưa ra các phương án có sẵn để hạn chế câu trả lời khác biệt.",
+        "Khuyến khích người trả lời diễn đạt bằng ngôn ngữ của họ."
+      ], correct:[1,3] },
+
+    { type:"multiple", n:2,
+      q:"Một nhóm nghiên cứu vừa hoàn thành bảng khảo sát và dự định phát ngay cho hơn 1.000 người. Theo quy trình xây dựng bảng khảo sát, trước khi triển khai chính thức nên thực hiện điều gì? (Chọn 2 đáp án)",
+      options:[
+        "Điều chỉnh hoặc bổ sung câu hỏi nếu kết quả khảo sát thử cho thấy còn điểm chưa phù hợp.",
+        "Tăng số lượng người tham gia khảo sát để bù lại những sai sót có thể có trong bảng hỏi.",
+        "Khảo sát thử bảng hỏi trên một nhóm nhỏ để phát hiện những vấn đề có thể xảy ra.",
+        "Chỉ rà soát lỗi chính tả và hình thức trình bày trước khi phát hành chính thức."
+      ], correct:[0,2] },
+
+    { type:"match",
+      q:"Ghép loại câu hỏi với ví dụ tương ứng:",
+      pairs:[
+        ["Câu hỏi thang đo", "Bạn đánh giá như thế nào về độ bền của sản phẩm này trên thang từ 1 đến 5?"],
+        ["Câu hỏi mở", "Lý do quan trọng nhất khiến bạn chọn mua hàng tại shop này là gì?"],
+        ["Câu hỏi đóng", "Bạn có sử dụng ví điện tử không? (Có / Không)"]
+      ]},
+
+    { type:"tf",
+      q:"Xác định những nhận định sau là đúng/sai về các nguyên tắc thiết kế bảng câu hỏi:",
+      statements:[
+        { text:"Câu hỏi nên bắt đầu từ những thông tin chuyên sâu trước khi hỏi về thông tin nhân khẩu học.", correct:false },
+        { text:"Mỗi câu hỏi phải phục vụ trực tiếp cho mục tiêu nghiên cứu đã xác định.", correct:true },
+        { text:"Các câu hỏi nên được sắp xếp từ khó đến dễ để thử thách người trả lời ngay từ đầu.", correct:false },
+        { text:"Ngôn ngữ phải ngắn gọn, dễ hiểu, tránh thuật ngữ chuyên môn phức tạp.", correct:true }
+      ]},
+
+    { type:"fill",
+      q:"Điền bước còn thiếu trong quy trình xây dựng bảng khảo sát: Bước 1: Xác định mục tiêu nghiên cứu → Bước 2: Xác định thông tin cần thu thập → Bước 3: Thiết kế câu hỏi → Bước 4: ___ → Bước 5: Hoàn thiện và phát hành.",
+      blanks:[["thử nghiệm bảng hỏi","thu nghiem bang hoi","khảo sát thử","khao sat thu"]] },
+
+    { type:"tf",
+      q:"Xác định nhận định sau là đúng/sai: Câu hỏi \"Bạn có đồng ý rằng dịch vụ của chúng tôi là tuyệt vời nhất không?\" là một ví dụ tốt về cách đặt câu hỏi trung lập trong nghiên cứu.",
+      statements:[
+        { text:"Câu hỏi \"Bạn có đồng ý rằng dịch vụ của chúng tôi là tuyệt vời nhất không?\" là một ví dụ tốt về cách đặt câu hỏi trung lập trong nghiên cứu.", correct:false }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Sau khi khảo sát hành vi mua sắm trực tuyến của sinh viên, nhóm nghiên cứu muốn biết có bao nhiêu sinh viên lựa chọn từng nền tảng mua hàng và tỷ lệ tương ứng của mỗi nền tảng. Theo nội dung chương học, nhóm nghiên cứu nên sử dụng các chỉ tiêu nào? (Chọn 2 đáp án)",
+      options:[
+        "Phương trình hồi quy.",
+        "Tần số.",
+        "Kiểm định giả thuyết.",
+        "Tỷ lệ phần trăm."
+      ], correct:[1,3] },
+
+    { type:"multiple", n:2,
+      q:"Hoạt động nào dưới đây phản ánh vai trò của việc nghiên cứu hành vi người tiêu dùng đối với doanh nghiệp? (Chọn 2 đáp án)",
+      options:[
+        "Hiểu nhu cầu, mong muốn và các yếu tố ảnh hưởng đến quyết định mua hàng của khách.",
+        "Phát hiện cơ hội thị trường mới và đánh giá mức độ hài lòng của khách hàng.",
+        "Loại bỏ hoàn toàn các đối thủ cạnh tranh mà không cần đầu tư sản phẩm.",
+        "Thay thế hoàn toàn nhu cầu tự nhiên của con người bằng nhu cầu nhân tạo."
+      ], correct:[0,1] },
+
+    { type:"multiple", n:2,
+      q:"Xác định các phương pháp nào sau đây thuộc nhóm nghiên cứu định tính? (Chọn 2 đáp án)",
+      options:[
+        "Quan sát hành vi thực tế của khách hàng trong siêu thị.",
+        "Thí nghiệm đo lường tỷ lệ nhấp chuột.",
+        "Khảo sát bằng bảng hỏi trên quy mô lớn.",
+        "Phỏng vấn sâu và thảo luận nhóm tập trung."
+      ], correct:[0,3] },
+
+    { type:"multiple", n:2,
+      q:"Khi so sánh hai phương pháp nghiên cứu, tiêu chí nào sau đây là đúng? (Chọn 2 đáp án)",
+      options:[
+        "Cỡ mẫu của nghiên cứu định tính thường nhỏ, còn định lượng thường lớn.",
+        "Nghiên cứu định tính luôn rẻ hơn và nhanh hơn nghiên cứu định lượng trong mọi trường hợp.",
+        "Nghiên cứu định tính nhằm khám phá vấn đề, trong khi định lượng nhằm đo lường và kiểm định vấn đề.",
+        "Cả hai phương pháp đều sử dụng cùng một loại công cụ phân tích là thống kê mô tả."
+      ], correct:[0,2] },
+
+    { type:"tf",
+      q:"Xác định đúng/sai về các hình thức khảo sát bảng hỏi:",
+      statements:[
+        { text:"Khảo sát trực tuyến qua Google Forms có chi phí thấp và thu thập dữ liệu nhanh.", correct:true },
+        { text:"Khảo sát trực tiếp giúp người nghiên cứu dễ dàng giải thích các câu hỏi phức tạp cho đáp viên.", correct:true },
+        { text:"Tỷ lệ phản hồi của khảo sát qua email thường rất cao so với các hình thức khác.", correct:true },
+        { text:"Khảo sát qua điện thoại là hình thức duy nhất để thu thập dữ liệu định lượng.", correct:false }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một nhóm sinh viên xây dựng bảng khảo sát nhằm nghiên cứu mức độ hài lòng của khách hàng khi mua hàng trực tuyến. Trong bảng hỏi có câu: \"Bạn có đồng ý rằng việc mua hàng trực tuyến luôn giúp tiết kiệm thời gian hơn mua trực tiếp không?\" Để đảm bảo nguyên tắc thiết kế bảng câu hỏi, nhóm nghiên cứu nên thực hiện những điều nào? (Chọn 2 đáp án)",
+      options:[
+        "Để người trả lời tự đánh giá mức độ đồng ý thay vì khẳng định trước một quan điểm.",
+        "Thêm cụm từ \"đa số khách hàng đều cho rằng\" để tăng tính thuyết phục.",
+        "Chuyển câu hỏi thành dạng trung lập để tránh dẫn dắt người trả lời.",
+        "Giữ nguyên vì câu hỏi sẽ giúp người trả lời trả lời nhanh hơn."
+      ], correct:[0,2] },
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp vừa hoàn thành khảo sát khách hàng bằng Google Forms. Khi kiểm tra dữ liệu, nhóm nghiên cứu phát hiện nhiều phiếu trả lời bị bỏ trống nhiều câu hỏi và một số phiếu có nội dung không hợp lệ. Theo quy trình xử lý dữ liệu khảo sát, nhóm nghiên cứu nên thực hiện những việc nào? (Chọn 2 đáp án)",
+      options:[
+        "Kiểm tra dữ liệu sau khi thu thập để phát hiện các câu trả lời không hợp lệ.",
+        "Loại bỏ các câu trả lời không hợp lệ trước khi tiến hành phân tích.",
+        "Phân tích toàn bộ dữ liệu để tránh làm giảm số lượng mẫu.",
+        "Chỉ kiểm tra dữ liệu sau khi đã hoàn thành việc lập biểu đồ."
+      ], correct:[0,1] },
+
+    { type:"multiple", n:2,
+      q:"Kết quả khảo sát cho thấy khách hàng chưa hài lòng với thời gian phản hồi của bộ phận chăm sóc khách hàng. Doanh nghiệp nên sử dụng kết quả khảo sát để thực hiện hoạt động nào? (Chọn 2 đáp án)",
+      options:[
+        "Cải thiện chất lượng dịch vụ.",
+        "Hoàn thiện quy trình chăm sóc khách hàng.",
+        "Giảm giá bán sản phẩm.",
+        "Chỉ tăng ngân sách quảng cáo."
+      ], correct:[0,1] },
+
+    { type:"multiple", n:2,
+      q:"Nghiên cứu định lượng thường có đặc điểm gì? (Chọn 2 đáp án)",
+      options:[
+        "Kết quả có khả năng khái quát hóa cao cho tổng thể nếu mẫu phù hợp.",
+        "Quy trình thu thập dữ liệu luôn linh hoạt và không cần cấu trúc.",
+        "Sử dụng mẫu nghiên cứu lớn và dữ liệu có thể đo lường bằng số.",
+        "Chỉ sử dụng dữ liệu là lời nói hoặc cảm nhận chủ quan của cá nhân."
+      ], correct:[0,2] },
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Nguyên tắc quan trọng nhất khi thiết kế bảng câu hỏi là tránh các câu hỏi ___ vì chúng có thể làm sai lệch kết quả do ảnh hưởng đến suy nghĩ của người trả lời.",
+      blanks:[["dẫn dắt","dan dat"]] },
+
+    { type:"tf",
+      q:"Xác định nhận định sau là đúng/sai: Trong thực tế, doanh nghiệp thường kết hợp nghiên cứu định tính để khám phá vấn đề và nghiên cứu định lượng để kiểm chứng giả thuyết nhằm có cái nhìn toàn diện nhất.",
+      statements:[
+        { text:"Trong thực tế, doanh nghiệp thường kết hợp nghiên cứu định tính để khám phá vấn đề và nghiên cứu định lượng để kiểm chứng giả thuyết nhằm có cái nhìn toàn diện nhất.", correct:true }
+      ]},
+
+    { type:"single",
+      q:"Dựa trên đặc điểm của các phương pháp nghiên cứu, hãy xác định phương pháp định lượng phù hợp để thu thập dữ liệu từ số lượng lớn người tham gia.",
+      options:[
+        "Phỏng vấn sâu từng cá nhân.",
+        "Thảo luận nhóm tập trung.",
+        "Khảo sát bằng bảng hỏi (trực tiếp hoặc trực tuyến).",
+        "Quan sát bí mật hành vi tại cửa hàng."
+      ], correct:[2] },
+
+    { type:"tf",
+      q:"Xác định nhận định sau là đúng/sai về kết quả nghiên cứu hành vi người tiêu dùng có thể ứng dụng để:",
+      statements:[
+        { text:"Xác định mức giá phù hợp với khả năng chi trả của khách hàng mục tiêu.", correct:true },
+        { text:"Điều chỉnh đặc điểm sản phẩm theo đúng nhu cầu thực tế của khách hàng.", correct:true },
+        { text:"Phân khúc thị trường để xây dựng các chiến lược marketing chuyên biệt.", correct:true },
+        { text:"Lựa chọn kênh truyền thông và thông điệp quảng cáo hiệu quả nhất.", correct:true }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một cửa hàng trực tuyến muốn khảo sát khách hàng thường xuyên mua sản phẩm trên website của mình. Doanh nghiệp muốn lựa chọn các kênh thu thập dữ liệu phù hợp với nội dung bài học. Những kênh nào dưới đây có thể sử dụng? (Chọn 2 đáp án)",
+      options:[
+        "Website doanh nghiệp.",
+        "Google Forms.",
+        "Hồ sơ nhân sự của doanh nghiệp.",
+        "Hệ thống kế toán nội bộ."
+      ], correct:[0,1] }
+  ]
+},
+
+/* ==================== BÀI 8 ==================== */
+{
+  lesson: "BÀI 8: XU HƯỚNG HÀNH VI NGƯỜI TIÊU DÙNG TRONG MÔI TRƯỜNG SỐ",
+  items: [
+    { type:"multiple", n:2,
+      q:"Những yếu tố nào sau đây đã làm thay đổi cách thức người tiêu dùng tìm kiếm thông tin và thực hiện giao dịch? (Chọn 2 đáp án)",
+      options:[
+        "Sự phổ biến của mạng xã hội và các nền tảng thương mại điện tử.",
+        "Sự phát triển của Internet và điện thoại thông minh.",
+        "Việc giảm bớt các hạ tầng viễn thông tại địa phương.",
+        "Sự gia tăng của các cửa hàng tạp hóa truyền thống."
+      ], correct:[0,1] },
+
+    { type:"multiple", n:2,
+      q:"Nguồn thông tin nào người tiêu dùng thường sử dụng để tìm kiếm trước khi mua hàng? (Chọn 2 đáp án)",
+      options:[
+        "Tham khảo ý kiến trên Facebook, TikTok hoặc các sàn TMĐT.",
+        "Chờ đợi nhân viên bán hàng gọi điện tư vấn trực tiếp.",
+        "Chỉ tin vào các tờ rơi quảng cáo được phát tại cửa hàng.",
+        "Tìm kiếm thông tin trên Google và xem video đánh giá trên YouTube."
+      ], correct:[0,3] },
+
+    { type:"multiple", n:2,
+      q:"Trong giai đoạn \"Trung thành và lan tỏa\", khách hàng thường có biểu hiện nào? (Chọn 2 đáp án)",
+      options:[
+        "Đóng vai trò như \"đại sứ thương hiệu\" để giới thiệu sản phẩm cho người khác.",
+        "Tiếp tục mua hàng nhiều lần và tham gia chương trình khách hàng thân thiết.",
+        "Ngay lập tức xóa ứng dụng mua sắm sau khi nhận hàng.",
+        "Tìm kiếm thông tin về đối thủ cạnh tranh để so sánh lại từ đầu."
+      ], correct:[0,1] },
+
+    { type:"multiple", n:2,
+      q:"Ưu điểm nổi bật của \"Mua sắm qua livestream\" là gì? (Chọn 2 đáp án)",
+      options:[
+        "Quy trình mua hàng bị kéo dài hơn so với mua sắm truyền thống.",
+        "Khách hàng được free ship.",
+        "Tính tương tác cao giữa người bán và khách hàng theo thời gian thực.",
+        "Khách hàng quan sát sản phẩm trực tiếp và nhận các ưu đãi hấp dẫn."
+      ], correct:[2,3] },
+
+    { type:"tf",
+      q:"Sau khi học về các xu hướng hành vi tiêu dùng hiện nay, một sinh viên đưa ra các nhận định sau:",
+      statements:[
+        { text:"Mua sắm đa kênh là việc doanh nghiệp chỉ tập trung bán hàng trên sàn thương mại điện tử để tối ưu doanh thu.", correct:false },
+        { text:"Tiêu dùng cá nhân hóa hướng đến việc cung cấp sản phẩm, nội dung quảng cáo và chương trình ưu đãi phù hợp với từng nhóm khách hàng.", correct:true },
+        { text:"Livestream bán hàng giúp tăng tính tương tác giữa người bán và khách hàng, đồng thời cho phép giải đáp thắc mắc ngay trong quá trình phát sóng.", correct:true },
+        { text:"Trí tuệ nhân tạo (AI) và dữ liệu lớn (Big Data) hỗ trợ doanh nghiệp thu thập, phân tích dữ liệu khách hàng để triển khai marketing cá nhân hóa.", correct:true }
+      ]},
+
+    { type:"tf",
+      q:"Xác định nhận định sau là đúng/sai về khái niệm và vai trò của trải nghiệm người dùng (UX):",
+      statements:[
+        { text:"Một UX tốt chỉ cần giao diện đẹp, không cần quan tâm đến tốc độ xử lý.", correct:false },
+        { text:"UX là tổng thể cảm nhận, cảm xúc của người dùng khi tương tác với nền tảng số.", correct:true },
+        { text:"UX kém là một trong những nguyên nhân chính dẫn đến tình trạng bỏ giỏ hàng.", correct:true },
+        { text:"UX tốt giúp khách hàng thực hiện giao dịch dễ dàng và tăng ý định quay lại.", correct:true }
+      ]},
+
+    { type:"match",
+      q:"Ghép các thành phần của UX với nội dung mô tả tương ứng:",
+      pairs:[
+        ["Tính dễ sử dụng", "Người dùng có thể thao tác hệ thống một cách thuận tiện"],
+        ["Thiết kế giao diện", "Giao diện trực quan, thẩm mỹ và nhất quán"],
+        ["Tính hữu ích", "Hệ thống đáp ứng đúng nhu cầu và mục tiêu của người dùng"],
+        ["Hiệu suất", "Hệ thống phản hồi nhanh chóng và ổn định"]
+      ]},
+
+    { type:"fill",
+      q:"Điền từ thích hợp vào chỗ trống: Website hoặc ứng dụng có ___ chậm có thể làm giảm trải nghiệm người dùng và khiến khách hàng từ bỏ việc mua sắm ngay lập tức.",
+      blanks:[["tốc độ tải trang","toc do tai trang"]] },
+
+    { type:"multiple", n:2,
+      q:"Một website thương mại điện tử nhận được nhiều phản hồi rằng khách hàng mất nhiều thời gian mới tìm được sản phẩm cần mua vì danh mục sắp xếp chưa hợp lý và công cụ tìm kiếm hoạt động kém hiệu quả. Để cải thiện trải nghiệm người dùng (UX), doanh nghiệp nên ưu tiên thực hiện những giải pháp nào? (Chọn 2 đáp án)",
+      options:[
+        "Tăng số lượng sản phẩm hiển thị trên mỗi trang để khách hàng có nhiều lựa chọn hơn.",
+        "Bổ sung thêm nhiều banner quảng cáo trên trang chủ để khách hàng chú ý đến sản phẩm.",
+        "Nâng cao tính dễ sử dụng bằng cách tối ưu chức năng tìm kiếm và điều hướng.",
+        "Thiết kế lại cấu trúc website để khách hàng dễ tìm kiếm sản phẩm hơn."
+      ], correct:[2,3] },
+
+    { type:"multiple", n:2,
+      q:"Một cửa hàng trực tuyến nhận thấy phần lớn khách hàng quay lại mua hàng sau lần giao dịch đầu tiên đều đánh giá cao việc hệ thống tự động lưu thông tin giao hàng và gợi ý các sản phẩm phù hợp. Những yếu tố nào đang góp phần làm tăng tỷ lệ mua lại? (Chọn 2 đáp án)",
+      options:[
+        "Khả năng cá nhân hóa nội dung và đề xuất sản phẩm phù hợp.",
+        "Tăng số lượng quảng cáo xuất hiện sau mỗi lần đăng nhập.",
+        "Hệ thống ghi nhớ thông tin khách hàng giúp rút ngắn thời gian mua hàng.",
+        "Hiển thị toàn bộ sản phẩm trên trang chủ để khách hàng dễ lựa chọn."
+      ], correct:[0,2] },
+
+    { type:"tf",
+      q:"Đánh giá trực tuyến (Online Review) có thể tồn tại dưới các hình thức:",
+      statements:[
+        { text:"Hình ảnh và video thực tế do người dùng tự quay và đăng tải.", correct:true },
+        { text:"Bài viết bình luận chia sẻ ưu và nhược điểm của sản phẩm.", correct:true },
+        { text:"Chỉ bao gồm các thông tin quảng cáo do chính doanh nghiệp viết ra.", correct:false },
+        { text:"Chấm điểm sao (Rating) thể hiện mức độ hài lòng tổng thể.", correct:true }
+      ]},
+
+    { type:"match",
+      q:"Ghép vai trò của đánh giá trực tuyến với biểu hiện tương ứng:",
+      pairs:[
+        ["Tăng độ tin cậy", "Khách hàng tin vào trải nghiệm người dùng khác hơn là quảng cáo"],
+        ["Tạo bằng chứng xã hội", "Khách hàng chọn mua vì thấy sản phẩm có hàng nghìn lượt đánh giá tốt"],
+        ["Giảm rủi ro", "Khách hàng nhận diện các hạn chế để xem sản phẩm có phù hợp không"]
+      ]},
+
+    { type:"tf",
+      q:"Các dạng khủng hoảng TMĐT phổ biến bao gồm:",
+      statements:[
+        { text:"Giao hàng chậm trễ hoặc sai sót so với cam kết ban đầu.", correct:true },
+        { text:"Bán hàng giả, hàng nhái, sản phẩm không đúng mô tả.", correct:true },
+        { text:"Hệ thống bảo mật kém dẫn đến đánh cắp dữ liệu khách hàng.", correct:true },
+        { text:"Khách hàng khen ngợi sản phẩm quá nhiều trên các diễn đàn.", correct:false }
+      ]},
+
+    { type:"multiple", n:2,
+      q:"Một khách hàng đang phân vân giữa hai sản phẩm có mức giá và thông số kỹ thuật tương đương. Sản phẩm thứ nhất có hơn 4.000 đánh giá tích cực, trong khi sản phẩm thứ hai chỉ có rất ít đánh giá. Theo nội dung bài học, những yếu tố nào có khả năng ảnh hưởng đến quyết định lựa chọn của khách hàng? (Chọn 2 đáp án)",
+      options:[
+        "Chỉ thông tin quảng cáo của doanh nghiệp mới có ảnh hưởng đến quyết định mua hàng.",
+        "Các đánh giá từ người dùng trước giúp khách hàng giảm cảm nhận về rủi ro khi mua hàng.",
+        "Số lượng lớn đánh giá tích cực tạo bằng chứng xã hội, làm tăng mức độ tin cậy đối với sản phẩm.",
+        "Khách hàng sẽ luôn lựa chọn sản phẩm có giá thấp hơn, bất kể các đánh giá trực tuyến."
+      ], correct:[1,2] },
+
+    { type:"multiple", n:2,
+      q:"Một doanh nghiệp thường xuyên chậm giao hàng so với thời gian đã cam kết. Sau một thời gian, doanh nghiệp nhận thấy tỷ lệ khách hàng quay lại mua giảm rõ rệt. Theo nội dung bài học, hiện tượng này có thể được giải thích như thế nào? (Chọn 2 đáp án)",
+      options:[
+        "Trải nghiệm tiêu cực có thể làm giảm khả năng khách hàng mua lại trong tương lai.",
+        "Khách hàng sẽ tiếp tục mua nếu doanh nghiệp bổ sung thêm nhiều sản phẩm mới.",
+        "Giao hàng chậm chỉ ảnh hưởng đến chi phí vận chuyển, không tác động đến hành vi tiêu dùng.",
+        "Giao hàng không đúng cam kết làm giảm mức độ hài lòng của khách hàng."
+      ], correct:[0,3] },
+
+    { type:"single",
+      q:"Xu hướng \"Tiêu dùng cá nhân hóa\" được hỗ trợ chủ yếu bởi công nghệ nào?",
+      options:[
+        "Các phương thức giao hàng bằng xe máy thông thường.",
+        "Việc cắt giảm toàn bộ đội ngũ chăm sóc khách hàng.",
+        "Kỹ thuật in ấn truyền thống trên bao bì.",
+        "Trí tuệ nhân tạo (AI) và dữ liệu lớn (Big Data)."
+      ], correct:[3] },
+
+    { type:"multiple", n:2,
+      q:"Một cửa hàng kinh doanh đồ gia dụng trên sàn thương mại điện tử nhận thấy nhiều khách hàng xem sản phẩm nhưng chưa quyết định mua. Qua khảo sát, doanh nghiệp phát hiện sản phẩm chỉ có mô tả của người bán, chưa có đánh giá từ khách hàng đã sử dụng. Để tăng khả năng khách hàng đưa ra quyết định mua hàng, doanh nghiệp nên thực hiện những giải pháp nào? (Chọn 2 đáp án)",
+      options:[
+        "Ẩn toàn bộ các đánh giá tiêu cực để sản phẩm chỉ còn đánh giá tích cực.",
+        "Chỉ tập trung bổ sung nội dung quảng cáo do doanh nghiệp tự xây dựng.",
+        "Khuyến khích khách hàng đã mua chia sẻ nhận xét và đánh giá về sản phẩm.",
+        "Khuyến khích khách hàng đăng hình ảnh hoặc video trải nghiệm thực tế sau khi sử dụng."
+      ], correct:[2,3] },
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Những đánh giá ___ lan truyền nhanh trên mạng xã hội có thể gây ra khủng hoảng truyền thông nghiêm trọng cho doanh nghiệp.",
+      blanks:[["tiêu cực","tieu cuc"]] },
+
+    { type:"multiple", n:2,
+      q:"Một cửa hàng trên sàn thương mại điện tử liên tục bị khách hàng phản ánh giao sản phẩm không đúng mô tả và nghi ngờ là hàng giả. Sau đó, số lượng đơn hàng giảm mạnh. Theo nội dung bài học, doanh nghiệp nên ưu tiên thực hiện những giải pháp nào để hạn chế khủng hoảng? (Chọn 2 đáp án)",
+      options:[
+        "Minh bạch thông tin về sản phẩm, nguồn gốc và chính sách bán hàng.",
+        "Tăng ngân sách quảng cáo để bù đắp lượng khách hàng bị mất.",
+        "Nâng cao chất lượng sản phẩm và dịch vụ để khôi phục niềm tin của khách hàng.",
+        "Tạm thời khóa chức năng đánh giá sản phẩm để hạn chế phản hồi tiêu cực."
+      ], correct:[0,2] },
+
+    { type:"single",
+      q:"Đặc điểm của giai đoạn \"Nhận biết nhu cầu\" trong hành trình khách hàng số là gì?",
+      options:[
+        "Khách hàng nhận ra một vấn đề cần giải quyết, có thể do quảng cáo kích thích.",
+        "Khách hàng đã thanh toán xong và nhận hàng.",
+        "Khách hàng đang viết đánh giá sản phẩm trên mạng xã hội.",
+        "Khách hàng đang so sánh giá giữa các sàn thương mại khác nhau."
+      ], correct:[0] },
+
+    { type:"match",
+      q:"Ghép lợi ích của UX với biểu hiện hành vi của khách hàng:",
+      pairs:[
+        ["Gia tăng lòng trung thành", "Khách hàng giới thiệu thương hiệu cho bạn bè, người thân"],
+        ["Gia tăng sự hài lòng", "Khách hàng cảm thấy an tâm và tin tưởng vào thương hiệu"],
+        ["Tăng tỷ lệ chuyển đổi", "Khách hàng thực hiện đăng ký hoặc hoàn tất đơn hàng thành công"],
+        ["Tăng tỷ lệ mua lại", "Khách hàng quay lại sử dụng dịch vụ thay vì chọn đối thủ"]
+      ]},
+
+    { type:"tf",
+      q:"Hệ quả của việc xây dựng UX kém trên website TMĐT bao gồm:",
+      statements:[
+        { text:"Tăng tỷ lệ hoàn tất đơn hàng vượt mức mong đợi.", correct:false },
+        { text:"Ảnh hưởng tiêu cực đến hình ảnh và uy tín thương hiệu.", correct:true },
+        { text:"Tăng tỷ lệ thoát trang (Bounce Rate).", correct:true },
+        { text:"Khách hàng có xu hướng chuyển sang các đối thủ cạnh tranh.", correct:true }
+      ]},
+
+    { type:"fill",
+      q:"Điền từ còn thiếu: Sự phát triển của các phương thức ___ giúp rút ngắn thời gian giao dịch và giảm tình trạng bỏ giỏ hàng do quy trình thanh toán phức tạp.",
+      blanks:[["thanh toán điện tử","thanh toan dien tu"]] },
+
+    { type:"tf",
+      q:"Xác định nhận định sau là đúng/sai: Nội dung từ KOLs và Influencers thường có tác động đến quyết định mua hàng mạnh mẽ hơn các quảng cáo truyền thống của doanh nghiệp.",
+      statements:[
+        { text:"Nội dung từ KOLs và Influencers thường có tác động đến quyết định mua hàng mạnh mẽ hơn các quảng cáo truyền thống của doanh nghiệp.", correct:true }
+      ]},
+
+    { type:"match",
+      q:"Ghép đặc điểm của mạng xã hội với tác động đến tiêu dùng:",
+      pairs:[
+        ["Tác động từ Influencers", "Tăng mức độ tin cậy sản phẩm qua uy tín của người nổi tiếng"],
+        ["Cung cấp thông tin nhanh", "Khách hàng tiếp cận thông tin đa chiều từ nhiều nguồn"],
+        ["Hiệu ứng lan truyền (Viral)", "Video hấp dẫn lan truyền khiến đơn hàng tăng đột biến"]
+      ]},
+
+    { type:"single",
+      q:"Logistics và dịch vụ giao hàng ảnh hưởng như thế nào đến hành vi tiêu dùng trực tuyến?",
+      options:[
+        "Rút ngắn thời gian giao hàng giúp tăng sự hài lòng và khuyến khích mua sắm thường xuyên.",
+        "Không có tác động gì đến sự hài lòng của khách hàng.",
+        "Chỉ quan trọng đối với những mặt hàng có giá trị cực thấp.",
+        "Giao hàng chậm giúp khách hàng có thêm thời gian suy nghĩ về việc trả hàng."
+      ], correct:[0] },
+
+    { type:"single",
+      q:"Hành vi \"Mua sắm đa kênh\" (Omnichannel Shopping) được hiểu là gì?",
+      options:[
+        "Khách hàng có thể sử dụng nhiều tài khoản khác nhau cho mỗi kênh bán hàng.",
+        "Khách hàng được phép mua hàng tại website của nhiều hãng khác nhau.",
+        "Sự kết hợp liền mạch giữa website, mạng xã hội, ứng dụng và cửa hàng truyền thống.",
+        "Việc doanh nghiệp đóng cửa toàn bộ các chi nhánh trực tiếp để bán online."
+      ], correct:[2] }
+  ]
+}
+];
+
+/* ================== LOGIC ================== */
+let stats = { ok: 0, bad: 0 };
+const totalQuestions = DATA.reduce((s, l) => s + l.items.length, 0);
+
+function normalize(s) {
+  return (s || "").toString()
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/[.,!?;:'"`()\[\]{}]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function shuffle(a) {
+  const arr = a.slice();
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+let uidCounter = 0;
+function uid() { return "u" + (++uidCounter); }
+
+/* -------- Render -------- */
+function renderAll() {
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+  DATA.forEach((lesson, li) => {
+    const title = document.createElement("div");
+    title.className = "lesson-title";
+    title.textContent = lesson.lesson;
+    app.appendChild(title);
+
+    lesson.items.forEach((item, qi) => {
+      app.appendChild(renderQuestion(item, `${li}-${qi}`));
+    });
+  });
+  updateStats();
+}
+
+function renderQuestion(item, key) {
+  const card = document.createElement("div");
+  card.className = "q-card";
+  card.dataset.key = key;
+  card.dataset.type = item.type;
+  card.dataset.checked = "0";
+
+  const head = document.createElement("div");
+  head.className = "q-head";
+  const num = document.createElement("div");
+  num.className = "q-num";
+  const idx = key.split("-").map(Number);
+  num.textContent = `Câu ${idx[1] + 1}`;
+  const qtext = document.createElement("div");
+  qtext.innerHTML = `<div class="q-text">${escapeHtml(item.q)}</div>` +
+    (item.n ? `<div class="q-note">Chọn ${item.n} đáp án đúng nhất</div>` : "");
+  head.appendChild(num);
+  head.appendChild(qtext);
+  card.appendChild(head);
+
+  const body = document.createElement("div");
+  card.appendChild(body);
+
+  if (item.type === "single" || item.type === "multiple") {
+    body.className = "options";
+    item.options.forEach((opt, i) => {
+      const lab = document.createElement("label");
+      lab.className = "opt";
+      lab.dataset.i = i;
+      const inp = document.createElement("input");
+      inp.type = item.type === "single" ? "radio" : "checkbox";
+      inp.name = "q_" + key;
+      inp.value = i;
+      lab.appendChild(inp);
+      const span = document.createElement("span");
+      span.textContent = opt;
+      lab.appendChild(span);
+      const mark = document.createElement("span");
+      mark.className = "mark";
+      lab.appendChild(mark);
+      lab.addEventListener("change", () => {
+        if (card.dataset.checked === "1") return;
+        if (item.type === "single") {
+          body.querySelectorAll(".opt").forEach(o => o.classList.remove("sel"));
+        }
+        lab.classList.toggle("sel", inp.checked);
+        if (item.type === "multiple" && item.n) {
+          const sel = body.querySelectorAll("input:checked");
+          if (sel.length > item.n) {
+            inp.checked = false;
+            lab.classList.remove("sel");
+          }
+        }
+      });
+      body.appendChild(lab);
+    });
+  }
+
+  else if (item.type === "tf") {
+    body.className = "tf-list";
+    item.statements.forEach((st, i) => {
+      const row = document.createElement("div");
+      row.className = "tf-row";
+      row.dataset.i = i;
+      const t = document.createElement("div");
+      t.className = "tf-text";
+      t.textContent = (i + 1) + ". " + st.text;
+      row.appendChild(t);
+      const btns = document.createElement("div");
+      btns.className = "tf-btns";
+      ["Đúng", "Sai"].forEach((label, k) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = label;
+        b.dataset.val = k === 0 ? "true" : "false";
+        b.addEventListener("click", () => {
+          if (card.dataset.checked === "1") return;
+          btns.querySelectorAll("button").forEach(x => x.classList.remove("active"));
+          b.classList.add("active");
+        });
+        btns.appendChild(b);
+      });
+      row.appendChild(btns);
+      const mk = document.createElement("span");
+      mk.className = "tf-mark";
+      row.appendChild(mk);
+      body.appendChild(row);
+    });
+  }
+
+  else if (item.type === "fill") {
+    body.className = "fill-wrap";
+    item.blanks.forEach((ansList, i) => {
+      const line = document.createElement("div");
+      line.className = "fill-line";
+      const lab = document.createElement("label");
+      lab.textContent = item.blanks.length > 1 ? `Ô (${i + 1}):` : "Trả lời:";
+      const inp = document.createElement("input");
+      inp.type = "text";
+      inp.placeholder = "Nhập câu trả lời...";
+      line.appendChild(lab);
+      line.appendChild(inp);
+      body.appendChild(line);
+    });
+  }
+
+  else if (item.type === "match") {
+    body.className = "match-wrap";
+    // pool of right options shuffled
+    const rightVals = item.pairs.map(p => p[1]);
+    const pool = document.createElement("div");
+    pool.className = "pool";
+    pool.dataset.pool = key;
+    shuffle(rightVals).forEach(rv => {
+      pool.appendChild(makeChip(rv, key));
+    });
+
+    item.pairs.forEach((pair, i) => {
+      const row = document.createElement("div");
+      row.className = "match-row";
+      row.dataset.i = i;
+      const left = document.createElement("div");
+      left.className = "match-left";
+      left.textContent = pair[0];
+      const dz = document.createElement("div");
+      dz.className = "dropzone";
+      dz.dataset.i = i;
+      dz.dataset.key = key;
+      const ph = document.createElement("span");
+      ph.className = "placeholder";
+      ph.textContent = "Kéo thả đáp án vào đây";
+      dz.appendChild(ph);
+      setupDropzone(dz);
+      row.appendChild(left);
+      row.appendChild(dz);
+      body.appendChild(row);
+    });
+    body.appendChild(pool);
+  }
+
+  // Actions
+  const actions = document.createElement("div");
+  actions.className = "q-actions";
+  const btnCheck = document.createElement("button");
+  btnCheck.className = "btn-check";
+  btnCheck.textContent = "Kiểm tra";
+  btnCheck.addEventListener("click", () => checkQuestion(card, item));
+  const btnRetry = document.createElement("button");
+  btnRetry.className = "btn-retry";
+  btnRetry.textContent = "🔄 Làm lại câu này";
+  btnRetry.style.display = "none";
+  btnRetry.addEventListener("click", () => retryQuestion(card, item));
+  const btnShow = document.createElement("button");
+  btnShow.className = "btn-show";
+  btnShow.textContent = "Xem đáp án";
+  btnShow.addEventListener("click", () => showAnswer(card, item));
+  const msg = document.createElement("span");
+  msg.className = "result-msg";
+
+  actions.appendChild(btnCheck);
+  actions.appendChild(btnRetry);
+  actions.appendChild(btnShow);
+  actions.appendChild(msg);
+  card.appendChild(actions);
+
+  return card;
+}
+
+function makeChip(text, key) {
+  const chip = document.createElement("div");
+  chip.className = "chip";
+  chip.draggable = true;
+  chip.textContent = text;
+  chip.dataset.val = text;
+  chip.dataset.key = key;
+  chip.id = uid();
+  chip.addEventListener("dragstart", e => {
+    e.dataTransfer.setData("text/plain", chip.id);
+    e.dataTransfer.effectAllowed = "move";
+  });
+  return chip;
+}
+
+function setupDropzone(dz) {
+  dz.addEventListener("dragover", e => {
+    e.preventDefault();
+    dz.classList.add("over");
+  });
+  dz.addEventListener("dragleave", () => dz.classList.remove("over"));
+  dz.addEventListener("drop", e => {
+    e.preventDefault();
+    dz.classList.remove("over");
+    const id = e.dataTransfer.getData("text/plain");
+    const chip = document.getElementById(id);
+    if (!chip) return;
+    // remove placeholder
+    const ph = dz.querySelector(".placeholder");
+    if (ph) ph.remove();
+    // if there is already a chip, move back to pool
+    const existing = dz.querySelector(".chip");
+    const key = dz.dataset.key;
+    const pool = document.querySelector(`.pool[data-pool="${key}"]`);
+    if (existing) pool.appendChild(existing);
+    dz.appendChild(chip);
+  });
+}
+
+// allow dropping back to pool
+document.addEventListener("dragover", e => {
+  const p = e.target.closest && e.target.closest(".pool");
+  if (p) e.preventDefault();
+});
+document.addEventListener("drop", e => {
+  const p = e.target.closest && e.target.closest(".pool");
+  if (!p) return;
+  e.preventDefault();
+  const id = e.dataTransfer.getData("text/plain");
+  const chip = document.getElementById(id);
+  if (!chip) return;
+  // restore placeholder in old zone
+  const oldZone = chip.parentElement;
+  if (oldZone && oldZone.classList.contains("dropzone")) {
+    const ph = document.createElement("span");
+    ph.className = "placeholder";
+    ph.textContent = "Kéo thả đáp án vào đây";
+    oldZone.appendChild(ph);
+  }
+  p.appendChild(chip);
+});
+
+/* -------- Check -------- */
+function checkQuestion(card, item) {
+  if (card.dataset.checked === "1") return;
+  let isCorrect = false;
+  let answered = true;
+
+  if (item.type === "single" || item.type === "multiple") {
+    const opts = card.querySelectorAll(".opt");
+    const selected = [];
+    opts.forEach(o => {
+      const inp = o.querySelector("input");
+      if (inp.checked) selected.push(Number(o.dataset.i));
+    });
+    if (selected.length === 0) { answered = false; }
+    const correctSet = new Set(item.correct);
+    isCorrect = selected.length === item.correct.length &&
+                selected.every(x => correctSet.has(x));
+    opts.forEach(o => {
+      const i = Number(o.dataset.i);
+      const inp = o.querySelector("input");
+      const mark = o.querySelector(".mark");
+      o.classList.remove("sel");
+      if (correctSet.has(i)) {
+        o.classList.add("ok");
+        mark.textContent = "✓";
+      } else if (selected.includes(i)) {
+        o.classList.add("bad");
+        mark.textContent = "✗";
+      }
+      inp.disabled = true;
+    });
+  }
+
+  else if (item.type === "tf") {
+    const rows = card.querySelectorAll(".tf-row");
+    let anyMissing = false;
+    rows.forEach((row, i) => {
+      const st = item.statements[i];
+      const active = row.querySelector(".tf-btns button.active");
+      if (!active) { anyMissing = true; return; }
+      const userVal = active.dataset.val === "true";
+      const ok = userVal === st.correct;
+      row.classList.add(ok ? "ok" : "bad");
+      row.querySelector(".tf-mark").textContent = ok ? "✓" : "✗";
+      row.querySelectorAll(".tf-btns button").forEach(b => b.disabled = true);
+    });
+    if (anyMissing) answered = false;
+    isCorrect = !anyMissing && rows.length > 0 &&
+      Array.from(rows).every((row, i) => {
+        const active = row.querySelector(".tf-btns button.active");
+        return active && (active.dataset.val === "true") === item.statements[i].correct;
+      });
+  }
+
+  else if (item.type === "fill") {
+    const inputs = card.querySelectorAll(".fill-line input");
+    let allOk = true;
+    inputs.forEach((inp, i) => {
+      const userAns = normalize(inp.value);
+      if (!userAns) answered = false;
+      const accepted = item.blanks[i].map(normalize);
+      const ok = accepted.includes(userAns);
+      if (!ok) allOk = false;
+      inp.style.borderColor = ok ? "#22c55e" : "#ef4444";
+      inp.style.background = ok ? "#f0fdf4" : "#fef2f2";
+      inp.disabled = true;
+    });
+    isCorrect = allOk && answered;
+  }
+
+  else if (item.type === "match") {
+    const rows = card.querySelectorAll(".match-row");
+    let allOk = true;
+    rows.forEach((row, i) => {
+      const dz = row.querySelector(".dropzone");
+      const chip = dz.querySelector(".chip");
+      const correctVal = item.pairs[i][1];
+      if (!chip) { allOk = false; answered = false; }
+      else {
+        const ok = chip.dataset.val === correctVal;
+        if (!ok) allOk = false;
+        chip.classList.add(ok ? "ok" : "bad");
+        chip.draggable = false;
+      }
+      row.classList.add(allOk ? "ok" : (chip ? "bad" : ""));
+      if (chip && chip.dataset.val !== correctVal) row.classList.add("bad");
+    });
+    isCorrect = allOk && answered;
+  }
+
+  if (!answered) {
+    const m = card.querySelector(".result-msg");
+    m.className = "result-msg bad";
+    m.textContent = "⚠ Bạn chưa trả lời đầy đủ!";
+    return;
+  }
+
+  card.dataset.checked = "1";
+  card.classList.add(isCorrect ? "correct" : "wrong");
+
+  const msg = card.querySelector(".result-msg");
+  const btnCheck = card.querySelector(".btn-check");
+  const btnRetry = card.querySelector(".btn-retry");
+  btnCheck.style.display = "none";
+
+  if (isCorrect) {
+    msg.className = "result-msg ok";
+    msg.textContent = "✓ Chính xác!";
+    stats.ok++;
+  } else {
+    msg.className = "result-msg bad";
+    msg.textContent = "✗ Chưa đúng. Hãy làm lại hoặc xem đáp án.";
+    btnRetry.style.display = "inline-block";
+    stats.bad++;
+  }
+  updateStats();
+}
+
+function retryQuestion(card, item) {
+  card.dataset.checked = "0";
+  card.classList.remove("correct", "wrong");
+  const msg = card.querySelector(".result-msg");
+  msg.textContent = "";
+  msg.className = "result-msg";
+
+  if (item.type === "single" || item.type === "multiple") {
+    card.querySelectorAll(".opt").forEach(o => {
+      o.classList.remove("ok", "bad", "sel");
+      const inp = o.querySelector("input");
+      inp.checked = false;
+      inp.disabled = false;
+      o.querySelector(".mark").textContent = "";
+    });
+  } else if (item.type === "tf") {
+    card.querySelectorAll(".tf-row").forEach(row => {
+      row.classList.remove("ok", "bad");
+      row.querySelector(".tf-mark").textContent = "";
+      row.querySelectorAll(".tf-btns button").forEach(b => {
+        b.disabled = false;
+        b.classList.remove("active");
+      });
+    });
+  } else if (item.type === "fill") {
+    card.querySelectorAll(".fill-line input").forEach(inp => {
+      inp.value = "";
+      inp.disabled = false;
+      inp.style.borderColor = "";
+      inp.style.background = "";
+    });
+  } else if (item.type === "match") {
+    // move all chips back to pool and shuffle
+    const pool = card.querySelector(".pool");
+    card.querySelectorAll(".dropzone").forEach(dz => {
+      const chip = dz.querySelector(".chip");
+      if (chip) pool.appendChild(chip);
+      dz.querySelectorAll(".chip").forEach(c => c.remove());
+      if (!dz.querySelector(".placeholder")) {
+        const ph = document.createElement("span");
+        ph.className = "placeholder";
+        ph.textContent = "Kéo thả đáp án vào đây";
+        dz.appendChild(ph);
+      }
+    });
+    pool.querySelectorAll(".chip").forEach(c => {
+      c.classList.remove("ok", "bad");
+      c.draggable = true;
+    });
+    card.querySelectorAll(".match-row").forEach(r => r.classList.remove("ok", "bad"));
+  }
+
+  const btnCheck = card.querySelector(".btn-check");
+  const btnRetry = card.querySelector(".btn-retry");
+  btnCheck.style.display = "inline-block";
+  btnRetry.style.display = "none";
+
+  // adjust stats: subtract previous result of this question
+  // (determined by classes before removal — we already removed them, so track via a flag)
+  // To keep it simple, we track via data attribute
+  if (card.dataset.wasCorrect === "1") stats.ok--;
+  if (card.dataset.wasCorrect === "0") stats.bad--;
+  card.dataset.wasCorrect = "";
+  updateStats();
+}
+
+function showAnswer(card, item) {
+  if (item.type === "single" || item.type === "multiple") {
+    card.querySelectorAll(".opt").forEach(o => {
+      const i = Number(o.dataset.i);
+      if (item.correct.includes(i)) {
+        o.classList.add("ok");
+        o.querySelector(".mark").textContent = "✓";
+      }
+    });
+  } else if (item.type === "tf") {
+    card.querySelectorAll(".tf-row").forEach((row, i) => {
+      const correct = item.statements[i].correct;
+      const btns = row.querySelectorAll(".tf-btns button");
+      btns.forEach(b => {
+        if ((b.dataset.val === "true") === correct) b.classList.add("active");
+      });
+      row.classList.add("ok");
+      row.querySelector(".tf-mark").textContent = correct ? "Đúng ✓" : "Sai ✗";
+    });
+  } else if (item.type === "fill") {
+    card.querySelectorAll(".fill-line input").forEach((inp, i) => {
+      inp.value = item.blanks[i][0];
+      inp.style.borderColor = "#22c55e";
+      inp.style.background = "#f0fdf4";
+    });
+  } else if (item.type === "match") {
+    card.querySelectorAll(".match-row").forEach((row, i) => {
+      const dz = row.querySelector(".dropzone");
+      dz.querySelectorAll(".chip").forEach(c => c.remove());
+      dz.querySelectorAll(".placeholder").forEach(p => p.remove());
+      const chip = document.createElement("div");
+      chip.className = "chip ok";
+      chip.textContent = item.pairs[i][1];
+      dz.appendChild(chip);
+    });
+    const pool = card.querySelector(".pool");
+    if (pool) pool.innerHTML = "";
+  }
+}
+
+/* -------- Stats -------- */
+function updateStats() {
+  document.getElementById("score").textContent = `${stats.ok} / ${totalQuestions}`;
+  document.getElementById("cntOk").textContent = stats.ok;
+  document.getElementById("cntBad").textContent = stats.bad;
+}
+
+function resetAll() {
+  stats = { ok: 0, bad: 0 };
+  renderAll();
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/* track wasCorrect in checkQuestion */
+const _origCheck = checkQuestion;
+checkQuestion = function(card, item) {
+  _origCheck(card, item);
+  if (card.dataset.checked === "1") {
+    card.dataset.wasCorrect = card.classList.contains("correct") ? "1" : "0";
+  }
+};
+
+renderAll();
+</script>
+</body>
+</html>
