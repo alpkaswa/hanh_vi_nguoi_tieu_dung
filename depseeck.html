@@ -101,7 +101,19 @@
     white-space: nowrap;
   }
   .q-text { font-weight: 600; font-size: 15.5px; }
-  .q-note { font-size: 13px; color: #6b7280; font-style: italic; margin-top: 4px; }
+  
+  /* Làm nổi bật nhãn số lượng đáp án */
+  .q-note { 
+    font-size: 13.5px; 
+    color: #b91c1c; 
+    font-weight: 700; 
+    background: #fee2e2;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 8px; 
+    border: 1px solid #fca5a5;
+  }
 
   .options { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
   .opt {
@@ -191,10 +203,12 @@
     display: flex;
     align-items: center;
     transition: .15s;
+    cursor: pointer;
   }
   .dropzone.over { background: #ede9fe; border-color: #7c3aed; }
   .dropzone .chip { width: 100%; }
   .dropzone .placeholder { color: #a78bfa; font-size: 13px; font-style: italic; padding-left: 6px; }
+  
   .pool {
     display: flex;
     flex-wrap: wrap;
@@ -205,6 +219,7 @@
     border: 1px solid #e5e7eb;
     min-height: 52px;
     margin-top: 8px;
+    cursor: pointer;
   }
   .chip {
     background: #7c3aed;
@@ -215,8 +230,10 @@
     cursor: grab;
     user-select: none;
     box-shadow: 0 1px 3px rgba(0,0,0,.15);
+    transition: transform 0.1s, outline 0.1s;
   }
   .chip:active { cursor: grabbing; }
+  .chip.selected { outline: 3px solid #facc15; transform: scale(1.05); }
   .chip.ok { background: #16a34a; }
   .chip.bad { background: #dc2626; }
   .match-row.ok .match-left { background: #dcfce7; }
@@ -289,7 +306,7 @@ const DATA = [
   lesson: "BÀI 1: TỔNG QUAN VỀ HÀNH VI NGƯỜI TIÊU DÙNG",
   items: [
     { type:"multiple", n:2,
-      q:"Trong nghiên cứu hành vi người tiêu dùng thì \"Người tiêu dùng\" bao gồm những đối tượng nào? (Chọn 2)",
+      q:"Trong nghiên cứu hành vi người tiêu dùng thì \"Người tiêu dùng\" bao gồm những đối tượng nào?",
       options:[
         "Những cá nhân có liên quan đến quá trình ra quyết định mua hàng.",
         "Chỉ những cá nhân trực tiếp sử dụng sản phẩm.",
@@ -298,7 +315,7 @@ const DATA = [
       ], correct:[0,3] },
 
     { type:"multiple", n:2,
-      q:"Hành vi người tiêu dùng (Consumer Behavior) nghiên cứu các hoạt động nào của cá nhân, nhóm hoặc tổ chức? (Chọn 2 đáp án)",
+      q:"Hành vi người tiêu dùng (Consumer Behavior) nghiên cứu các hoạt động nào của cá nhân, nhóm hoặc tổ chức?",
       options:[
         "Việc đánh giá và loại bỏ sản phẩm, dịch vụ nhằm thỏa mãn nhu cầu.",
         "Việc thiết lập giá thành sản phẩm trên thị trường.",
@@ -504,7 +521,7 @@ const DATA = [
       ], correct:[0] },
 
     { type:"multiple", n:2,
-      q:"Trong phát triển sản phẩm, việc nghiên cứu hành vi người tiêu dùng mang lại lợi ích nào sau đây? (Chọn 2 đáp án đúng)",
+      q:"Trong phát triển sản phẩm, việc nghiên cứu hành vi người tiêu dùng mang lại lợi ích nào sau đây?",
       options:[
         "Giúp doanh nghiệp hiểu nhu cầu và mong muốn thực tế của khách hàng.",
         "Giúp đảm bảo sản phẩm chắc chắn thành công trên thị trường.",
@@ -546,7 +563,7 @@ const DATA = [
   lesson: "BÀI 2: PHÂN LOẠI KHÁCH HÀNG & PHÂN TÍCH KHÁCH HÀNG MỤC TIÊU",
   items: [
     { type:"multiple", n:2,
-      q:"Phân loại khách hàng theo nhân khẩu học (Demographics) dựa trên những đặc điểm nào sau đây? (Chọn 2 đáp án)",
+      q:"Phân loại khách hàng theo nhân khẩu học (Demographics) dựa trên những đặc điểm nào sau đây?",
       options:[
         "Vị trí địa lý và điều kiện khí hậu.",
         "Thu nhập và nghề nghiệp.",
@@ -564,7 +581,7 @@ const DATA = [
       ], correct:[0] },
 
     { type:"multiple", n:2,
-      q:"Hai khách hàng có cùng độ tuổi và thu nhập nhưng lựa chọn sản phẩm khác nhau có thể do: (Chọn 2 đáp án)",
+      q:"Hai khách hàng có cùng độ tuổi và thu nhập nhưng lựa chọn sản phẩm khác nhau có thể do:",
       options:[
         "Lối sống khác nhau.",
         "Cùng sống trong một thành phố.",
@@ -573,7 +590,7 @@ const DATA = [
       ], correct:[0,2] },
 
     { type:"multiple", n:2,
-      q:"Phân loại khách hàng theo tâm lý thường mang lại giá trị cao hơn phân loại theo nhân khẩu học vì: (Chọn 2 đáp án)",
+      q:"Phân loại khách hàng theo tâm lý thường mang lại giá trị cao hơn phân loại theo nhân khẩu học vì:",
       options:[
         "Hỗ trợ xây dựng thông điệp marketing phù hợp với giá trị và lối sống của khách hàng.",
         "Giúp doanh nghiệp hiểu động cơ sâu xa đằng sau quyết định mua hàng.",
@@ -607,7 +624,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp phát hiện khách hàng mua hàng chủ yếu qua TikTok và livestream. Để tối ưu hiệu quả bán hàng, doanh nghiệp nên: (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp phát hiện khách hàng mua hàng chủ yếu qua TikTok và livestream. Để tối ưu hiệu quả bán hàng, doanh nghiệp nên:",
       options:[
         "Tập trung đầu tư nội dung video ngắn và livestream bán hàng.",
         "Chỉ quảng cáo trên báo in.",
@@ -616,7 +633,7 @@ const DATA = [
       ], correct:[0,2] },
 
     { type:"multiple", n:2,
-      q:"Một thương hiệu điện thoại muốn xây dựng Customer Avatar. Thông tin nào sau đây là phù hợp? (Chọn 2 đáp án)",
+      q:"Một thương hiệu điện thoại muốn xây dựng Customer Avatar. Thông tin nào sau đây là phù hợp?",
       options:[
         "Sở thích, lối sống và thái độ với công nghệ.",
         "Số lượng nhân viên trong công ty.",
@@ -656,7 +673,7 @@ const DATA = [
       blanks:[["Remarketing","remarketing"]] },
 
     { type:"multiple", n:2,
-      q:"Trong livestream bán hàng, doanh nghiệp có thể: (Chọn 2 đáp án)",
+      q:"Trong livestream bán hàng, doanh nghiệp có thể:",
       options:[
         "Không cần chốt đơn.",
         "Không cần giới thiệu sản phẩm.",
@@ -665,7 +682,7 @@ const DATA = [
       ], correct:[2,3] },
 
     { type:"multiple", n:2,
-      q:"Khi áp dụng Marketing Mix theo phân khúc, doanh nghiệp cần: (Chọn 2 đáp án)",
+      q:"Khi áp dụng Marketing Mix theo phân khúc, doanh nghiệp cần:",
       options:[
         "Áp dụng một chiến lược duy nhất cho tất cả.",
         "Không cần nghiên cứu khách hàng.",
@@ -708,7 +725,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một cửa hàng thời trang trực tuyến nhận thấy nhiều khách hàng chỉ mua một lần rồi không quay lại. Để tăng tỷ lệ giữ chân khách hàng (CRR), cửa hàng nên thực hiện những giải pháp nào? (Chọn 2 đáp án)",
+      q:"Một cửa hàng thời trang trực tuyến nhận thấy nhiều khách hàng chỉ mua một lần rồi không quay lại. Để tăng tỷ lệ giữ chân khách hàng (CRR), cửa hàng nên thực hiện những giải pháp nào?",
       options:[
         "Tăng giá sản phẩm để nâng cao hình ảnh thương hiệu.",
         "Giảm số lượng kênh hỗ trợ khách hàng để tiết kiệm chi phí.",
@@ -772,7 +789,7 @@ const DATA = [
   lesson: "BÀI 3: PHÂN LOẠI KHÁCH HÀNG THEO NHÂN KHẨU HỌC, ĐỊA LÝ, THẾ HỆ, THU NHẬP, LỐI SỐNG",
   items: [
     { type:"multiple", n:2,
-      q:"Những tiêu chí nào sau đây thuộc nhóm phân loại theo nhân khẩu học? (Chọn 2 đáp án)",
+      q:"Những tiêu chí nào sau đây thuộc nhóm phân loại theo nhân khẩu học?",
       options:[
         "Lối sống và sở thích.",
         "Thu nhập và nghề nghiệp.",
@@ -799,7 +816,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Sự khác biệt giữa khách hàng trẻ và khách hàng lớn tuổi trong hành vi mua sắm thể hiện ở những điểm nào? (Chọn 2 đáp án)",
+      q:"Sự khác biệt giữa khách hàng trẻ và khách hàng lớn tuổi trong hành vi mua sắm thể hiện ở những điểm nào?",
       options:[
         "Khách hàng trẻ luôn trung thành với một thương hiệu duy nhất.",
         "Khách hàng trẻ dễ bị ảnh hưởng bởi KOL/KOC và mạng xã hội.",
@@ -808,7 +825,7 @@ const DATA = [
       ], correct:[1,2] },
 
     { type:"multiple", n:2,
-      q:"Vì sao việc phân nhóm khách hàng theo thế hệ có ý nghĩa đối với hoạt động marketing? (Chọn 2 đáp án)",
+      q:"Vì sao việc phân nhóm khách hàng theo thế hệ có ý nghĩa đối với hoạt động marketing?",
       options:[
         "Hỗ trợ xây dựng chiến lược marketing phù hợp với từng thế hệ.",
         "Thay thế hoàn toàn việc nghiên cứu hành vi khách hàng.",
@@ -817,7 +834,7 @@ const DATA = [
       ], correct:[0,2] },
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp bất động sản muốn tiếp cận nhóm khách hàng đang ở giai đoạn lập gia đình. Hai nội dung nào nên được nhấn mạnh trong thông điệp marketing? (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp bất động sản muốn tiếp cận nhóm khách hàng đang ở giai đoạn lập gia đình. Hai nội dung nào nên được nhấn mạnh trong thông điệp marketing?",
       options:[
         "Các xu hướng thời trang mới nhất.",
         "Các trò chơi giải trí dành cho thanh thiếu niên.",
@@ -826,7 +843,7 @@ const DATA = [
       ], correct:[2,3] },
 
     { type:"multiple", n:2,
-      q:"Nghề nghiệp ảnh hưởng đến hành vi tiêu dùng thông qua: (Chọn 2 đáp án)",
+      q:"Nghề nghiệp ảnh hưởng đến hành vi tiêu dùng thông qua:",
       options:[
         "Hình thành thói quen tiêu dùng.",
         "Quyết định tốc độ tăng trưởng kinh tế.",
@@ -844,7 +861,7 @@ const DATA = [
       ], correct:[1] },
 
     { type:"multiple", n:2,
-      q:"Một thương hiệu thời trang muốn tiếp cận nhóm thu nhập thấp. Nên: (Chọn 2 đáp án)",
+      q:"Một thương hiệu thời trang muốn tiếp cận nhóm thu nhập thấp. Nên:",
       options:[
         "Tập trung showroom cao cấp.",
         "Tăng giá sản phẩm.",
@@ -897,7 +914,7 @@ const DATA = [
       ], correct:[1] },
 
     { type:"multiple", n:3,
-      q:"Trong marketing số, doanh nghiệp có thể làm gì dựa trên dữ liệu hành vi khách hàng? (Chọn 3 đáp án đúng)",
+      q:"Trong marketing số, doanh nghiệp có thể làm gì dựa trên dữ liệu hành vi khách hàng?",
       options:[
         "Quảng cáo nhằm mục tiêu.",
         "Tăng giá đồng loạt.",
@@ -906,7 +923,7 @@ const DATA = [
       ], correct:[0,2,3] },
 
     { type:"multiple", n:2,
-      q:"Khách hàng ở giai đoạn lập gia đình thường có nhu cầu tiêu dùng tập trung vào những lĩnh vực nào? (Chọn 2 đáp án)",
+      q:"Khách hàng ở giai đoạn lập gia đình thường có nhu cầu tiêu dùng tập trung vào những lĩnh vực nào?",
       options:[
         "Chăm sóc gia đình.",
         "Thiết bị học tập dành cho trẻ em là không cần thiết.",
@@ -953,7 +970,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Yếu tố nào thuộc mô hình AIO trong phân tích phong cách sống? (Chọn 2 đáp án)",
+      q:"Yếu tố nào thuộc mô hình AIO trong phân tích phong cách sống?",
       options:[
         "Opinions.",
         "Activities.",
@@ -962,7 +979,7 @@ const DATA = [
       ], correct:[1,2] },
 
     { type:"multiple", n:2,
-      q:"Dấu hiệu nào giúp nhận diện phong cách sống của khách hàng trên nền tảng số? (Chọn 2 đáp án)",
+      q:"Dấu hiệu nào giúp nhận diện phong cách sống của khách hàng trên nền tảng số?",
       options:[
         "Số lần đăng nhập.",
         "Hành vi tìm kiếm.",
@@ -980,7 +997,7 @@ const DATA = [
       ], correct:[2] },
 
     { type:"multiple", n:3,
-      q:"Nhóm khách hàng thu nhập cao thường: (Chọn 3 đáp án)",
+      q:"Nhóm khách hàng thu nhập cao thường:",
       options:[
         "Chỉ mua hàng giảm giá.",
         "Quan tâm cá nhân hóa sản phẩm.",
@@ -1013,7 +1030,7 @@ const DATA = [
   lesson: "BÀI 4: NHU CẦU, ĐỘNG CƠ, NHẬN THỨC, THÁI ĐỘ",
   items: [
     { type:"multiple", n:2,
-      q:"Theo anh chị đặc điểm nào sau đây mô tả đúng về nhu cầu tiêu dùng? (Chọn 2 đáp án đúng)",
+      q:"Theo anh chị đặc điểm nào sau đây mô tả đúng về nhu cầu tiêu dùng?",
       options:[
         "Nhu cầu mang tính đa dạng, phụ thuộc vào đặc điểm cá nhân của mỗi người.",
         "Nhu cầu mang tính ổn định và không bao giờ thay đổi.",
@@ -1022,7 +1039,7 @@ const DATA = [
       ], correct:[0,3] },
 
     { type:"multiple", n:2,
-      q:"Nhóm nhu cầu nào sau đây thuộc về \"Nhu cầu nâng cao chất lượng cuộc sống\"? (Chọn 2 đáp án đúng)",
+      q:"Nhóm nhu cầu nào sau đây thuộc về \"Nhu cầu nâng cao chất lượng cuộc sống\"?",
       options:[
         "Du lịch và giải trí.",
         "Chăm sóc sức khỏe cơ bản.",
@@ -1040,7 +1057,7 @@ const DATA = [
       ], correct:[1] },
 
     { type:"multiple", n:2,
-      q:"Đâu là ví dụ về yếu tố tạo động lực (Motivator Factors) theo lý thuyết Herzberg trong mua sắm trực tuyến? (Chọn 2 đáp án đúng)",
+      q:"Đâu là ví dụ về yếu tố tạo động lực (Motivator Factors) theo lý thuyết Herzberg trong mua sắm trực tuyến?",
       options:[
         "Dịch vụ chăm sóc khách hàng vượt mong đợi.",
         "Giao hàng đúng thời gian cam kết.",
@@ -1062,7 +1079,7 @@ const DATA = [
       blanks:[["nhận thức","nhan thuc"]] },
 
     { type:"multiple", n:2,
-      q:"Trong quá trình chú ý chọn lọc, người tiêu dùng thường tập trung vào thông tin nào? (Chọn 2 đáp án)",
+      q:"Trong quá trình chú ý chọn lọc, người tiêu dùng thường tập trung vào thông tin nào?",
       options:[
         "Thông tin liên quan trực tiếp đến nhu cầu hiện tại.",
         "Tất cả thông tin xuất hiện trên mạng xã hội.",
@@ -1080,7 +1097,7 @@ const DATA = [
       ], correct:[2] },
 
     { type:"multiple", n:2,
-      q:"Trong thương mại điện tử, yếu tố nào giúp tăng niềm tin thông qua nhận thức của khách hàng? (Chọn 2 đáp án)",
+      q:"Trong thương mại điện tử, yếu tố nào giúp tăng niềm tin thông qua nhận thức của khách hàng?",
       options:[
         "Thông tin mô tả doanh nghiệp.",
         "Đánh giá sao và bình luận của khách hàng.",
@@ -1105,7 +1122,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một khách hàng thường xuyên quay lại mua hàng trên Shopee vì lần đầu tiên có trải nghiệm giao hàng nhanh và sản phẩm đúng mô tả. Hiện tượng này thể hiện: (Chọn 2 đáp án đúng)",
+      q:"Một khách hàng thường xuyên quay lại mua hàng trên Shopee vì lần đầu tiên có trải nghiệm giao hàng nhanh và sản phẩm đúng mô tả. Hiện tượng này thể hiện:",
       options:[
         "Trí nhớ lưu giữ kinh nghiệm tích cực.",
         "Nhận thức chọn lọc thông tin quảng cáo.",
@@ -1114,7 +1131,7 @@ const DATA = [
       ], correct:[0,2] },
 
     { type:"multiple", n:2,
-      q:"Một khách hàng thường xuyên mua lại sản phẩm từ một gian hàng Shopee vì cảm thấy tin tưởng vào chất lượng và dịch vụ. Hiện tượng này thể hiện: (Chọn 2 đáp án đúng)",
+      q:"Một khách hàng thường xuyên mua lại sản phẩm từ một gian hàng Shopee vì cảm thấy tin tưởng vào chất lượng và dịch vụ. Hiện tượng này thể hiện:",
       options:[
         "Nhận thức chọn lọc thông tin quảng cáo.",
         "Thái độ tích cực dẫn đến hành vi mua lặp lại.",
@@ -1140,7 +1157,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Yếu tố nào ảnh hưởng mạnh đến giai đoạn diễn giải thông tin của người tiêu dùng? (Chọn 2 đáp án)",
+      q:"Yếu tố nào ảnh hưởng mạnh đến giai đoạn diễn giải thông tin của người tiêu dùng?",
       options:[
         "Niềm tin và thái độ cá nhân.",
         "Kinh nghiệm tiêu dùng trước đây.",
@@ -1158,7 +1175,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một khách hàng tin rằng \"sản phẩm có nhiều đánh giá tốt thì luôn chất lượng cao\". Niềm tin này ảnh hưởng đến: (Chọn 2 đáp án đúng)",
+      q:"Một khách hàng tin rằng \"sản phẩm có nhiều đánh giá tốt thì luôn chất lượng cao\". Niềm tin này ảnh hưởng đến:",
       options:[
         "Cấu trúc logistics của doanh nghiệp.",
         "Chi phí sản xuất sản phẩm.",
@@ -1184,7 +1201,7 @@ const DATA = [
       ], correct:[0,1] },
 
     { type:"multiple", n:2,
-      q:"Học hỏi trong hành vi tiêu dùng có thể diễn ra qua: (Chọn 2 đáp án)",
+      q:"Học hỏi trong hành vi tiêu dùng có thể diễn ra qua:",
       options:[
         "Màu sắc quảng cáo.",
         "Quan sát người khác sử dụng sản phẩm.",
@@ -1193,7 +1210,7 @@ const DATA = [
       ], correct:[1,2] },
 
     { type:"multiple", n:2,
-      q:"Trong TMĐT, nhu cầu an toàn được thể hiện qua việc khách hàng quan tâm đến yếu tố nào? (Chọn 2 đáp án đúng)",
+      q:"Trong TMĐT, nhu cầu an toàn được thể hiện qua việc khách hàng quan tâm đến yếu tố nào?",
       options:[
         "Uy tín của sàn thương mại điện tử và chính sách đổi trả.",
         "Việc thể hiện phong cách cá nhân qua món hàng.",
@@ -1244,7 +1261,7 @@ const DATA = [
       ], correct:[3] },
 
     { type:"multiple", n:2,
-      q:"Những yếu tố nào được coi là \"Bằng chứng xã hội\" (Social Proof) trong TMĐT? (Chọn 2 đáp án đúng)",
+      q:"Những yếu tố nào được coi là \"Bằng chứng xã hội\" (Social Proof) trong TMĐT?",
       options:[
         "Giá niêm yết của sản phẩm.",
         "Số lượng sản phẩm đã bán.",
@@ -1297,7 +1314,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một hãng thương mại điện tử sử dụng dữ liệu lịch sử mua hàng để đề xuất mỹ phẩm cao cấp cho khách hàng có thu nhập cao và gợi ý các sản phẩm giảm giá cho nhóm khách hàng nhạy cảm về giá. Những yếu tố nào được doanh nghiệp khai thác trong trường hợp trên? (Chọn 2 đáp án)",
+      q:"Một hãng thương mại điện tử sử dụng dữ liệu lịch sử mua hàng để đề xuất mỹ phẩm cao cấp cho khách hàng có thu nhập cao và gợi ý các sản phẩm giảm giá cho nhóm khách hàng nhạy cảm về giá. Những yếu tố nào được doanh nghiệp khai thác trong trường hợp trên?",
       options:[
         "Đặc điểm tầng lớp xã hội của khách hàng.",
         "Cá nhân hóa trải nghiệm dựa trên dữ liệu.",
@@ -1315,7 +1332,7 @@ const DATA = [
       ], correct:[3] },
 
     { type:"multiple", n:2,
-      q:"Một thương hiệu mỹ phẩm quốc tế triển khai hai chiến dịch quảng cáo khác nhau: Một chiến dịch nhấn mạnh sự sang trọng dành cho khách hàng cao cấp và một chiến dịch tập trung vào giá cả hợp lý dành cho khách hàng thu nhập trung bình. Chiến lược này phản ánh: (Chọn 2 đáp án)",
+      q:"Một thương hiệu mỹ phẩm quốc tế triển khai hai chiến dịch quảng cáo khác nhau: Một chiến dịch nhấn mạnh sự sang trọng dành cho khách hàng cao cấp và một chiến dịch tập trung vào giá cả hợp lý dành cho khách hàng thu nhập trung bình. Chiến lược này phản ánh:",
       options:[
         "Ảnh hưởng của tầng lớp xã hội đến hành vi tiêu dùng.",
         "Văn hóa không ảnh hưởng đến tiêu dùng.",
@@ -1346,7 +1363,7 @@ const DATA = [
       ], correct:[1] },
 
     { type:"multiple", n:2,
-      q:"Một thương hiệu mỹ phẩm xây dựng cộng đồng trên Facebook để khách hàng chia sẻ kinh nghiệm chăm sóc da, đánh giá sản phẩm và hỗ trợ nhau lựa chọn sản phẩm phù hợp. Hoạt động này giúp doanh nghiệp: (Chọn 2 đáp án)",
+      q:"Một thương hiệu mỹ phẩm xây dựng cộng đồng trên Facebook để khách hàng chia sẻ kinh nghiệm chăm sóc da, đánh giá sản phẩm và hỗ trợ nhau lựa chọn sản phẩm phù hợp. Hoạt động này giúp doanh nghiệp:",
       options:[
         "Tạo truyền miệng điện tử (e-WOM) tích cực.",
         "Khiến giá cả không còn quan trọng.",
@@ -1355,7 +1372,7 @@ const DATA = [
       ], correct:[0,2] },
 
     { type:"multiple", n:2,
-      q:"Một khách hàng mua chiếc điện thoại giống với nhóm bạn của mình để dễ hòa nhập và tránh bị xem là \"lạc hậu\". Hiện tượng này phản ánh: (Chọn 2 đáp án)",
+      q:"Một khách hàng mua chiếc điện thoại giống với nhóm bạn của mình để dễ hòa nhập và tránh bị xem là \"lạc hậu\". Hiện tượng này phản ánh:",
       options:[
         "Hành vi mua hàng không chịu tác động từ cộng đồng.",
         "Người tiêu dùng luôn đưa ra quyết định hoàn toàn độc lập.",
@@ -1416,7 +1433,7 @@ const DATA = [
       ], correct:[0] },
 
     { type:"multiple", n:2,
-      q:"Một công ty muốn mở rộng hoạt động kinh doanh sang nhiều quốc gia khác nhau thông qua thương mại điện tử. Để xây dựng chiến lược marketing hiệu quả, doanh nghiệp cần chú ý những vấn đề nào? (Chọn 2 đáp án)",
+      q:"Một công ty muốn mở rộng hoạt động kinh doanh sang nhiều quốc gia khác nhau thông qua thương mại điện tử. Để xây dựng chiến lược marketing hiệu quả, doanh nghiệp cần chú ý những vấn đề nào?",
       options:[
         "Áp dụng một chiến lược quảng cáo giống nhau cho mọi quốc gia.",
         "Phân khúc khách hàng theo thu nhập và lối sống.",
@@ -1453,7 +1470,7 @@ const DATA = [
       ], correct:[1] },
 
     { type:"multiple", n:2,
-      q:"Gia đình đóng vai trò gì trong hoạt động tiêu dùng của cá nhân? (Chọn 2 đáp án đúng)",
+      q:"Gia đình đóng vai trò gì trong hoạt động tiêu dùng của cá nhân?",
       options:[
         "Chỉ ảnh hưởng đến các sản phẩm có giá trị thấp.",
         "Định hướng nhu cầu và sở thích tiêu dùng.",
@@ -1462,7 +1479,7 @@ const DATA = [
       ], correct:[1,2] },
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp sử dụng bao bì tái chế và truyền thông mạnh về việc giảm rác thải nhựa. Nhiều khách hàng lựa chọn sản phẩm của doanh nghiệp này vì mong muốn góp phần bảo vệ môi trường. Hiện tượng trên phản ánh: (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp sử dụng bao bì tái chế và truyền thông mạnh về việc giảm rác thải nhựa. Nhiều khách hàng lựa chọn sản phẩm của doanh nghiệp này vì mong muốn góp phần bảo vệ môi trường. Hiện tượng trên phản ánh:",
       options:[
         "Giá cả luôn là yếu tố quyết định duy nhất.",
         "Người tiêu dùng không quan tâm đến trách nhiệm xã hội của doanh nghiệp.",
@@ -1471,7 +1488,7 @@ const DATA = [
       ], correct:[2,3] },
 
     { type:"multiple", n:2,
-      q:"Một sản phẩm chăm sóc da trở nên nổi tiếng trên TikTok sau khi được nhiều người dùng chia sẻ trải nghiệm tích cực. Số lượng đơn hàng tăng mạnh chỉ trong vài ngày. Hiện tượng này chịu tác động bởi: (Chọn 2 đáp án)",
+      q:"Một sản phẩm chăm sóc da trở nên nổi tiếng trên TikTok sau khi được nhiều người dùng chia sẻ trải nghiệm tích cực. Số lượng đơn hàng tăng mạnh chỉ trong vài ngày. Hiện tượng này chịu tác động bởi:",
       options:[
         "Quy luật cung cầu không còn tồn tại.",
         "Hiệu ứng đám đông (Bandwagon Effect).",
@@ -1495,7 +1512,7 @@ const DATA = [
       ], correct:[0] },
 
     { type:"multiple", n:2,
-      q:"Mức độ tìm kiếm thông tin của người tiêu dùng phụ thuộc vào yếu tố nào? (Chọn 2 đáp án)",
+      q:"Mức độ tìm kiếm thông tin của người tiêu dùng phụ thuộc vào yếu tố nào?",
       options:[
         "Kiến thức và kinh nghiệm mua hàng trước đó.",
         "Giá trị và mức độ rủi ro của sản phẩm.",
@@ -1504,7 +1521,7 @@ const DATA = [
       ], correct:[0,1] },
 
     { type:"multiple", n:2,
-      q:"Nguồn thông tin nào thường được người tiêu dùng đánh giá là khách quan và tin cậy cao? (Chọn 2 đáp án)",
+      q:"Nguồn thông tin nào thường được người tiêu dùng đánh giá là khách quan và tin cậy cao?",
       options:[
         "Nguồn từ nhân viên bán hàng tại quầy.",
         "Nguồn công cộng (báo chí, chuyên gia đánh giá).",
@@ -1531,7 +1548,7 @@ const DATA = [
       ], correct:[1] },
 
     { type:"multiple", n:2,
-      q:"Hai mẫu điện thoại có giá và cấu hình gần như giống nhau. Một mẫu có 10.000 lượt mua, đánh giá 4,9 sao và rất nhiều bình luận tích cực; mẫu còn lại chỉ có vài chục lượt đánh giá. Theo nội dung bài học, những thông tin nào nhiều khả năng khiến người tiêu dùng nghiêng về mẫu thứ nhất? (Chọn 2 đáp án)",
+      q:"Hai mẫu điện thoại có giá và cấu hình gần như giống nhau. Một mẫu có 10.000 lượt mua, đánh giá 4,9 sao và rất nhiều bình luận tích cực; mẫu còn lại chỉ có vài chục lượt đánh giá. Theo nội dung bài học, những thông tin nào nhiều khả năng khiến người tiêu dùng nghiêng về mẫu thứ nhất?",
       options:[
         "Vị trí đặt sản phẩm trong cửa hàng.",
         "Số lượng đánh giá và lượt mua.",
@@ -1558,7 +1575,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Lan dự định mua điện thoại Samsung sau khi đánh giá nhiều phương án. Tuy nhiên, ngay trước khi mua, bạn thân của Lan khuyên nên chọn iPhone vì hệ sinh thái ổn định và Lan quyết định thay đổi lựa chọn. Những yếu tố nào theo bài học đã ảnh hưởng đến quyết định mua của Lan? (Chọn 2 đáp án)",
+      q:"Lan dự định mua điện thoại Samsung sau khi đánh giá nhiều phương án. Tuy nhiên, ngay trước khi mua, bạn thân của Lan khuyên nên chọn iPhone vì hệ sinh thái ổn định và Lan quyết định thay đổi lựa chọn. Những yếu tố nào theo bài học đã ảnh hưởng đến quyết định mua của Lan?",
       options:[
         "Mức độ tin tưởng đối với người góp ý.",
         "Thiết kế bao bì sản phẩm.",
@@ -1585,7 +1602,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp nhận thấy nhiều khách hàng sau khi mua sản phẩm thường băn khoăn liệu mình đã lựa chọn đúng hay chưa. Theo bài học, doanh nghiệp nên ưu tiên những giải pháp nào để giảm tâm lý này? (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp nhận thấy nhiều khách hàng sau khi mua sản phẩm thường băn khoăn liệu mình đã lựa chọn đúng hay chưa. Theo bài học, doanh nghiệp nên ưu tiên những giải pháp nào để giảm tâm lý này?",
       options:[
         "Giảm giá toàn bộ sản phẩm.",
         "Thực hiện tốt chính sách bảo hành và hướng dẫn sử dụng.",
@@ -1594,7 +1611,7 @@ const DATA = [
       ], correct:[1,2] },
 
     { type:"multiple", n:2,
-      q:"Một khách hàng không hài lòng với dịch vụ của một nhà hàng. Sau đó, khách hàng chia sẻ trải nghiệm của mình trên Facebook và trong nhóm cộng đồng địa phương. Theo bài học, tình huống này thể hiện những đặc điểm nào? (Chọn 2 đáp án)",
+      q:"Một khách hàng không hài lòng với dịch vụ của một nhà hàng. Sau đó, khách hàng chia sẻ trải nghiệm của mình trên Facebook và trong nhóm cộng đồng địa phương. Theo bài học, tình huống này thể hiện những đặc điểm nào?",
       options:[
         "Truyền miệng có thể lan truyền nhanh trên môi trường số.",
         "Hình thành lòng trung thành với thương hiệu.",
@@ -1603,7 +1620,7 @@ const DATA = [
       ], correct:[0,3] },
 
     { type:"multiple", n:2,
-      q:"Một cửa hàng trực tuyến muốn tăng tỷ lệ khách hàng quay lại mua hàng. Theo nội dung bài học, doanh nghiệp nên ưu tiên thực hiện những biện pháp nào? (Chọn 2 đáp án)",
+      q:"Một cửa hàng trực tuyến muốn tăng tỷ lệ khách hàng quay lại mua hàng. Theo nội dung bài học, doanh nghiệp nên ưu tiên thực hiện những biện pháp nào?",
       options:[
         "Thu thập phản hồi của khách hàng.",
         "Thay đổi màu sắc nhận diện thương hiệu.",
@@ -1625,7 +1642,7 @@ const DATA = [
       ], correct:[3] },
 
     { type:"multiple", n:2,
-      q:"Một khách hàng lựa chọn máy in cho văn phòng nhỏ. Ngoài giá mua ban đầu, khách hàng còn tính đến giá mực in, chi phí bảo dưỡng và mức tiêu thụ điện để giảm tổng chi phí sử dụng trong nhiều năm. Những yếu tố nào dưới đây phản ánh đúng nhóm tiêu chí mà khách hàng đang sử dụng? (Chọn 2 đáp án)",
+      q:"Một khách hàng lựa chọn máy in cho văn phòng nhỏ. Ngoài giá mua ban đầu, khách hàng còn tính đến giá mực in, chi phí bảo dưỡng và mức tiêu thụ điện để giảm tổng chi phí sử dụng trong nhiều năm. Những yếu tố nào dưới đây phản ánh đúng nhóm tiêu chí mà khách hàng đang sử dụng?",
       options:[
         "Giá mực in và chi phí bảo dưỡng.",
         "Thương hiệu được nhiều người nổi tiếng sử dụng.",
@@ -1638,7 +1655,7 @@ const DATA = [
       blanks:[["chương trình khuyến mại","chuong trinh khuyen mai","chương trình khuyến mãi","khuyến mại","khuyen mai"]] },
 
     { type:"multiple", n:2,
-      q:"Một khách hàng mua hàng trên sàn thương mại điện tử nhưng sản phẩm nhận được không đúng mô tả. Sau đó, khách hàng yêu cầu đổi trả và đăng đánh giá 1 sao về nhà bán hàng. Theo nội dung bài học, những hành vi nào phản ánh sự không hài lòng sau mua? (Chọn 2 đáp án)",
+      q:"Một khách hàng mua hàng trên sàn thương mại điện tử nhưng sản phẩm nhận được không đúng mô tả. Sau đó, khách hàng yêu cầu đổi trả và đăng đánh giá 1 sao về nhà bán hàng. Theo nội dung bài học, những hành vi nào phản ánh sự không hài lòng sau mua?",
       options:[
         "Tiếp tục sử dụng sản phẩm.",
         "Khiếu nại hoặc yêu cầu đổi trả.",
@@ -1669,7 +1686,7 @@ const DATA = [
       ], correct:[2] },
 
     { type:"multiple", n:2,
-      q:"Chị Hoa dự định mua điện thoại X. Khi truy cập sàn TMĐT, chị thấy: Điện thoại X giảm giá 5%; Điện thoại Y giảm giá 20% trong Flash Sale còn 30 phút; Livestream của cửa hàng đang giới thiệu điện thoại Y với nhiều ưu đãi. Chị chuyển sang mua điện thoại Y. Hai yếu tố nào trực tiếp tác động đến quyết định cuối cùng? (Chọn 2 đáp án)",
+      q:"Chị Hoa dự định mua điện thoại X. Khi truy cập sàn TMĐT, chị thấy: Điện thoại X giảm giá 5%; Điện thoại Y giảm giá 20% trong Flash Sale còn 30 phút; Livestream của cửa hàng đang giới thiệu điện thoại Y với nhiều ưu đãi. Chị chuyển sang mua điện thoại Y. Hai yếu tố nào trực tiếp tác động đến quyết định cuối cùng?",
       options:[
         "Livestream bán hàng.",
         "Ý định mua điện thoại.",
@@ -1709,7 +1726,7 @@ const DATA = [
       blanks:[["đánh giá","danh gia"]] },
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp muốn hạn chế tác động tiêu cực của các đánh giá xấu sau bán đối với doanh thu và hình ảnh thương hiệu. Theo nội dung bài học, hai giải pháp nào nên được ưu tiên trước? (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp muốn hạn chế tác động tiêu cực của các đánh giá xấu sau bán đối với doanh thu và hình ảnh thương hiệu. Theo nội dung bài học, hai giải pháp nào nên được ưu tiên trước?",
       options:[
         "Giảm giá tất cả sản phẩm.",
         "Tăng ngân sách quảng cáo.",
@@ -1742,7 +1759,7 @@ const DATA = [
       ], correct:[2] },
 
     { type:"multiple", n:2,
-      q:"Bảng câu hỏi khảo sát đóng vai trò gì trong nghiên cứu định lượng? (Chọn 2 đáp án)",
+      q:"Bảng câu hỏi khảo sát đóng vai trò gì trong nghiên cứu định lượng?",
       options:[
         "Là công cụ thu thập dữ liệu sơ cấp một cách có hệ thống và giúp chuẩn hóa thông tin.",
         "Là cầu nối giúp chuyển đổi thông tin thực tế thành dữ liệu có thể phân tích bằng thống kê.",
@@ -1751,7 +1768,7 @@ const DATA = [
       ], correct:[0,1] },
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp vừa hoàn thành khảo sát khách hàng qua Google Forms. Trước khi tiến hành phân tích dữ liệu, nhóm nghiên cứu cần kiểm tra các phiếu khảo sát. Việc kiểm tra dữ liệu nhằm mục đích nào dưới đây? (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp vừa hoàn thành khảo sát khách hàng qua Google Forms. Trước khi tiến hành phân tích dữ liệu, nhóm nghiên cứu cần kiểm tra các phiếu khảo sát. Việc kiểm tra dữ liệu nhằm mục đích nào dưới đây?",
       options:[
         "Tăng số lượng phiếu khảo sát để kết quả chính xác hơn.",
         "Loại bỏ các câu trả lời không hợp lệ.",
@@ -1760,7 +1777,7 @@ const DATA = [
       ], correct:[1,2] },
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp khảo sát khách hàng và phát hiện 75% khách hàng dưới 25 tuổi thường mua hàng qua TikTok Shop. Để ứng dụng kết quả nghiên cứu hiệu quả nhất, doanh nghiệp nên lựa chọn giải pháp nào? (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp khảo sát khách hàng và phát hiện 75% khách hàng dưới 25 tuổi thường mua hàng qua TikTok Shop. Để ứng dụng kết quả nghiên cứu hiệu quả nhất, doanh nghiệp nên lựa chọn giải pháp nào?",
       options:[
         "Điều chỉnh chiến lược truyền thông hướng tới nền tảng TikTok.",
         "Thiết kế nội dung truyền thông phù hợp với nhóm khách hàng trẻ.",
@@ -1782,7 +1799,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp muốn khảo sát hành vi mua sắm trực tuyến của sinh viên nhưng bảng hỏi gồm hơn 80 câu, trong đó nhiều câu hỏi không liên quan đến mục tiêu nghiên cứu. Để nâng cao chất lượng bảng khảo sát, nhóm nghiên cứu nên làm gì? (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp muốn khảo sát hành vi mua sắm trực tuyến của sinh viên nhưng bảng hỏi gồm hơn 80 câu, trong đó nhiều câu hỏi không liên quan đến mục tiêu nghiên cứu. Để nâng cao chất lượng bảng khảo sát, nhóm nghiên cứu nên làm gì?",
       options:[
         "Chỉ giữ lại các câu hỏi cần thiết để giảm thời gian trả lời.",
         "Loại bỏ các câu hỏi không phục vụ mục tiêu nghiên cứu.",
@@ -1791,7 +1808,7 @@ const DATA = [
       ], correct:[0,1] },
 
     { type:"multiple", n:2,
-      q:"Một nhà nghiên cứu muốn tìm hiểu lý do khách hàng lựa chọn mua hàng trên sàn thương mại điện tử và mong muốn thu thập được nhiều ý kiến khác nhau. Để đạt mục tiêu này, nên áp dụng giải pháp nào? (Chọn 2 đáp án)",
+      q:"Một nhà nghiên cứu muốn tìm hiểu lý do khách hàng lựa chọn mua hàng trên sàn thương mại điện tử và mong muốn thu thập được nhiều ý kiến khác nhau. Để đạt mục tiêu này, nên áp dụng giải pháp nào?",
       options:[
         "Yêu cầu người trả lời chọn mức độ đồng ý theo thang Likert.",
         "Sử dụng câu hỏi mở để người trả lời trình bày quan điểm.",
@@ -1800,7 +1817,7 @@ const DATA = [
       ], correct:[1,3] },
 
     { type:"multiple", n:2,
-      q:"Một nhóm nghiên cứu vừa hoàn thành bảng khảo sát và dự định phát ngay cho hơn 1.000 người. Theo quy trình xây dựng bảng khảo sát, trước khi triển khai chính thức nên thực hiện điều gì? (Chọn 2 đáp án)",
+      q:"Một nhóm nghiên cứu vừa hoàn thành bảng khảo sát và dự định phát ngay cho hơn 1.000 người. Theo quy trình xây dựng bảng khảo sát, trước khi triển khai chính thức nên thực hiện điều gì?",
       options:[
         "Điều chỉnh hoặc bổ sung câu hỏi nếu kết quả khảo sát thử cho thấy còn điểm chưa phù hợp.",
         "Tăng số lượng người tham gia khảo sát để bù lại những sai sót có thể có trong bảng hỏi.",
@@ -1836,7 +1853,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Sau khi khảo sát hành vi mua sắm trực tuyến của sinh viên, nhóm nghiên cứu muốn biết có bao nhiêu sinh viên lựa chọn từng nền tảng mua hàng và tỷ lệ tương ứng của mỗi nền tảng. Theo nội dung chương học, nhóm nghiên cứu nên sử dụng các chỉ tiêu nào? (Chọn 2 đáp án)",
+      q:"Sau khi khảo sát hành vi mua sắm trực tuyến của sinh viên, nhóm nghiên cứu muốn biết có bao nhiêu sinh viên lựa chọn từng nền tảng mua hàng và tỷ lệ tương ứng của mỗi nền tảng. Theo nội dung chương học, nhóm nghiên cứu nên sử dụng các chỉ tiêu nào?",
       options:[
         "Phương trình hồi quy.",
         "Tần số.",
@@ -1845,7 +1862,7 @@ const DATA = [
       ], correct:[1,3] },
 
     { type:"multiple", n:2,
-      q:"Hoạt động nào dưới đây phản ánh vai trò của việc nghiên cứu hành vi người tiêu dùng đối với doanh nghiệp? (Chọn 2 đáp án)",
+      q:"Hoạt động nào dưới đây phản ánh vai trò của việc nghiên cứu hành vi người tiêu dùng đối với doanh nghiệp?",
       options:[
         "Hiểu nhu cầu, mong muốn và các yếu tố ảnh hưởng đến quyết định mua hàng của khách.",
         "Phát hiện cơ hội thị trường mới và đánh giá mức độ hài lòng của khách hàng.",
@@ -1854,7 +1871,7 @@ const DATA = [
       ], correct:[0,1] },
 
     { type:"multiple", n:2,
-      q:"Xác định các phương pháp nào sau đây thuộc nhóm nghiên cứu định tính? (Chọn 2 đáp án)",
+      q:"Xác định các phương pháp nào sau đây thuộc nhóm nghiên cứu định tính?",
       options:[
         "Quan sát hành vi thực tế của khách hàng trong siêu thị.",
         "Thí nghiệm đo lường tỷ lệ nhấp chuột.",
@@ -1863,7 +1880,7 @@ const DATA = [
       ], correct:[0,3] },
 
     { type:"multiple", n:2,
-      q:"Khi so sánh hai phương pháp nghiên cứu, tiêu chí nào sau đây là đúng? (Chọn 2 đáp án)",
+      q:"Khi so sánh hai phương pháp nghiên cứu, tiêu chí nào sau đây là đúng?",
       options:[
         "Cỡ mẫu của nghiên cứu định tính thường nhỏ, còn định lượng thường lớn.",
         "Nghiên cứu định tính luôn rẻ hơn và nhanh hơn nghiên cứu định lượng trong mọi trường hợp.",
@@ -1881,7 +1898,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một nhóm sinh viên xây dựng bảng khảo sát nhằm nghiên cứu mức độ hài lòng của khách hàng khi mua hàng trực tuyến. Trong bảng hỏi có câu: \"Bạn có đồng ý rằng việc mua hàng trực tuyến luôn giúp tiết kiệm thời gian hơn mua trực tiếp không?\" Để đảm bảo nguyên tắc thiết kế bảng câu hỏi, nhóm nghiên cứu nên thực hiện những điều nào? (Chọn 2 đáp án)",
+      q:"Một nhóm sinh viên xây dựng bảng khảo sát nhằm nghiên cứu mức độ hài lòng của khách hàng khi mua hàng trực tuyến. Trong bảng hỏi có câu: \"Bạn có đồng ý rằng việc mua hàng trực tuyến luôn giúp tiết kiệm thời gian hơn mua trực tiếp không?\" Để đảm bảo nguyên tắc thiết kế bảng câu hỏi, nhóm nghiên cứu nên thực hiện những điều nào?",
       options:[
         "Để người trả lời tự đánh giá mức độ đồng ý thay vì khẳng định trước một quan điểm.",
         "Thêm cụm từ \"đa số khách hàng đều cho rằng\" để tăng tính thuyết phục.",
@@ -1890,7 +1907,7 @@ const DATA = [
       ], correct:[0,2] },
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp vừa hoàn thành khảo sát khách hàng bằng Google Forms. Khi kiểm tra dữ liệu, nhóm nghiên cứu phát hiện nhiều phiếu trả lời bị bỏ trống nhiều câu hỏi và một số phiếu có nội dung không hợp lệ. Theo quy trình xử lý dữ liệu khảo sát, nhóm nghiên cứu nên thực hiện những việc nào? (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp vừa hoàn thành khảo sát khách hàng bằng Google Forms. Khi kiểm tra dữ liệu, nhóm nghiên cứu phát hiện nhiều phiếu trả lời bị bỏ trống nhiều câu hỏi và một số phiếu có nội dung không hợp lệ. Theo quy trình xử lý dữ liệu khảo sát, nhóm nghiên cứu nên thực hiện những việc nào?",
       options:[
         "Kiểm tra dữ liệu sau khi thu thập để phát hiện các câu trả lời không hợp lệ.",
         "Loại bỏ các câu trả lời không hợp lệ trước khi tiến hành phân tích.",
@@ -1899,7 +1916,7 @@ const DATA = [
       ], correct:[0,1] },
 
     { type:"multiple", n:2,
-      q:"Kết quả khảo sát cho thấy khách hàng chưa hài lòng với thời gian phản hồi của bộ phận chăm sóc khách hàng. Doanh nghiệp nên sử dụng kết quả khảo sát để thực hiện hoạt động nào? (Chọn 2 đáp án)",
+      q:"Kết quả khảo sát cho thấy khách hàng chưa hài lòng với thời gian phản hồi của bộ phận chăm sóc khách hàng. Doanh nghiệp nên sử dụng kết quả khảo sát để thực hiện hoạt động nào?",
       options:[
         "Cải thiện chất lượng dịch vụ.",
         "Hoàn thiện quy trình chăm sóc khách hàng.",
@@ -1908,7 +1925,7 @@ const DATA = [
       ], correct:[0,1] },
 
     { type:"multiple", n:2,
-      q:"Nghiên cứu định lượng thường có đặc điểm gì? (Chọn 2 đáp án)",
+      q:"Nghiên cứu định lượng thường có đặc điểm gì?",
       options:[
         "Kết quả có khả năng khái quát hóa cao cho tổng thể nếu mẫu phù hợp.",
         "Quy trình thu thập dữ liệu luôn linh hoạt và không cần cấu trúc.",
@@ -1945,7 +1962,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một cửa hàng trực tuyến muốn khảo sát khách hàng thường xuyên mua sản phẩm trên website của mình. Doanh nghiệp muốn lựa chọn các kênh thu thập dữ liệu phù hợp với nội dung bài học. Những kênh nào dưới đây có thể sử dụng? (Chọn 2 đáp án)",
+      q:"Một cửa hàng trực tuyến muốn khảo sát khách hàng thường xuyên mua sản phẩm trên website của mình. Doanh nghiệp muốn lựa chọn các kênh thu thập dữ liệu phù hợp với nội dung bài học. Những kênh nào dưới đây có thể sử dụng?",
       options:[
         "Website doanh nghiệp.",
         "Google Forms.",
@@ -1960,7 +1977,7 @@ const DATA = [
   lesson: "BÀI 8: XU HƯỚNG HÀNH VI NGƯỜI TIÊU DÙNG TRONG MÔI TRƯỜNG SỐ",
   items: [
     { type:"multiple", n:2,
-      q:"Những yếu tố nào sau đây đã làm thay đổi cách thức người tiêu dùng tìm kiếm thông tin và thực hiện giao dịch? (Chọn 2 đáp án)",
+      q:"Những yếu tố nào sau đây đã làm thay đổi cách thức người tiêu dùng tìm kiếm thông tin và thực hiện giao dịch?",
       options:[
         "Sự phổ biến của mạng xã hội và các nền tảng thương mại điện tử.",
         "Sự phát triển của Internet và điện thoại thông minh.",
@@ -1969,7 +1986,7 @@ const DATA = [
       ], correct:[0,1] },
 
     { type:"multiple", n:2,
-      q:"Nguồn thông tin nào người tiêu dùng thường sử dụng để tìm kiếm trước khi mua hàng? (Chọn 2 đáp án)",
+      q:"Nguồn thông tin nào người tiêu dùng thường sử dụng để tìm kiếm trước khi mua hàng?",
       options:[
         "Tham khảo ý kiến trên Facebook, TikTok hoặc các sàn TMĐT.",
         "Chờ đợi nhân viên bán hàng gọi điện tư vấn trực tiếp.",
@@ -1978,7 +1995,7 @@ const DATA = [
       ], correct:[0,3] },
 
     { type:"multiple", n:2,
-      q:"Trong giai đoạn \"Trung thành và lan tỏa\", khách hàng thường có biểu hiện nào? (Chọn 2 đáp án)",
+      q:"Trong giai đoạn \"Trung thành và lan tỏa\", khách hàng thường có biểu hiện nào?",
       options:[
         "Đóng vai trò như \"đại sứ thương hiệu\" để giới thiệu sản phẩm cho người khác.",
         "Tiếp tục mua hàng nhiều lần và tham gia chương trình khách hàng thân thiết.",
@@ -1987,7 +2004,7 @@ const DATA = [
       ], correct:[0,1] },
 
     { type:"multiple", n:2,
-      q:"Ưu điểm nổi bật của \"Mua sắm qua livestream\" là gì? (Chọn 2 đáp án)",
+      q:"Ưu điểm nổi bật của \"Mua sắm qua livestream\" là gì?",
       options:[
         "Quy trình mua hàng bị kéo dài hơn so với mua sắm truyền thống.",
         "Khách hàng được free ship.",
@@ -2027,7 +2044,7 @@ const DATA = [
       blanks:[["tốc độ tải trang","toc do tai trang"]] },
 
     { type:"multiple", n:2,
-      q:"Một website thương mại điện tử nhận được nhiều phản hồi rằng khách hàng mất nhiều thời gian mới tìm được sản phẩm cần mua vì danh mục sắp xếp chưa hợp lý và công cụ tìm kiếm hoạt động kém hiệu quả. Để cải thiện trải nghiệm người dùng (UX), doanh nghiệp nên ưu tiên thực hiện những giải pháp nào? (Chọn 2 đáp án)",
+      q:"Một website thương mại điện tử nhận được nhiều phản hồi rằng khách hàng mất nhiều thời gian mới tìm được sản phẩm cần mua vì danh mục sắp xếp chưa hợp lý và công cụ tìm kiếm hoạt động kém hiệu quả. Để cải thiện trải nghiệm người dùng (UX), doanh nghiệp nên ưu tiên thực hiện những giải pháp nào?",
       options:[
         "Tăng số lượng sản phẩm hiển thị trên mỗi trang để khách hàng có nhiều lựa chọn hơn.",
         "Bổ sung thêm nhiều banner quảng cáo trên trang chủ để khách hàng chú ý đến sản phẩm.",
@@ -2036,7 +2053,7 @@ const DATA = [
       ], correct:[2,3] },
 
     { type:"multiple", n:2,
-      q:"Một cửa hàng trực tuyến nhận thấy phần lớn khách hàng quay lại mua hàng sau lần giao dịch đầu tiên đều đánh giá cao việc hệ thống tự động lưu thông tin giao hàng và gợi ý các sản phẩm phù hợp. Những yếu tố nào đang góp phần làm tăng tỷ lệ mua lại? (Chọn 2 đáp án)",
+      q:"Một cửa hàng trực tuyến nhận thấy phần lớn khách hàng quay lại mua hàng sau lần giao dịch đầu tiên đều đánh giá cao việc hệ thống tự động lưu thông tin giao hàng và gợi ý các sản phẩm phù hợp. Những yếu tố nào đang góp phần làm tăng tỷ lệ mua lại?",
       options:[
         "Khả năng cá nhân hóa nội dung và đề xuất sản phẩm phù hợp.",
         "Tăng số lượng quảng cáo xuất hiện sau mỗi lần đăng nhập.",
@@ -2071,7 +2088,7 @@ const DATA = [
       ]},
 
     { type:"multiple", n:2,
-      q:"Một khách hàng đang phân vân giữa hai sản phẩm có mức giá và thông số kỹ thuật tương đương. Sản phẩm thứ nhất có hơn 4.000 đánh giá tích cực, trong khi sản phẩm thứ hai chỉ có rất ít đánh giá. Theo nội dung bài học, những yếu tố nào có khả năng ảnh hưởng đến quyết định lựa chọn của khách hàng? (Chọn 2 đáp án)",
+      q:"Một khách hàng đang phân vân giữa hai sản phẩm có mức giá và thông số kỹ thuật tương đương. Sản phẩm thứ nhất có hơn 4.000 đánh giá tích cực, trong khi sản phẩm thứ hai chỉ có rất ít đánh giá. Theo nội dung bài học, những yếu tố nào có khả năng ảnh hưởng đến quyết định lựa chọn của khách hàng?",
       options:[
         "Chỉ thông tin quảng cáo của doanh nghiệp mới có ảnh hưởng đến quyết định mua hàng.",
         "Các đánh giá từ người dùng trước giúp khách hàng giảm cảm nhận về rủi ro khi mua hàng.",
@@ -2080,7 +2097,7 @@ const DATA = [
       ], correct:[1,2] },
 
     { type:"multiple", n:2,
-      q:"Một doanh nghiệp thường xuyên chậm giao hàng so với thời gian đã cam kết. Sau một thời gian, doanh nghiệp nhận thấy tỷ lệ khách hàng quay lại mua giảm rõ rệt. Theo nội dung bài học, hiện tượng này có thể được giải thích như thế nào? (Chọn 2 đáp án)",
+      q:"Một doanh nghiệp thường xuyên chậm giao hàng so với thời gian đã cam kết. Sau một thời gian, doanh nghiệp nhận thấy tỷ lệ khách hàng quay lại mua giảm rõ rệt. Theo nội dung bài học, hiện tượng này có thể được giải thích như thế nào?",
       options:[
         "Trải nghiệm tiêu cực có thể làm giảm khả năng khách hàng mua lại trong tương lai.",
         "Khách hàng sẽ tiếp tục mua nếu doanh nghiệp bổ sung thêm nhiều sản phẩm mới.",
@@ -2098,7 +2115,7 @@ const DATA = [
       ], correct:[3] },
 
     { type:"multiple", n:2,
-      q:"Một cửa hàng kinh doanh đồ gia dụng trên sàn thương mại điện tử nhận thấy nhiều khách hàng xem sản phẩm nhưng chưa quyết định mua. Qua khảo sát, doanh nghiệp phát hiện sản phẩm chỉ có mô tả của người bán, chưa có đánh giá từ khách hàng đã sử dụng. Để tăng khả năng khách hàng đưa ra quyết định mua hàng, doanh nghiệp nên thực hiện những giải pháp nào? (Chọn 2 đáp án)",
+      q:"Một cửa hàng kinh doanh đồ gia dụng trên sàn thương mại điện tử nhận thấy nhiều khách hàng xem sản phẩm nhưng chưa quyết định mua. Qua khảo sát, doanh nghiệp phát hiện sản phẩm chỉ có mô tả của người bán, chưa có đánh giá từ khách hàng đã sử dụng. Để tăng khả năng khách hàng đưa ra quyết định mua hàng, doanh nghiệp nên thực hiện những giải pháp nào?",
       options:[
         "Ẩn toàn bộ các đánh giá tiêu cực để sản phẩm chỉ còn đánh giá tích cực.",
         "Chỉ tập trung bổ sung nội dung quảng cáo do doanh nghiệp tự xây dựng.",
@@ -2111,7 +2128,7 @@ const DATA = [
       blanks:[["tiêu cực","tieu cuc"]] },
 
     { type:"multiple", n:2,
-      q:"Một cửa hàng trên sàn thương mại điện tử liên tục bị khách hàng phản ánh giao sản phẩm không đúng mô tả và nghi ngờ là hàng giả. Sau đó, số lượng đơn hàng giảm mạnh. Theo nội dung bài học, doanh nghiệp nên ưu tiên thực hiện những giải pháp nào để hạn chế khủng hoảng? (Chọn 2 đáp án)",
+      q:"Một cửa hàng trên sàn thương mại điện tử liên tục bị khách hàng phản ánh giao sản phẩm không đúng mô tả và nghi ngờ là hàng giả. Sau đó, số lượng đơn hàng giảm mạnh. Theo nội dung bài học, doanh nghiệp nên ưu tiên thực hiện những giải pháp nào để hạn chế khủng hoảng?",
       options:[
         "Minh bạch thông tin về sản phẩm, nguồn gốc và chính sách bán hàng.",
         "Tăng ngân sách quảng cáo để bù đắp lượng khách hàng bị mất.",
@@ -2260,8 +2277,9 @@ function renderQuestion(item, key) {
   const idx = key.split("-").map(Number);
   num.textContent = `Câu ${idx[1] + 1}`;
   const qtext = document.createElement("div");
-  qtext.innerHTML = `<div class="q-text">${escapeHtml(item.q)}</div>` +
-    (item.n ? `<div class="q-note">Chọn ${item.n} đáp án đúng nhất</div>` : "");
+  // Hiển thị số lượng đáp án cần chọn rõ ràng, nổi bật
+  let noteHtml = item.n ? `<div class="q-note">⚠️ Chọn ${item.n} đáp án đúng</div>` : "";
+  qtext.innerHTML = `<div class="q-text">${escapeHtml(item.q)}</div>` + noteHtml;
   head.appendChild(num);
   head.appendChild(qtext);
   card.appendChild(head);
@@ -2354,7 +2372,6 @@ function renderQuestion(item, key) {
 
   else if (item.type === "match") {
     body.className = "match-wrap";
-    // pool of right options shuffled
     const rightVals = item.pairs.map(p => p[1]);
     const pool = document.createElement("div");
     pool.className = "pool";
@@ -2376,7 +2393,7 @@ function renderQuestion(item, key) {
       dz.dataset.key = key;
       const ph = document.createElement("span");
       ph.className = "placeholder";
-      ph.textContent = "Kéo thả đáp án vào đây";
+      ph.textContent = "Thả đáp án vào đây (hoặc click)";
       dz.appendChild(ph);
       setupDropzone(dz);
       row.appendChild(left);
@@ -2386,7 +2403,6 @@ function renderQuestion(item, key) {
     body.appendChild(pool);
   }
 
-  // Actions
   const actions = document.createElement("div");
   actions.className = "q-actions";
   const btnCheck = document.createElement("button");
@@ -2422,10 +2438,25 @@ function makeChip(text, key) {
   chip.dataset.val = text;
   chip.dataset.key = key;
   chip.id = uid();
+  
+  // Kéo thả
   chip.addEventListener("dragstart", e => {
     e.dataTransfer.setData("text/plain", chip.id);
     e.dataTransfer.effectAllowed = "move";
   });
+
+  // Click để chọn (dành cho điện thoại / click)
+  chip.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const card = chip.closest('.q-card');
+    if (card.dataset.checked === "1") return;
+
+    document.querySelectorAll('.chip.selected').forEach(c => {
+      if (c !== chip) c.classList.remove('selected');
+    });
+    chip.classList.toggle("selected");
+  });
+
   return chip;
 }
 
@@ -2441,19 +2472,87 @@ function setupDropzone(dz) {
     const id = e.dataTransfer.getData("text/plain");
     const chip = document.getElementById(id);
     if (!chip) return;
-    // remove placeholder
-    const ph = dz.querySelector(".placeholder");
-    if (ph) ph.remove();
-    // if there is already a chip, move back to pool
-    const existing = dz.querySelector(".chip");
-    const key = dz.dataset.key;
-    const pool = document.querySelector(`.pool[data-pool="${key}"]`);
-    if (existing) pool.appendChild(existing);
-    dz.appendChild(chip);
+    
+    const card = dz.closest('.q-card');
+    if (card.dataset.checked === "1") return;
+
+    // Xóa trạng thái đánh giá cũ nếu có (cho phép sửa ngay khi sai)
+    card.classList.remove("wrong", "correct");
+    card.querySelectorAll(".chip").forEach(c => c.classList.remove("ok", "bad"));
+    card.querySelectorAll(".match-row").forEach(r => r.classList.remove("ok", "bad"));
+    const msg = card.querySelector(".result-msg");
+    if (msg) { msg.textContent = ""; msg.className = "result-msg"; }
+
+    placeChipInZone(chip, dz);
+  });
+
+  dz.addEventListener("click", () => {
+    const card = dz.closest('.q-card');
+    if (card.dataset.checked === "1") return;
+
+    const selectedChip = document.querySelector('.chip.selected');
+    if (selectedChip) {
+      // Xóa trạng thái cũ
+      card.classList.remove("wrong", "correct");
+      card.querySelectorAll(".chip").forEach(c => c.classList.remove("ok", "bad"));
+      card.querySelectorAll(".match-row").forEach(r => r.classList.remove("ok", "bad"));
+      const msg = card.querySelector(".result-msg");
+      if (msg) { msg.textContent = ""; msg.className = "result-msg"; }
+
+      placeChipInZone(selectedChip, dz);
+      selectedChip.classList.remove('selected');
+    } else {
+      const existingChip = dz.querySelector(".chip");
+      if (existingChip) {
+        moveChipToPool(existingChip);
+      }
+    }
   });
 }
 
-// allow dropping back to pool
+function placeChipInZone(chip, dz) {
+  const ph = dz.querySelector(".placeholder");
+  if (ph) ph.remove();
+  
+  const existing = dz.querySelector(".chip");
+  if (existing && existing !== chip) {
+    moveChipToPool(existing);
+  }
+  
+  dz.appendChild(chip);
+  chip.classList.remove("selected");
+}
+
+function moveChipToPool(chip) {
+  const key = chip.dataset.key;
+  const pool = document.querySelector(`.pool[data-pool="${key}"]`);
+  if (pool) {
+    const oldZone = chip.parentElement;
+    if (oldZone && oldZone.classList.contains("dropzone")) {
+      if (!oldZone.querySelector('.chip')) {
+        const ph = document.createElement("span");
+        ph.className = "placeholder";
+        ph.textContent = "Thả đáp án vào đây (hoặc click)";
+        oldZone.appendChild(ph);
+      }
+    }
+    pool.appendChild(chip);
+    chip.classList.remove("selected");
+  }
+}
+
+document.addEventListener("click", e => {
+  const pool = e.target.closest && e.target.closest(".pool");
+  if (!pool) return;
+  const card = pool.closest('.q-card');
+  if (card.dataset.checked === "1") return;
+
+  const selectedChip = document.querySelector('.chip.selected');
+  if (selectedChip) {
+    moveChipToPool(selectedChip);
+  }
+});
+
 document.addEventListener("dragover", e => {
   const p = e.target.closest && e.target.closest(".pool");
   if (p) e.preventDefault();
@@ -2465,20 +2564,25 @@ document.addEventListener("drop", e => {
   const id = e.dataTransfer.getData("text/plain");
   const chip = document.getElementById(id);
   if (!chip) return;
-  // restore placeholder in old zone
-  const oldZone = chip.parentElement;
-  if (oldZone && oldZone.classList.contains("dropzone")) {
-    const ph = document.createElement("span");
-    ph.className = "placeholder";
-    ph.textContent = "Kéo thả đáp án vào đây";
-    oldZone.appendChild(ph);
-  }
-  p.appendChild(chip);
+
+  const card = p.closest('.q-card');
+  if (card.dataset.checked === "1") return;
+
+  // Xóa trạng thái đánh giá cũ
+  card.classList.remove("wrong", "correct");
+  card.querySelectorAll(".chip").forEach(c => c.classList.remove("ok", "bad"));
+  card.querySelectorAll(".match-row").forEach(r => r.classList.remove("ok", "bad"));
+  const msg = card.querySelector(".result-msg");
+  if (msg) { msg.textContent = ""; msg.className = "result-msg"; }
+
+  moveChipToPool(chip);
 });
 
 /* -------- Check -------- */
 function checkQuestion(card, item) {
   if (card.dataset.checked === "1") return;
+  card.classList.remove("correct", "wrong"); // Reset trạng thái cũ
+
   let isCorrect = false;
   let answered = true;
 
@@ -2558,7 +2662,6 @@ function checkQuestion(card, item) {
         const ok = chip.dataset.val === correctVal;
         if (!ok) allOk = false;
         chip.classList.add(ok ? "ok" : "bad");
-        chip.draggable = false;
       }
       row.classList.add(allOk ? "ok" : (chip ? "bad" : ""));
       if (chip && chip.dataset.val !== correctVal) row.classList.add("bad");
@@ -2573,23 +2676,31 @@ function checkQuestion(card, item) {
     return;
   }
 
-  card.dataset.checked = "1";
-  card.classList.add(isCorrect ? "correct" : "wrong");
-
   const msg = card.querySelector(".result-msg");
   const btnCheck = card.querySelector(".btn-check");
   const btnRetry = card.querySelector(".btn-retry");
-  btnCheck.style.display = "none";
 
   if (isCorrect) {
+    card.dataset.checked = "1";
+    card.classList.add("correct");
+    card.querySelectorAll(".chip").forEach(c => c.draggable = false);
+    btnCheck.style.display = "none";
     msg.className = "result-msg ok";
     msg.textContent = "✓ Chính xác!";
-    stats.ok++;
   } else {
-    msg.className = "result-msg bad";
-    msg.textContent = "✗ Chưa đúng. Hãy làm lại hoặc xem đáp án.";
-    btnRetry.style.display = "inline-block";
-    stats.bad++;
+    card.classList.add("wrong");
+    if (item.type === "match") {
+      // ĐẶC BIỆT: Kéo thả nếu sai thì KHÔNG KHÓA, cho phép sửa ngay
+      msg.className = "result-msg bad";
+      msg.textContent = "✗ Chưa đúng. Hãy kéo thả lại hoặc click để sửa.";
+      // Không set checked = "1", không khóa
+    } else {
+      card.dataset.checked = "1";
+      btnCheck.style.display = "none";
+      btnRetry.style.display = "inline-block";
+      msg.className = "result-msg bad";
+      msg.textContent = "✗ Chưa đúng. Hãy làm lại hoặc xem đáp án.";
+    }
   }
   updateStats();
 }
@@ -2626,23 +2737,27 @@ function retryQuestion(card, item) {
       inp.style.background = "";
     });
   } else if (item.type === "match") {
-    // move all chips back to pool and shuffle
     const pool = card.querySelector(".pool");
+    if (pool) pool.style.display = "flex";
+    
+    // Reset tất cả các dropzone
     card.querySelectorAll(".dropzone").forEach(dz => {
-      const chip = dz.querySelector(".chip");
-      if (chip) pool.appendChild(chip);
-      dz.querySelectorAll(".chip").forEach(c => c.remove());
+      dz.querySelectorAll(".chip").forEach(c => c.remove()); // Remove correct answer chips
       if (!dz.querySelector(".placeholder")) {
         const ph = document.createElement("span");
         ph.className = "placeholder";
-        ph.textContent = "Kéo thả đáp án vào đây";
+        ph.textContent = "Thả đáp án vào đây (hoặc click)";
         dz.appendChild(ph);
       }
     });
+
+    // Reset chip
     pool.querySelectorAll(".chip").forEach(c => {
-      c.classList.remove("ok", "bad");
+      c.classList.remove("ok", "bad", "selected");
       c.draggable = true;
     });
+    
+    // Reset row
     card.querySelectorAll(".match-row").forEach(r => r.classList.remove("ok", "bad"));
   }
 
@@ -2650,20 +2765,30 @@ function retryQuestion(card, item) {
   const btnRetry = card.querySelector(".btn-retry");
   btnCheck.style.display = "inline-block";
   btnRetry.style.display = "none";
-
-  // adjust stats: subtract previous result of this question
-  // (determined by classes before removal — we already removed them, so track via a flag)
-  // To keep it simple, we track via data attribute
-  if (card.dataset.wasCorrect === "1") stats.ok--;
-  if (card.dataset.wasCorrect === "0") stats.bad--;
-  card.dataset.wasCorrect = "";
+  
   updateStats();
 }
 
 function showAnswer(card, item) {
+  card.dataset.checked = "1";
+  card.classList.remove("correct", "wrong"); // Xóa viền đỏ/xanh của lần làm trước
+  
+  const msg = card.querySelector(".result-msg");
+  if (msg) { msg.textContent = ""; msg.className = "result-msg"; } // Xóa thông báo cũ
+  
+  const btnCheck = card.querySelector(".btn-check");
+  const btnRetry = card.querySelector(".btn-retry");
+  if (btnCheck) btnCheck.style.display = "none";
+  if (btnRetry) btnRetry.style.display = "inline-block"; // QUAN TRỌNG: Hiển thị nút làm lại
+
   if (item.type === "single" || item.type === "multiple") {
     card.querySelectorAll(".opt").forEach(o => {
       const i = Number(o.dataset.i);
+      const inp = o.querySelector("input");
+      inp.disabled = true; // Khóa input
+      o.classList.remove("ok", "bad", "sel"); // Xóa lựa chọn cũ
+      o.querySelector(".mark").textContent = "";
+      
       if (item.correct.includes(i)) {
         o.classList.add("ok");
         o.querySelector(".mark").textContent = "✓";
@@ -2674,30 +2799,43 @@ function showAnswer(card, item) {
       const correct = item.statements[i].correct;
       const btns = row.querySelectorAll(".tf-btns button");
       btns.forEach(b => {
+        b.disabled = true; // Khóa nút
+        b.classList.remove("active");
         if ((b.dataset.val === "true") === correct) b.classList.add("active");
       });
-      row.classList.add("ok");
+      row.classList.remove("bad");
+      row.classList.add("ok"); // Hiện màu xanh
       row.querySelector(".tf-mark").textContent = correct ? "Đúng ✓" : "Sai ✗";
     });
   } else if (item.type === "fill") {
     card.querySelectorAll(".fill-line input").forEach((inp, i) => {
       inp.value = item.blanks[i][0];
+      inp.disabled = true;
       inp.style.borderColor = "#22c55e";
       inp.style.background = "#f0fdf4";
     });
   } else if (item.type === "match") {
+    card.querySelectorAll(".chip").forEach(c => c.draggable = false);
+    const pool = card.querySelector(".pool");
+    if (pool) pool.style.display = "none"; // Ẩn pool đi
+    
+    // Đưa đáp án đúng vào từng ô
     card.querySelectorAll(".match-row").forEach((row, i) => {
       const dz = row.querySelector(".dropzone");
       dz.querySelectorAll(".chip").forEach(c => c.remove());
       dz.querySelectorAll(".placeholder").forEach(p => p.remove());
+      
       const chip = document.createElement("div");
       chip.className = "chip ok";
       chip.textContent = item.pairs[i][1];
       dz.appendChild(chip);
+      row.classList.remove("bad");
+      row.classList.add("ok");
     });
-    const pool = card.querySelector(".pool");
-    if (pool) pool.innerHTML = "";
   }
+  
+  // Cập nhật thống kê (mặc dù xem đáp án không tính là đúng/sai)
+  updateStats();
 }
 
 /* -------- Stats -------- */
@@ -2722,15 +2860,6 @@ function scrollToTop() {
 function escapeHtml(s) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
-
-/* track wasCorrect in checkQuestion */
-const _origCheck = checkQuestion;
-checkQuestion = function(card, item) {
-  _origCheck(card, item);
-  if (card.dataset.checked === "1") {
-    card.dataset.wasCorrect = card.classList.contains("correct") ? "1" : "0";
-  }
-};
 
 renderAll();
 </script>
